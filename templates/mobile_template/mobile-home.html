@@ -1,0 +1,16 @@
+<main class="mobile-home">
+    {# Mobile Featured Section #}
+    {% if post_section_list %}
+        {% for post_section in post_section_list %}
+            <section class="mobile-featured-section">
+                {% include template_key~'/templates/components/mobile-hero-section.html' %}
+            </section>
+        {% endfor %}
+    {% endif %}
+
+    {# Trending Widget #}
+    {% include template_key~'/templates/components/trending-sidebar.html' %}
+
+    {# Category Sections #}
+    {% include template_key~'/templates/components/mobile-category-section.html' %}
+</main>

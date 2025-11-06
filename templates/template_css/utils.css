@@ -1,0 +1,22 @@
+/* Utility CSS Classes */
+.spacing-from-navbar {
+    padding-top: var(--main-div-padding);
+}
+
+.responsive-ad-css {
+    width: 100%;
+}
+
+.ads-div-style {
+    margin: 20px 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.publive-slot-span {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}

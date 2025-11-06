@@ -1,0 +1,11 @@
+{% extends template_key~'/templates/default.html' %}
+
+{% block content %}
+<main class="no-results-page spacing-from-navbar">
+    <div class="container">
+        <h1>Page Not Found</h1>
+        <p>The page you are looking for doesn't exist or has been moved.</p>
+        <a href="https://{{ publisher.actual_domain }}">Return to Homepage</a>
+    </div>
+</main>
+{% endblock %}

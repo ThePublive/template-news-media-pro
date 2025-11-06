@@ -1,0 +1,6 @@
+/* News Media Pro - Main Stylesheet */
+@import url('./global.css');
+@import url('./components/header.css');
+@import url('./components/footer.css');
+@import url('./components/breaking-news.css');
+@import url('./components/trending-widget.css');

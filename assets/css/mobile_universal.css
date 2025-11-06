@@ -1,0 +1,14 @@
+/* Mobile Universal Styles - News Media Pro */
+@media (max-width: 768px) {
+    .mobile-home {
+        padding: 15px;
+    }
+
+    .mobile-article-page {
+        padding: 0;
+    }
+
+    .mobile-article {
+        padding: 15px;
+    }
+}

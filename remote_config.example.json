@@ -1,0 +1,14 @@
+{
+  "s3_path": "s3://publive/publive-publisher-templates/news_media_pro/",
+  "template_name": "news_media_pro",
+  "aws": {
+    "region": "us-east-1",
+    "access_key_id": "YOUR_AWS_ACCESS_KEY_ID",
+    "secret_access_key": "YOUR_AWS_SECRET_ACCESS_KEY",
+    "session_token": "YOUR_SESSION_TOKEN_IF_USING_TEMPORARY_CREDENTIALS"
+  },
+  "cloudfront": {
+    "distribution_id": "YOUR_CLOUDFRONT_DISTRIBUTION_ID",
+    "base_url": "https://cdn.thepublive.com"
+  }
+}

@@ -1,0 +1,16 @@
+{# Header Component - News Media Pro #}
+<header class="site-header">
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="https://{{ publisher.actual_domain }}">
+                <img src="{{ publisher.long_logo|get_absolute_image_url('200,50') }}"
+                     alt="{{ publisher.name }}"
+                     class="site-logo">
+            </a>
+        </div>
+        <div class="navbar-menu">
+            {# Navigation items will go here #}
+            {% include template_key~'/templates/components/common_utils/navigation.html' %}
+        </div>
+    </nav>
+</header>

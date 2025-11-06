@@ -1,0 +1,12 @@
+{# Footer Component - News Media Pro #}
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <img src="{{ publisher.long_logo|get_absolute_image_url('200,50') }}"
+                 alt="{{ publisher.name }}">
+        </div>
+        <div class="footer-copyright">
+            © {{ "now"|date("Y") }} {{ publisher.name }}. All rights reserved.
+        </div>
+    </div>
+</footer>

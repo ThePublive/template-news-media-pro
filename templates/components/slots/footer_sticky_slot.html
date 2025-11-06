@@ -1,0 +1,10 @@
+{# Footer Sticky Ad Slot #}
+{% if slots.mobile_sticky_footer and is_mobile_device %}
+<div class="sticky-footer-ad">
+    {{ slots.mobile_sticky_footer.html_content|safe }}
+</div>
+{% elif slots.desktop_sticky_footer and not is_mobile_device %}
+<div class="sticky-footer-ad">
+    {{ slots.desktop_sticky_footer.html_content|safe }}
+</div>
+{% endif %}

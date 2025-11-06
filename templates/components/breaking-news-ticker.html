@@ -1,0 +1,115 @@
+{# Breaking News Ticker - News Media Pro #}
+{% if breaking_news_posts %}
+<div class="breaking-news-ticker">
+    <div class="breaking-news-label">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+        </svg>
+        BREAKING
+    </div>
+    <div class="breaking-news-content">
+        <div class="breaking-news-slider" id="breakingNewsSlider">
+            {% for post in breaking_news_posts[:5] %}
+            <div class="breaking-news-item">
+                <a href="{{ post.absolute_url }}" class="breaking-news-link">
+                    {{ post.title }}
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+.breaking-news-ticker {
+    background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+    color: #ffffff;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    box-shadow: 0 2px 8px rgba(211, 47, 47, 0.3);
+    overflow: hidden;
+}
+
+.breaking-news-label {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 20px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.breaking-news-content {
+    flex: 1;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+.breaking-news-slider {
+    display: flex;
+    animation: breakingNewsScroll 30s linear infinite;
+}
+
+.breaking-news-item {
+    white-space: nowrap;
+    padding-right: 50px;
+}
+
+.breaking-news-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: opacity 0.2s;
+}
+
+.breaking-news-link:hover {
+    opacity: 0.85;
+    text-decoration: underline;
+}
+
+@keyframes breakingNewsScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.breaking-news-ticker:hover .breaking-news-slider {
+    animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+    .breaking-news-label {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .breaking-news-link {
+        font-size: 14px;
+    }
+}
+</style>
+
+<script>
+// Duplicate breaking news items for seamless loop
+document.addEventListener('DOMContentLoaded', function() {
+    const slider = document.getElementById('breakingNewsSlider');
+    if (slider) {
+        const content = slider.innerHTML;
+        slider.innerHTML = content + content; // Duplicate for seamless loop
+    }
+});
+</script>
+{% endif %}

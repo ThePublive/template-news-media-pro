@@ -1,0 +1,28 @@
+{% extends template_key~'/templates/default.html' %}
+
+{% block content %}
+<main class="search-page spacing-from-navbar">
+    <div class="container">
+        <h1>Search Results</h1>
+        {% if search_query %}
+        <p class="search-query">Showing results for: <strong>"{{ search_query }}"</strong></p>
+        {% endif %}
+
+        {% if search_results %}
+        <div class="search-results-grid">
+            {% for post in search_results %}
+                {% include template_key~'/templates/components/common_utils/post_cards/post-card.html' %}
+            {% endfor %}
+        </div>
+
+        {# Pagination #}
+        {% include template_key~'/templates/components/common_utils/pagination.html' %}
+        {% else %}
+        <div class="no-results">
+            <h2>No results found</h2>
+            <p>Try different keywords or browse our categories</p>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

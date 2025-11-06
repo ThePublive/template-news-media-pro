@@ -1,0 +1,467 @@
+{%set post_data = post_data|default({}) %}
+{%set slots = slots|default({}) %}
+<!DOCTYPE html>
+
+{% if post_data and post_data.post.language_code %}
+{% set lang = post_data.post.language_code%}
+{% else %}
+{%set lang = lang%}
+{% endif %}
+<html lang="{{lang}}" prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#" data-theme='light'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Preconnect to critical domains -->
+    <link rel="preconnect" href="https://img-cdn.thepublive.com/" >
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="preconnect" href="https://8merv5it13.execute-api.ap-south-1.amazonaws.com/" crossorigin>
+    <link rel="dns-prefetch" href="https://securepubads.g.doubleclick.net/">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com/">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="https://{{publisher.actual_domain}}/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/webp" href="{{ publisher.short_logo|get_absolute_image_url('48,48') }}">
+    <link rel="apple-touch-icon" href="{{ publisher.short_logo|get_absolute_image_url('180,180') }}">
+
+    <!-- Canonical URL -->
+    {% if page_type == 'ArticlePage' %}
+    <link rel="canonical" href="{% if meta_canonical_url %}{{meta_canonical_url}}{% else %}{% if post_data and post_data.post %}{{ post_data.post.absolute_url }}{% endif %}{% endif %}">
+    <!-- AMP Version Link -->
+    <link rel="amphtml" href="{% if post_data and post_data.post %}{{ post_data.post.absolute_url }}/amp{% endif %}">
+    {% elif page_info and page_info.absolute_url %}
+    <link rel="canonical" href="{{page_info.absolute_url}}">
+    {% else %}
+    <link rel="canonical" href="https://{{publisher.actual_domain}}{{request.path}}">
+    {% endif %}
+
+    <!-- RSS Feeds -->
+    <link rel="alternate" type="application/rss+xml" title="{{ publisher.name }} - RSS Feed" href="https://{{publisher.actual_domain}}/rss">
+    {% if page_type == 'CategoryPage' and page_info %}
+    <link rel="alternate" type="application/rss+xml" title="{{ page_info.name }} - RSS Feed" href="https://{{publisher.actual_domain}}/category/{{page_info.slug}}/rss">
+    {% endif %}
+
+    <!-- Preload Critical Assets -->
+    <link rel="preload" fetchpriority="high" as="script" href="{{ static(template_key+'/assets/bundles/style_bundle.js')}}" >
+    <link rel="preload" fetchpriority="high" as="script" href="{{ static(template_key+'/assets/bundles/index_bundle.js')}}" >
+    {% if is_mobile_device %}
+    <link rel="preload" fetchpriority="high" as="script" href="{{ static(template_key+'/assets/bundles/mobile_universal_bundle.js')}}" >
+    {% else %}
+    <link rel="preload" fetchpriority="high" as="script" href="{{ static(template_key+'/assets/bundles/desktop_universal_bundle.js')}}" >
+    {% endif %}
+
+    <!-- Preload Hero Images -->
+    {% if post_data.post and post_data.post.banner_url and not post_data.post.hide_banner_image%}
+        {% if is_mobile_device %}
+            <link rel="preload" fetchpriority="high" as="image" href="{{ post_data.post.banner_url|get_absolute_image_url('640,430') }}" type="image/webp" >
+        {% else %}
+            <link rel="preload" fetchpriority="high" as="image" href="{{ post_data.post.banner_url|get_absolute_image_url('1280,720') }}" type="image/webp" >
+        {% endif %}
+    {% endif %}
+
+    {% if page_type =='HomePage' or page_type == 'TagPage' or page_type=='CategoryPage' or page_type == 'AuthorPage' or page_type == 'AuthorListPage' or page_type == 'TagsListPage' or page_type=='NoResultPage'%}
+        {% if not is_mobile_device %}
+            <link rel="preload" fetchpriority="high" as="script" href="{{ static(template_key+'/assets/bundles/desktop_home_bundle.js')}}" >
+        {% endif %}
+    {% endif %}
+
+    <link rel="preload" fetchpriority="high" as="script" href="{{ static(template_key+'/assets/bundles/media_query_bundle.js')}}" >
+
+    <!-- Meta Tags -->
+    {% include "decoupled_common_components/component/meta_data/meta_data_header.html" %}
+
+    {% if paywall_is_enabled %}
+        <!-- Disable ads for paid users -->
+        {% include "common_util_across_templates/js/disable_ads_for_paid_users.html" %}
+    {% endif %}
+
+    <!-- JSON-LD Structured Data -->
+    {% include 'decoupled_common_components/component/json_ld_sub_component/json_ld.html' %}
+
+    {% block json_ld %}
+    {% endblock json_ld %}
+
+    {% block head %}
+    {% endblock %}
+
+    {% block head_block %}
+    {% endblock %}
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ static('/css/bootstrap.min.css',True) }}">
+    <script src="{{ static(template_key+'/assets/bundles/style_bundle.js')}}" ></script>
+    <script src="{{ static(template_key+'/assets/bundles/index_bundle.js')}}" defer></script>
+    {% if is_mobile_device %}
+    <script src="{{ static(template_key+'/assets/bundles/mobile_universal_bundle.js')}}" ></script>
+    {% else %}
+    <script src="{{ static(template_key+'/assets/bundles/desktop_universal_bundle.js')}}" ></script>
+    {% endif %}
+
+    {% if page_type =='HomePage' or page_type == 'TagPage' or page_type=='CategoryPage' or page_type == 'AuthorPage' or page_type == 'AuthorListPage' or page_type == 'TagsListPage' or page_type=='NoResultPage' or page_type == 'BookMarksPage' %}
+        {% if not is_mobile_device %}
+            <script src="{{ static(template_key+'/assets/bundles/desktop_home_bundle.js')}}"></script>
+        {% endif %}
+    {% endif %}
+    <script src="{{ static(template_key+'/assets/bundles/media_query_bundle.js')}}" ></script>
+
+<style>
+/** Custom Fonts */
+{% if custom_font %}
+    {{ custom_font|base64_decode|unescape_quotes|safe}}
+{% else %}
+    {% include 'templatecss/fonts/poppins.css' %}
+    :root {
+        --pub-font-family: 'Poppins', sans-serif;
+        --pub-font-family-secondary: 'Poppins', sans-serif;
+    }
+{% endif %}
+
+/** CSS Variables - News Media Pro Theme */
+:root {
+    --accent-color: {{ publisher.link_color }};
+    --header-height: -50px;
+    --aspect-ratio: {{image_aspect_ratio}};
+    --color-text-main: #1d1d1f;
+    --bs-table-color: unset !important;
+
+    /* News-specific variables */
+    --breaking-news-bg: #d32f2f;
+    --breaking-news-text: #ffffff;
+    --trending-badge-bg: #ff6f00;
+    --trending-badge-text: #ffffff;
+    --byline-color: #666666;
+    --timestamp-color: #888888;
+    --category-badge-bg: {{ publisher.link_color }};
+    --category-badge-text: #ffffff;
+}
+
+/** Light Theme */
+:root[data-theme='light']{
+    --color-social-bg-icon: {{ publisher.link_color }};
+    --p-accent-color: {{publisher.link_color}};
+    --p-webstory-bg-color: {{publisher.link_color}}3d;
+    --p-accent-icon-color: {{publisher_icon_color}};
+    --p-accent-text-color: {{link_text_color}};
+    --p-accent-nav-color: {{nav_color}};
+    --color-background-main: #fff;
+    --p-nav-txt-color: #8D8D8D;
+    --p-main-bg-color: #fff;
+    --p-txt-1-color: #181818;
+    --p-txt-color: #303030;
+    --p-icon-color: #000;
+    --p-svg-fill: #181818;
+    --p-svg-fill-bg: #fff;
+    --p-ad-div-color: #F5F5F5;
+    --p-sec-bg--color: #fff;
+    --p-card-author-color: #EBEBEB;
+    --p-rec-color: #fff;
+    --p-nav-border-color: #A0A0A0;
+    --p-s-form-bg-color: #EFEFEF;
+    --p-bg-high-color: #fff;
+
+    .svg-path-publisher-link-color{
+      fill: var(--p-accent-color) !important;
+    }
+    .svg-path-secondary-color{
+      fill: white !important;
+    }
+    .all-share-icon-svg-path{
+      stroke: var(--color-social-bg-icon) !important;
+      fill: var(--color-social-bg-icon) !important;
+    }
+}
+
+/** Dark Theme */
+:root[data-theme='dark']{
+    --color-social-bg-icon: #fff;
+    --p-accent-color: {{publisher.darkmode_link_color}};
+    --p-accent-icon-color: {{publisher_icon_color}};
+    --p-accent-nav-color: {{nav_color}};
+    --p-accent-text-color: {{darkmode_text_color}};
+    --color-background-main: #1D1D1F;
+    --p-sec-bg--color: #494949;
+    --p-main-bg-color: #1a1a1a;
+    --p-bg-color: #1a1a1a;
+    --p-bg-high-color: #131313;
+    --p-txt-color: #cacaca;
+    --p-txt-1-color: #fff;
+    --p-meta-txt-color: #8b8b8b;
+    --p-border-color: #303030;
+    --p-svg-fill: #fff;
+    --p-svg-fill-bg: #1a1a1a;
+    --p-ad-div-color: #343333;
+    --p-card-author-color: #494949;
+    --p-rec-color: #292929;
+
+    .svg-path-publisher-link-color{
+      fill: var(--color-main) !important;
+    }
+    .svg-path-secondary-color{
+      fill: var(--color-bg-main) !important;
+    }
+    .all-share-icon-svg-path{
+      stroke: white !important;
+      fill: white !important;
+    }
+    .side-bar-publive-logo{
+      fill: white;
+    }
+}
+
+/** Mobile Specific Styles */
+{% if is_mobile_device %}
+#postContent img {
+    width: 100%;
+    height: auto;
+}
+:root {
+    --article-div-padding: 96px;
+    --main-div-padding: 0px;
+    --author-div-margin: 50px;
+    --article-share-top-hieght: 0px;
+    {% if publisher.acronym_site %}
+    --ad_display: flex;
+    {% endif %}
+}
+
+{% if banner_notification.banner_text %}
+:root {
+    --article-div-padding: calc(131px + {{ banner_notification.banner_text|get_banner_notf__size }});
+    --author-div-margin: calc(50px + {{ banner_notification.banner_text|get_banner_notf__size }});
+}
+{% endif %}
+
+{% else %}
+/** Desktop Specific Styles */
+:root {
+    --main-div-margin: 19px auto;
+    --banner-notification-size: 0px;
+    --article-share-top-hieght: calc(132px);
+    --live-blog-article-share-top-hieght: calc(180px);
+    --main-div-padding: calc(126px);
+    {% if publisher.acronym_site %}
+    --ad_display: flex;
+    {% endif %}
+}
+
+{% if banner_notification and banner_notification.banner_text %}
+:root {
+    --banner-notification-size: {{ banner_notification.banner_text|get_banner_notf__size }};
+    --article-share-top-hieght: calc(115px + {{ banner_notification.banner_text|get_banner_notf__size }});
+    --live-blog-article-share-top-hieght: calc(181px + 30px);
+    --main-div-margin: 20px auto;
+    --main-div-padding: calc(126px + 30px);
+}
+{% endif %}
+{% endif %}
+
+/** Page-specific CSS */
+{% include template_key~'/templates/template_css/utils.css' %}
+
+{% if page_type == 'ArticlePage' and post_data.post.type != 'CustomPage' %}
+    {% include 'decoupled_common_components/css/article_main_content.css' %}
+    {% include "common_css_across_all_templates/ck_content.min.css" %}
+    {% if is_mobile_device %}
+        {% include template_key~'/templates/template_css/mobile_article_page.css' %}
+    {% else %}
+        {% include template_key~'/templates/template_css/article_page.css' %}
+    {% endif %}
+{% elif page_type == 'SearchPage'%}
+    {% include template_key~'/templates/template_css/search_page.css' %}
+{% elif page_type == 'ManageSubscription' %}
+    {%include 'access_wall_css/manage_subscription.css' %}
+{% elif page_type == 'ReaderProfilePage' %}
+    {% include "reader_css/reader_profile.css" %}
+{% endif %}
+
+.spacing-from-navbar {padding-top: var(--main-div-padding);}
+.display-none{display: none!important;}
+.aspect-ratio{aspect-ratio: {{image_aspect_ratio}};}
+
+{% include template_key~'/templates/template_css/slots.css' %}
+
+{% block style_css %}
+{% endblock style_css %}
+</style>
+
+    <script>
+        window.actual_domain = "{{ publisher.actual_domain }}";
+        {% if post_data %}
+        window.page_counter = 1;
+        window.loaded_article_url = "{{ post_data.post.absolute_url }}";
+        {% endif %}
+    </script>
+
+    {% if allow_reader_login%}
+        <link rel="preload" href="{{ static('/js/reader/signin.js',True) }}" as="script">
+    {% endif %}
+
+    <!-- Third-party Embeds -->
+    {% if youtube_tag %}
+        {% include "decoupled_common_components/component/json_ld_sub_component/youtube_tag_json_ld.html" %}
+    {% endif %}
+    {% if insta_tag %}
+        <script async defer src="https://platform.instagram.com/en_US/embeds.js"></script>
+    {% endif %}
+    {% if twitter_tag %}
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    {% endif %}
+
+    <!-- Pagination Links -->
+    {% if page_type == 'AuthorPage' or page_type == 'TagPage' or page_type == 'CategoryPage' %}
+        {% if prev_page %}
+        <link rel="prev" href="https://{{ publisher.actual_domain }}{{ request.path }}?page={{ prev_page }}">
+        {% endif %}
+        {% if next_page %}
+        <link rel="next" href="https://{{ publisher.actual_domain }}{{ request.path }}?page={{ next_page }}">
+        {% endif %}
+    {% endif %}
+
+    <!-- Push Notifications -->
+    {% if push_notification_config and push_notification_config.service_provider == "one_signal" %}
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" defer></script>
+        <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+                appId: "{{ push_notification_config.app_id }}",
+                allowLocalhostAsSecureOrigin: true,
+            });
+        });
+        </script>
+    {% endif %}
+
+    <!-- Authentication Providers -->
+    {% if allow_reader_login %}
+        {% if reader_login and reader_login.enabled_login_providers and reader_login.enabled_login_providers.google %}
+            <script src="https://accounts.google.com/gsi/client" defer></script>
+        {% endif %}
+        {% if reader_login and reader_login.enabled_login_providers and reader_login.enabled_login_providers.facebook %}
+            {% set fb_key=reader_login.platform_credentials.facebook_login.client_id %}
+            {% include 'common_util_across_templates/component/fb-login-script.html' %}
+        {% endif %}
+    {% endif %}
+
+    <!-- Google Analytics GA4 -->
+    {% if ga4_measurement_id %}
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4_measurement_id }}"></script>
+        <script>
+            const ga4MeasurementId = '{{ ga4_measurement_id }}';
+            function gtag() {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', ga4MeasurementId);
+        </script>
+    {% endif %}
+
+    <!-- Theme Initialization -->
+    <script>
+        const rootElem = document.querySelector("html[data-theme]");
+        const detectSystemTheme = () => {
+            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                rootElem.setAttribute("data-theme", "dark");
+            } else {
+                rootElem.setAttribute("data-theme", "light");
+            }
+        };
+        const initTheme = () => {
+            const localStoragePref = localStorage.getItem("data-theme");
+            if (localStoragePref) {
+                rootElem.setAttribute("data-theme", localStoragePref);
+            } else {
+                rootElem.setAttribute("data-theme", "light");
+            }
+        };
+        initTheme();
+    </script>
+
+    <!-- Ad Slots (Head) -->
+    {% if is_mobile_device %}
+        {% if slots.mobile_universal_head %}
+            {{ slots.mobile_universal_head.html_content|safe }}
+        {% endif %}
+    {% else %}
+        {% if slots.desktop_universal_head %}
+            {{ slots.desktop_universal_head.html_content|safe }}
+        {% endif %}
+    {% endif %}
+
+</head>
+
+<body data-aspect-ratio="{{ image_aspect_ratio }}" {% if enable_native_legacy_ui %}class="native-ui"{% endif %}>
+
+    <!-- Analytics -->
+    {% if publisher.publisher_config.widget_config_json.analytics %}
+    {% include "decoupled_common_components/component/analytics/non_amp_analytics.html" %}
+    {% endif %}
+
+    <!-- Header -->
+    {% include template_key~'/templates/components/header.html' %}
+
+    <!-- Main Content -->
+    {% block content %}
+    {% endblock content %}
+
+    <!-- Footer -->
+    {% if publisher.publisher_config.footer_json %}
+    {%set footer = publisher.publisher_config.footer_json.v2_footer %}
+    {% include template_key~'/templates/components/footer.html' %}
+    {% endif %}
+
+    <!-- Scroll to Top Button -->
+    <button class="gh-scroll-top-btn" type="button" title="Scroll to top" aria-label="Scroll to top">
+        <svg class="gh-scroll-top-arrow" width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 10.8333L12 5M12 5L18 10.8333M12 5L12 19" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <svg class="gh-scroll-top-progress" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 280.25;"></path>
+        </svg>
+    </button>
+
+    <!-- Sticky Footer Ads -->
+    {% include template_key~'/templates/components/slots/footer_sticky_slot.html' %}
+
+    <!-- Body End Scripts -->
+    {% if is_mobile_device %}
+        {% if slots.mobile_universal_body_end %}
+            {{ slots.mobile_universal_body_end.html_content|safe }}
+        {% endif %}
+    {% else %}
+        {% if slots.desktop_universal_body_end %}
+            {{ slots.desktop_universal_body_end.html_content|safe }}
+        {% endif %}
+    {% endif %}
+
+    <!-- Authentication Scripts -->
+    {% if allow_reader_login %}
+        {% if paywall_is_enabled %}
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        {% endif %}
+        <script id="signin_page-js" src="{{ static('/js/reader/signin.js',True) }}" type="text/javascript" publisher_platform_id='{{reader_login_client_id}}' is_mobile="{{is_mobile_device}}" default_user_avatar="{{ static('images/svg icons/user-avatar.svg',True) }}" page_type="{{page_type}}" publisher="{{host_domain}}" host_domain="{{publisher.actual_domain}}" publisher_logo="{{ publisher.long_logo|get_absolute_image_url('120,50') }}" publisher_name="{{ publisher.name }}" publisher_color="{{publisher.link_color}}" pricing_page_key="{{pricing_page_id}}" paywall_is_enabled="{{paywall_is_enabled}}" actual_domain="{{publisher.actual_domain}}" defer></script>
+    {% endif %}
+
+    <!-- Core Scripts -->
+    {% if captcha_enable %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    {% endif %}
+    <script src="{{ static('/js/bootstrap5.3-bundle.min.js',True) }}" type="text/javascript"></script>
+    <script src="{{ static('/js/infinte_scroll.js',True) }}" type="text/javascript"></script>
+    <script src="{{ static('/js/jquery-3.6.0.min.js',True) }}" type="text/javascript"></script>
+    <script id="main.js" src="{{ static(template_key+'/assets/js/main.js') }}" type="text/javascript" link_color="{{publisher.link_color}}" enable_native_legacy_ui="{{enable_native_legacy_ui}}" paywall_is_enabled="{{ paywall_is_enabled }}" actual_domain="{{publisher.actual_domain}}"></script>
+
+    {% block script %}
+    {% endblock script %}
+
+    {% if slots.desktop_custom_script and not is_mobile_device%}
+        {{ slots.desktop_custom_script.html_content|safe }}
+    {% elif slots.mobile_custom_script and is_mobile_device%}
+        {{ slots.mobile_custom_script.html_content|safe }}
+    {% endif %}
+
+</body>
+</html>

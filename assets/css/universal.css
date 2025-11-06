@@ -1,0 +1,40 @@
+/* Desktop Universal Styles - News Media Pro */
+.main {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+#left-col {
+    min-width: 0;
+}
+
+#right-col {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.ads-div-style {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.publive-slot-span {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+}
+
+@media (max-width: 1024px) {
+    .main {
+        grid-template-columns: 1fr;
+    }
+
+    #right-col {
+        position: static;
+    }
+}
