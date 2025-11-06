@@ -1,4 +1,255 @@
 {# Hero/Featured Section #}
+{% if post_section and post_section.posts %}
 <div class="hero-section">
-    {# Featured posts will be displayed here #}
+    {% if post_section.name %}
+    <div class="section-header">
+        <h2 class="section-title">{{ post_section.name }}</h2>
+        {% if post_section.absolute_url %}
+        <a href="{{ post_section.absolute_url }}" class="view-all-link">View All →</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="hero-grid">
+        {% set hero_post = post_section.posts[0] %}
+        {% if hero_post %}
+        {# Main Featured Post - Large Card #}
+        <article class="hero-main-post">
+            <a href="{{ hero_post.absolute_url }}" class="hero-post-link">
+                {% if hero_post.banner_url %}
+                <div class="hero-post-image">
+                    {# Content Type Badge #}
+                    {% if hero_post.type == 'Video' %}
+                        <span class="post-type-badge video">
+                            {% include template_key~'/templates/components/common_utils/svgs/video-icon.html' %}
+                        </span>
+                    {% elif hero_post.type == 'Gallery' %}
+                        <span class="post-type-badge gallery">
+                            {% include template_key~'/templates/components/common_utils/svgs/gallery-icon.html' %}
+                        </span>
+                    {% elif hero_post.type == 'Web Story' %}
+                        <span class="post-type-badge web-story">
+                            {% include template_key~'/templates/components/common_utils/svgs/web-story-icon.html' %}
+                        </span>
+                    {% elif hero_post.type == 'LiveBlog' %}
+                        <span class="live-badge">LIVE</span>
+                    {% endif %}
+
+                    <img
+                        src="{{ get_image_size_url(hero_post.banner_url, 'hd', '16:9') }}"
+                        alt="{% if hero_post.media_file_banner.alt_text %}{{ hero_post.media_file_banner.alt_text }}{% else %}{{ hero_post.title }}{% endif %}"
+                        style="{{ hero_post.media_file_banner|get_image_style_property }}"
+                        loading="eager"
+                    >
+                </div>
+                {% endif %}
+                <div class="hero-post-content">
+                    {% if hero_post.primary_category %}
+                    <span class="hero-post-category category_{{ hero_post.primary_category.slug|slash_remove }}_brand_color">
+                        {{ hero_post.primary_category.name }}
+                    </span>
+                    {% endif %}
+                    <h2 class="hero-post-title">{{ hero_post.title }}</h2>
+                    {% if hero_post.excerpt %}
+                    <p class="hero-post-excerpt">{{ hero_post.excerpt|truncate(200) }}</p>
+                    {% endif %}
+                    <div class="hero-post-meta">
+                        {% if hero_post.contributors and hero_post.contributors|length > 0 %}
+                        <span class="hero-post-author">{{ 'by'|translate(lang) }} {{ hero_post.contributors.0.name }}</span>
+                        <span class="post-meta-separator">•</span>
+                        {% endif %}
+                        <time datetime="{{ hero_post.formatted_last_published_at_datetime|date_time_format('%Y-%m-%d') }}">
+                            {{ hero_post.formatted_last_published_at_datetime|date_time_format('%b %d, %Y') }}
+                        </time>
+                        {% if hero_post.read_time %}
+                        <span class="post-meta-separator">•</span>
+                        <span class="hero-post-read-time">{{ hero_post.read_time }} {{ 'minutes_read'|translate(lang) }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </article>
+        {% endif %}
+
+        {# Secondary Featured Posts Grid #}
+        {% if post_section.posts|length > 1 %}
+        <div class="hero-secondary-posts">
+            {% for post in post_section.posts[1:5] %}
+            <article class="hero-secondary-post">
+                {% set image_aspect_ratio = '16:9' %}
+                {% include template_key~'/templates/components/common_utils/post_cards/post-card.html' %}
+            </article>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
 </div>
+
+<style>
+.hero-section {
+    margin-bottom: 40px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--p-accent-color);
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--p-txt-1-color);
+}
+
+.view-all-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--p-accent-color);
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.view-all-link:hover {
+    opacity: 0.8;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.hero-main-post {
+    background: var(--p-sec-bg--color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.hero-main-post:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.hero-post-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.hero-post-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}
+
+.hero-post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.hero-main-post:hover .hero-post-image img {
+    transform: scale(1.05);
+}
+
+.hero-post-content {
+    padding: 25px;
+}
+
+.hero-post-category {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+.hero-post-title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 15px;
+    color: var(--p-txt-1-color);
+}
+
+.hero-post-excerpt {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--p-txt-2-color);
+    margin: 0 0 15px;
+}
+
+.hero-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--p-meta-txt-color, #888);
+}
+
+.hero-post-author {
+    font-weight: 600;
+    color: var(--p-txt-2-color);
+}
+
+.post-meta-separator {
+    color: var(--p-border-color);
+}
+
+.hero-secondary-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.hero-secondary-post {
+    background: var(--p-sec-bg--color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-secondary-posts {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .hero-secondary-post {
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 24px;
+    }
+
+    .hero-post-title {
+        font-size: 24px;
+    }
+
+    .hero-post-excerpt {
+        font-size: 14px;
+    }
+
+    .hero-post-content {
+        padding: 20px;
+    }
+}
+</style>
+{% endif %}
