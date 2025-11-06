@@ -1,4 +1,152 @@
-{# Category Section #}
-<div class="category-sections">
-    {# Category-based news sections #}
-</div>
+{# Category Section - Additional Post Sections #}
+{# This component displays additional post sections after the featured hero section #}
+
+{% if category_sections %}
+    {# Display category-organized sections if available #}
+    {% for section in category_sections %}
+        {% if section.posts %}
+        <section class="category-section" style="margin-bottom: 40px;">
+            <div class="category-header">
+                {% if section.name %}
+                <h2 class="category-title">{{ section.name }}</h2>
+                {% endif %}
+                {% if section.absolute_url %}
+                <a href="{{ section.absolute_url }}" class="category-view-all">View All →</a>
+                {% endif %}
+            </div>
+
+            <div class="category-posts-grid">
+                {% for post in section.posts[:6] %}
+                    <article class="category-post-item">
+                        {% set image_aspect_ratio = '16:9' %}
+                        {% include template_key~'/templates/components/common_utils/post_cards/post-card.html' %}
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    {% endfor %}
+
+{% elif recent_posts %}
+    {# Fallback: Display recent posts if category_sections not available #}
+    <section class="category-section" style="margin-bottom: 40px;">
+        <div class="category-header">
+            <h2 class="category-title">Latest News</h2>
+        </div>
+
+        <div class="category-posts-grid">
+            {% for post in recent_posts[:12] %}
+                <article class="category-post-item">
+                    {% set image_aspect_ratio = '16:9' %}
+                    {% include template_key~'/templates/components/common_utils/post_cards/post-card.html' %}
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+{% elif all_posts %}
+    {# Another fallback: Display all posts if available #}
+    <section class="category-section" style="margin-bottom: 40px;">
+        <div class="category-header">
+            <h2 class="category-title">All Stories</h2>
+        </div>
+
+        <div class="category-posts-grid">
+            {% for post in all_posts[:12] %}
+                <article class="category-post-item">
+                    {% set image_aspect_ratio = '16:9' %}
+                    {% include template_key~'/templates/components/common_utils/post_cards/post-card.html' %}
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}
+
+<style>
+.category-section {
+    margin-bottom: 50px;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--p-border-color, #e0e0e0);
+}
+
+.category-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--p-txt-1-color);
+    position: relative;
+}
+
+.category-title::before {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--p-accent-color);
+}
+
+.category-view-all {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--p-accent-color);
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.category-view-all:hover {
+    opacity: 0.8;
+}
+
+.category-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.category-post-item {
+    background: var(--p-sec-bg--color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.category-post-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 1024px) {
+    .category-posts-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .category-title {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 768px) {
+    .category-posts-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .category-header {
+        margin-bottom: 20px;
+    }
+
+    .category-title {
+        font-size: 20px;
+    }
+}
+</style>
