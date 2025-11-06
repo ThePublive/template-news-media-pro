@@ -1,0 +1,11 @@
+{# Post Card 5 - Compact List Item #}
+{% if post %}
+<div class="post-card post-card-compact">
+    <a href="{{ post.post_url }}" class="post-card-link-compact">
+        <h5 class="post-card-title-compact">{{ post.title }}</h5>
+        <div class="post-card-meta-compact">
+            <span class="post-card-date-small">{{ post.published_on|datetimeformat('%b %d') }}</span>
+        </div>
+    </a>
+</div>
+{% endif %}

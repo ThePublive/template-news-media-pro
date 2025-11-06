@@ -1,0 +1,70 @@
+{# Desktop Sidebar #}
+<aside class="desktop-sidebar">
+    {# Ad Slot - Top of Sidebar #}
+    {% if slots and slots.desktop_hp_gutter_rhs %}
+    <div class="sidebar-ad-slot">
+        <span class="ad-label">Advertisement</span>
+        {{ slots.desktop_hp_gutter_rhs.html_content|safe }}
+    </div>
+    {% endif %}
+
+    {# Trending/Most Read Widget #}
+    {% include template_key~'/templates/components/trending-sidebar.html' %}
+
+    {# Latest Stories #}
+    {% include template_key~'/templates/components/latest-stories.html' %}
+
+    {# Newsletter Subscription #}
+    <div class="sidebar-widget sidebar-newsletter">
+        {% include template_key~'/templates/components/common_utils/single_newsletter.html' %}
+    </div>
+
+    {# Social Links #}
+    <div class="sidebar-widget sidebar-social">
+        {% include template_key~'/templates/components/common_utils/social-links-sidebar.html' %}
+    </div>
+
+    {# Ad Slot - Bottom of Sidebar #}
+    {% if slots and slots.desktop_hp_gutter_rhs_2 %}
+    <div class="sidebar-ad-slot">
+        <span class="ad-label">Advertisement</span>
+        {{ slots.desktop_hp_gutter_rhs_2.html_content|safe }}
+    </div>
+    {% endif %}
+</aside>
+
+<style>
+.desktop-sidebar {
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+.sidebar-widget {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--p-secondary-bg, #f8f9fa);
+    border-radius: 8px;
+}
+
+.sidebar-ad-slot {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.ad-label {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 1024px) {
+    .desktop-sidebar {
+        display: none;
+    }
+}
+</style>

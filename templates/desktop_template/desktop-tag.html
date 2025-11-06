@@ -1,0 +1,24 @@
+{# Desktop Tag Page Layout #}
+<div class="tag-page-container">
+    <div class="tag-header">
+        <h1 class="tag-title">#{{ tag.name }}</h1>
+        <p class="tag-count">{{ post_count }} articles</p>
+    </div>
+
+    <div class="tag-main-layout">
+        <div class="tag-content">
+            {% if post_section_list %}
+                {% for section in post_section_list %}
+                <div class="tag-section">
+                    {% include template_key~'/templates/components/section_layouts/layout_type_1.html' %}
+                </div>
+                {% endfor %}
+            {% endif %}
+            {% include template_key~'/templates/components/common_utils/pagination.html' %}
+        </div>
+
+        <aside class="tag-sidebar">
+            {% include template_key~'/templates/components/sidebar/desktop-sidebar.html' %}
+        </aside>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+{# Mobile Tag Page Layout #}
+<div class="tag-page-mobile">
+    <h1 class="tag-title-mobile">#{{ tag.name }}</h1>
+    {% if post_section_list %}
+        {% for section in post_section_list %}
+        <div class="tag-section-mobile">
+            {% include template_key~'/templates/components/section_layouts/layout_type_1.html' %}
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% include template_key~'/templates/components/common_utils/pagination.html' %}
+</div>

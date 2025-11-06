@@ -1,0 +1,23 @@
+{# Web Story Card - Vertical Story Format #}
+{% if post %}
+<div class="web-story-card">
+    <a href="{{ post.post_url }}" class="web-story-link">
+        {% if post.display_image_url %}
+        <div class="web-story-image">
+            <img
+                src="{{ post.display_image_url }}"
+                alt="{{ post.title }}"
+                loading="lazy"
+                style="aspect-ratio: 9/16; object-fit: cover; width: 100%; border-radius: 12px;"
+            >
+            <div class="web-story-overlay">
+                <div class="web-story-icon">
+                    {% include template_key~'/templates/components/common_utils/svgs/web-story-icon.html' %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <h5 class="web-story-title">{{ post.title|truncate(50) }}</h5>
+    </a>
+</div>
+{% endif %}

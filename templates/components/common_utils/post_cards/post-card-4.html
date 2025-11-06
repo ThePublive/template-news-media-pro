@@ -1,0 +1,37 @@
+{# Post Card 4 - Large Featured Card #}
+{% if post %}
+<div class="post-card post-card-featured">
+    <a href="{{ post.post_url }}" class="post-card-link">
+        {% if post.display_image_url %}
+        <div class="post-card-image-large">
+            <img
+                src="{{ post.display_image_url }}"
+                alt="{{ post.title }}"
+                loading="lazy"
+                style="aspect-ratio: var(--aspect-ratio, 16/9); object-fit: cover; width: 100%;"
+            >
+            {% if post.primary_category %}
+            <span class="post-card-category-overlay">{{ post.primary_category.name }}</span>
+            {% endif %}
+        </div>
+        {% endif %}
+        <div class="post-card-content-large">
+            <h2 class="post-card-title-large">{{ post.title }}</h2>
+            {% if post.summary %}
+            <p class="post-card-summary-large">{{ post.summary|truncate(200) }}</p>
+            {% endif %}
+            <div class="post-card-meta">
+                {% if post.authors and post.authors|length > 0 %}
+                <span class="post-card-author">By {{ post.authors[0].name }}</span>
+                <span class="post-meta-separator">•</span>
+                {% endif %}
+                <span class="post-card-date">{{ post.published_on|datetimeformat('%B %d, %Y') }}</span>
+                {% if post.read_time %}
+                <span class="post-meta-separator">•</span>
+                <span class="post-card-read-time">{{ post.read_time }} min read</span>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+</div>
+{% endif %}

@@ -1,0 +1,20 @@
+{# Post Card 3 - Title Only (No Image) #}
+{% if post %}
+<div class="post-card post-card-text-only">
+    <a href="{{ post.post_url }}" class="post-card-link">
+        <div class="post-card-content">
+            {% if post.primary_category %}
+            <span class="post-card-category">{{ post.primary_category.name }}</span>
+            {% endif %}
+            <h4 class="post-card-title">{{ post.title }}</h4>
+            <div class="post-card-meta">
+                {% if post.authors and post.authors|length > 0 %}
+                <span class="post-card-author">{{ post.authors[0].name }}</span>
+                <span class="post-meta-separator">•</span>
+                {% endif %}
+                <span class="post-card-date">{{ post.published_on|datetimeformat('%b %d, %Y') }}</span>
+            </div>
+        </div>
+    </a>
+</div>
+{% endif %}
