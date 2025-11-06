@@ -1,0 +1,139 @@
+{# Language Selector Modal #}
+{% if languages and languages|length > 1 %}
+<div class="lang-modal" id="langModal" style="display: none;">
+    <div class="lang-modal-overlay" onclick="closeLangModal()"></div>
+    <div class="lang-modal-content">
+        <div class="lang-modal-header">
+            <h3>Select Language</h3>
+            <button class="lang-modal-close" onclick="closeLangModal()" aria-label="Close language selector">
+                {% include template_key~'/templates/components/common_utils/svgs/close.html' %}
+            </button>
+        </div>
+        <div class="lang-modal-body">
+            <ul class="lang-list">
+                {% for language in languages %}
+                <li class="lang-item {% if language.code == lang %}active{% endif %}">
+                    <a href="?lang={{ language.code }}" class="lang-link">
+                        <span class="lang-name">{{ language.name }}</span>
+                        {% if language.code == lang %}
+                        <span class="lang-check">✓</span>
+                        {% endif %}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+function openLangModal() {
+    document.getElementById('langModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLangModal() {
+    document.getElementById('langModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+</script>
+
+<style>
+.lang-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
+
+.lang-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.lang-modal-content {
+    position: relative;
+    background: var(--p-main-bg-color, #fff);
+    max-width: 400px;
+    margin: 100px auto;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.lang-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.lang-modal-header h3 {
+    margin: 0;
+    color: var(--p-txt-color, #333);
+}
+
+.lang-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.lang-modal-close svg {
+    width: 24px;
+    height: 24px;
+    color: var(--p-txt-color, #333);
+}
+
+.lang-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lang-item {
+    margin-bottom: 10px;
+}
+
+.lang-item.active .lang-link {
+    background: var(--accent-color, #007bff);
+    color: #fff;
+}
+
+.lang-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--p-txt-color, #333);
+    background: var(--p-secondary-bg, #f5f5f5);
+    transition: all 0.2s;
+}
+
+.lang-link:hover {
+    background: var(--accent-color, #007bff);
+    color: #fff;
+}
+
+.lang-name {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.lang-check {
+    font-size: 18px;
+    font-weight: bold;
+}
+</style>
+{% endif %}

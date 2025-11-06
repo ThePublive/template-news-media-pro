@@ -1,0 +1,23 @@
+{# Navigation Items #}
+{% if navigation_menu and navigation_menu.items %}
+<ul class="nav-items">
+    {% for item in navigation_menu.items %}
+    <li class="nav-item {% if item.is_active %}active{% endif %}">
+        <a href="{{ item.url }}" class="nav-link">
+            {{ item.label }}
+        </a>
+        {% if item.children and item.children|length > 0 %}
+        <ul class="nav-dropdown">
+            {% for child in item.children %}
+            <li class="nav-dropdown-item">
+                <a href="{{ child.url }}" class="nav-dropdown-link">
+                    {{ child.label }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}

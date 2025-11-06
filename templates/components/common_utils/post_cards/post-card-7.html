@@ -1,0 +1,30 @@
+{# Post Card 7 - Overlay Card (Image with Text Overlay) #}
+{% if post %}
+<div class="post-card post-card-overlay">
+    <a href="{{ post.post_url }}" class="post-card-link">
+        {% if post.display_image_url %}
+        <div class="post-card-image-overlay">
+            <img
+                src="{{ post.display_image_url }}"
+                alt="{{ post.title }}"
+                loading="lazy"
+                style="aspect-ratio: var(--aspect-ratio, 16/9); object-fit: cover; width: 100%;"
+            >
+            <div class="post-card-overlay-content">
+                {% if post.primary_category %}
+                <span class="post-card-category-badge">{{ post.primary_category.name }}</span>
+                {% endif %}
+                <h3 class="post-card-title-overlay">{{ post.title }}</h3>
+                <div class="post-card-meta-overlay">
+                    {% if post.authors and post.authors|length > 0 %}
+                    <span class="post-card-author">{{ post.authors[0].name }}</span>
+                    <span class="post-meta-separator">•</span>
+                    {% endif %}
+                    <span class="post-card-date">{{ post.published_on|datetimeformat('%b %d') }}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </a>
+</div>
+{% endif %}

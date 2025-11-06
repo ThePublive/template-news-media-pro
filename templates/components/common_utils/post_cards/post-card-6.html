@@ -1,0 +1,25 @@
+{# Post Card 6 - Grid Card with Small Image #}
+{% if post %}
+<div class="post-card post-card-grid">
+    <a href="{{ post.post_url }}" class="post-card-link">
+        {% if post.display_image_url %}
+        <div class="post-card-image-thumb">
+            <img
+                src="{{ post.display_image_url }}"
+                alt="{{ post.title }}"
+                loading="lazy"
+                style="aspect-ratio: var(--aspect-ratio, 1/1); object-fit: cover; width: 100%;"
+            >
+        </div>
+        {% endif %}
+        <div class="post-card-content">
+            <h4 class="post-card-title-medium">{{ post.title|truncate(80) }}</h4>
+            <div class="post-card-meta">
+                {% if post.authors and post.authors|length > 0 %}
+                <span class="post-card-author-small">{{ post.authors[0].name }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+</div>
+{% endif %}

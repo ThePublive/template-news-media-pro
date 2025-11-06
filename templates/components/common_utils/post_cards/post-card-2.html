@@ -1,0 +1,28 @@
+{# Post Card 2 - Horizontal Layout #}
+{% if post %}
+<div class="post-card post-card-horizontal">
+    <a href="{{ post.post_url }}" class="post-card-link">
+        <div class="post-card-row">
+            {% if post.display_image_url %}
+            <div class="post-card-image-small">
+                <img
+                    src="{{ post.display_image_url }}"
+                    alt="{{ post.title }}"
+                    loading="lazy"
+                    style="aspect-ratio: var(--aspect-ratio, 4/3); object-fit: cover; width: 100%;"
+                >
+            </div>
+            {% endif %}
+            <div class="post-card-content-flex">
+                {% if post.primary_category %}
+                <span class="post-card-category">{{ post.primary_category.name }}</span>
+                {% endif %}
+                <h4 class="post-card-title-small">{{ post.title }}</h4>
+                <div class="post-card-meta">
+                    <span class="post-card-date">{{ post.published_on|datetimeformat('%b %d') }}</span>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+{% endif %}

@@ -1,0 +1,48 @@
+{# Grouped Newsletter Subscription #}
+{% if newsletter_groups and newsletter_groups|length > 0 %}
+<div class="grouped-newsletter">
+    <h3 class="newsletter-title">Subscribe to Our Newsletters</h3>
+    <p class="newsletter-description">Get the latest news and updates delivered to your inbox</p>
+
+    <form action="/subscribe" method="POST" class="newsletter-form-grouped">
+        <div class="newsletter-email-input">
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+                class="newsletter-input"
+            >
+        </div>
+
+        <div class="newsletter-groups">
+            {% for group in newsletter_groups %}
+            <div class="newsletter-group-item">
+                <label class="newsletter-checkbox-label">
+                    <input
+                        type="checkbox"
+                        name="newsletter_groups[]"
+                        value="{{ group.id }}"
+                        {% if loop.first %}checked{% endif %}
+                    >
+                    <div class="newsletter-group-info">
+                        <span class="newsletter-group-name">{{ group.name }}</span>
+                        {% if group.description %}
+                        <span class="newsletter-group-desc">{{ group.description }}</span>
+                        {% endif %}
+                    </div>
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="newsletter-submit-btn">
+            Subscribe Now
+        </button>
+
+        <p class="newsletter-privacy">
+            By subscribing, you agree to our <a href="/privacy-policy">Privacy Policy</a>
+        </p>
+    </form>
+</div>
+{% endif %}

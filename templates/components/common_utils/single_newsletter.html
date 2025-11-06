@@ -1,0 +1,24 @@
+{# Single Newsletter Subscription #}
+<div class="single-newsletter">
+    <h3 class="newsletter-title">{{ newsletter_title|default('Subscribe to Our Newsletter') }}</h3>
+    <p class="newsletter-description">{{ newsletter_description|default('Get the latest news delivered to your inbox') }}</p>
+
+    <form action="/subscribe" method="POST" class="newsletter-form-single">
+        <div class="newsletter-input-group">
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+                class="newsletter-input"
+            >
+            <button type="submit" class="newsletter-submit-btn">
+                Subscribe
+            </button>
+        </div>
+
+        <p class="newsletter-privacy">
+            We respect your privacy. Unsubscribe anytime.
+        </p>
+    </form>
+</div>
