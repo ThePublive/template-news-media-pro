@@ -2,11 +2,19 @@
 <footer class="site-footer">
     <div class="footer-content">
         <div class="footer-logo">
+            {% if publisher.long_logo %}
             <img src="{{ publisher.long_logo|get_absolute_image_url('200,50') }}"
                  alt="{{ publisher.name }}">
+            {% else %}
+            <span class="footer-publisher-name">{{ publisher.name }}</span>
+            {% endif %}
         </div>
         <div class="footer-copyright">
-            © {{ "now"|date("Y") }} {{ publisher.name }}. All rights reserved.
+            © <span id="currentYear"></span> {{ publisher.name }}. All rights reserved.
         </div>
     </div>
 </footer>
+
+<script>
+document.getElementById('currentYear').textContent = new Date().getFullYear();
+</script>

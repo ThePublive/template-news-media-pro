@@ -1,12 +1,12 @@
 {# Post Card 8 - Sidebar Widget Style #}
 {% if post %}
 <div class="post-card post-card-widget">
-    <a href="{{ post.post_url }}" class="post-card-link">
+    <a href="{{ post.absolute_url }}" class="post-card-link">
         <div class="post-card-widget-row">
-            {% if post.display_image_url %}
+            {% if post.banner_url %}
             <div class="post-card-image-tiny">
                 <img
-                    src="{{ post.display_image_url }}"
+                    src="{{ post.banner_url }}"
                     alt="{{ post.title }}"
                     loading="lazy"
                     style="aspect-ratio: 1/1; object-fit: cover; width: 100%;"
@@ -15,7 +15,7 @@
             {% endif %}
             <div class="post-card-widget-content">
                 <h6 class="post-card-title-tiny">{{ post.title|truncate(60) }}</h6>
-                <span class="post-card-date-tiny">{{ post.published_on|datetimeformat('%b %d') }}</span>
+                <span class="post-card-date-tiny">{{ post.formatted_last_published_at_datetime|date_time_format('%b %d') }}</span>
             </div>
         </div>
     </a>

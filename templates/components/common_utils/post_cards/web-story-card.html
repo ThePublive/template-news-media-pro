@@ -1,11 +1,11 @@
 {# Web Story Card - Vertical Story Format #}
 {% if post %}
 <div class="web-story-card">
-    <a href="{{ post.post_url }}" class="web-story-link">
-        {% if post.display_image_url %}
+    <a href="{{ post.absolute_url }}" class="web-story-link">
+        {% if post.banner_url %}
         <div class="web-story-image">
             <img
-                src="{{ post.display_image_url }}"
+                src="{{ post.banner_url }}"
                 alt="{{ post.title }}"
                 loading="lazy"
                 style="aspect-ratio: 9/16; object-fit: cover; width: 100%; border-radius: 12px;"
