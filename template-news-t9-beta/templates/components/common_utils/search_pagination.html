@@ -1,0 +1,57 @@
+
+{% if next_page or prev_page %}
+<div class="d-flex justify-content-center py-3" >
+    <div class="navigation primary_font">
+    {% if prev_page %}
+            <a class="paginate page_hov" style="border-radius: 4px 0px 0px 4px;" 
+            {% if prev_page == 1 %}
+                href="https://{{ publisher.actual_domain }}/search?title={{ search_title }}"
+            {% else %}
+                href="?page={{ prev_page }}&title={{ search_title }}"
+            {% endif %}
+             aria-label="page {{prev_page }}">
+                Prev 
+            </a>
+        {% if page_no|int > 2 %}
+            <a class="paginate page_hov" href="https://{{ publisher.actual_domain }}/search?title={{ search_title }}" aria-label="page 1">
+                1 
+            </a>
+        {% endif %}
+        {% if page_no|int  > 3  %}
+            <span class="paginate">...</span>
+        {% endif %}
+        
+        <a class="paginate page_hov"
+            {% if prev_page == 1 %}
+                href="https://{{ publisher.actual_domain }}/search?title={{ search_title }}"
+            {% else %}
+                href="?page={{ prev_page }}&title={{ search_title }}"
+            {% endif %}
+            aria-label="page {{prev_page }}">
+            {{ prev_page }}
+        </a>
+    {% endif %}
+
+    <a class="paginate page_active" 
+    {% if page_no == 1 %}
+        href="https://{{ publisher.actual_domain }}/search?title={{ search_title }}"
+    {% else %}
+        href="?page={{ page_no }}&title={{ search_title }}"
+    {% endif %}
+     aria-label="page {{page_no }}">
+        {{ page_no }}
+    </a>
+    {% if next_page %}
+        <a class="paginate page_hov" href="?page={{ next_page }}&title={{ search_title }}" aria-label="page {{next_page }}">
+            {{ next_page }}
+        </a>
+            {% if next_page < 5 %}
+                <span class="paginate ">...</span>
+            {% endif %}
+        <a class="paginate page_hov" style="border-radius:0px 5px 5px 0px" href="?page={{ next_page }}&title={{ search_title }}" aria-label="page {{next_page }}">
+            Next
+        </a>
+    {% endif %}
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,37 @@
+   
+<main>
+    {% if slots.desktop_ap_top %}
+    <div class="responsive-ad-css">
+
+        <div class="ads-div-style   article-page-ads ad-top-mar" style="{{slots.desktop_ap_top.custom_css_styles|safe}}">
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slots.desktop_ap_top.html_content|safe }}
+        </div>
+        </div>
+    {% endif %}
+    <div class="uni-padding">
+        {% if slots.desktop_ap_gutter_lhs %}
+        <div class="responsive-ad-css">
+
+            <div class="ads-div-style   sidebar-slots left-sidebar-slots" style="{{slots.desktop_ap_gutter_lhs.custom_css_styles|safe}}">
+                {{ slots.desktop_ap_gutter_lhs.html_content|safe }}
+            </div>
+            </div>
+        {% endif %}
+        <div class="main {% if enable_native_legacy_ui %}native-ui-article{% endif %}">
+            {% include template_key~'/templates/components/post-content.html' %}
+            {% include template_key~'/templates/components/latest-stories.html' %}
+        </div>
+        {% if slots.desktop_ap_gutter_rhs %}
+        <div class="responsive-ad-css">
+
+            <div class="ads-div-style   sidebar-slots right-sidebar-slots" style="{{slots.desktop_ap_gutter_rhs.custom_css_styles|safe}}">
+                {{ slots.desktop_ap_gutter_rhs.html_content|safe }}
+            </div>
+            </div>
+        {% endif %}
+        {% if slots.desktop_ap_sticky %}
+            {{ slots.desktop_ap_sticky.html_content|safe }}
+        {% endif %}
+    </div>
+</main>

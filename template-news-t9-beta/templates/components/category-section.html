@@ -1,0 +1,35 @@
+
+{% for post_section  in category_section_posts_list %}
+{% if post_section.posts|length > 0 %}
+    <section  class="category-section">
+        <a class='publisher_color category-title' href="{{ post_section.absolute_url }}" aria-label="{{ post_section.name }}">
+            <h2 style="margin-bottom: 0px;"  class=" category_{{post_section.slug|slash_remove}}_text_color  line-title primary_font">
+                {{ post_section.name }}
+            </h2>
+            <div class="line category_{{post_section.slug|slash_remove}}_brand_color "></div>
+        </a>
+      {%set featured = False%}
+    {% include template_key~'/templates/components/hero-section.html' %}
+    {% if post_section.posts_without_banner %}
+        {%set posts=post_section.posts_without_banner%}
+        {% include template_key~"/templates/components/common_utils/post_cards/post-card-8.html"  %}
+    {% endif %}
+    </section>
+    {% if is_mobile_device %}
+        {% set slot_content = get_dynamic_slot(slots, 'mobile_hp_' ,(loop.index + 1)) %}
+    {% else %}
+        {% set slot_content = get_dynamic_slot(slots, 'desktop_hp_' , (loop.index + 1)) %}
+    {% endif %}
+    {% if slot_content %}
+    <div class="responsive-ad-css">
+        <div class="ads-div-style between-slot" style="{{slot_content.custom_css_styles|safe}}">
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slot_content.html_content|safe }}
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+{% include template_key~"/templates/components/common_utils/webstory-module.html" %}
+{% endfor %}
+
+

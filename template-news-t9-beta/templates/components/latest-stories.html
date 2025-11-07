@@ -1,0 +1,97 @@
+
+<aside id="right-col" next-page-hide >
+    <!-- add next-page-hide to hide element in article infinte scroll -->
+    <div>
+        {% if slots.desktop_hp_right_top and page_type == 'HomePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_top_ads" style="{{slots.desktop_hp_right_top.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_hp_right_top.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_ap_right_top and page_type == 'ArticlePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_top_ads_article" style="{{slots.desktop_ap_right_top.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_ap_right_top.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_cp_right_top and page_type != 'HomePage' and page_type != 'ArticlePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_top_ads_other" style="{{slots.desktop_cp_right_top.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_cp_right_top.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_match_page_right_top and page_type == 'MatchLivePage' or page_type == 'MatchScorecardPage' or page_type == 'MatchCommentaryPage' or page_type == 'MatchSquadsPage' %}
+        <div class="responsive-ad-css">
+
+            <div class="ads-div-style   right_bottom_ads_other" style="{{slots.desktop_match_page_right_top.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_match_page_right_top.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_tournament_page_right_top and page_type == 'TournamentFixturePage' or page_type == 'TournamentStandingsPage' or page_type == 'TournamentStatsPage' or page_type == 'TournamentListPage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads_other" style="{{slots.desktop_tournament_page_right_top.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_tournament_page_right_top.html_content|safe }}
+            </div>
+        </div>
+        {% endif %}
+        <div class="l-title d-flex align-items-center primary_font">
+            
+            <div class="w-100">{{ 'latest_stories'|translate(lang)}}</div>
+            <div class="line w-100"></div>
+        </div>
+        <div class="l-stories primary_font" id="latest_stories">
+            
+        </div>
+        
+        {% if allows_newsletter_subs %}
+        {% include template_key~'/templates/components/subscribe-box.html' %}
+        {% endif %}
+        <div class="d-md-block d-none" style="z-index: 80;">
+            
+            <div id='left-side-sticky' class="scroller" style="height: 100%;">
+                
+            </div>
+        </div>
+        {% if slots.desktop_hp_right_bottom and page_type == 'HomePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads" style="{{slots.desktop_hp_right_bottom.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_hp_right_bottom.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_ap_right_bottom and page_type == 'ArticlePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads_article" style="{{slots.desktop_ap_right_bottom.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_ap_right_bottom.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_cp_right_bottom and page_type != 'HomePage' and page_type != 'ArticlePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads_other" style="{{slots.desktop_cp_right_bottom.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_cp_right_bottom.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_match_page_right_bottom and page_type == 'MatchLivePage' or page_type == 'MatchScorecardPage' or page_type == 'MatchCommentaryPage' or page_type == 'MatchSquadsPage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads_other" style="{{slots.desktop_match_page_right_bottom.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_match_page_right_bottom.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_tournament_page_right_bottom and page_type == 'TournamentFixturePage' or page_type == 'TournamentStandingsPage' or page_type == 'TournamentStatsPage' or page_type == 'TournamentListPage'  %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads_other" style="{{slots.desktop_tournament_page_right_bottom.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_tournament_page_right_bottom.html_content|safe }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</aside>

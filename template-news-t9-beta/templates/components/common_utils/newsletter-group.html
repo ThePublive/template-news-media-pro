@@ -1,0 +1,25 @@
+<div class="newsletter_groups">
+  <div class="newsletter_group_div">
+      <input type="checkbox" name="" value="" checked >
+      <div class="text-div">
+          <h6 class="text">All groups</h6>
+      </div>
+  </div>
+  {% for each in newsletter_groups_data %}
+      {% if loop.index <= 5 %}
+          <div class="newsletter_group_div">
+              <input type="checkbox" name="group_ids" value="{{ each.id}}" >
+              <div class="text-div">
+                  <h6 class="text">{{ each.name}}</h6>
+              </div>
+          </div>
+      {% endif %}
+  {% endfor %}
+  {% if newsletter_groups_data|length > 5 %}
+      <a class="newsletter_group_div" href="/newsletter/subscribe">
+          <div class="text-div">
+              <h6 class="see-all-newslletter">See all newsletters</h6>
+          </div>
+      </a>
+  {% endif %}
+</div>

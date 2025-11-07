@@ -1,0 +1,9 @@
+{% for each in post.meta_data %}
+{% if each.key == 'live_blog_status' and each.value == 'Live' %}
+<div class="live-blog-icon display-flex">
+    <span >
+        LIVE
+    </span>
+</div>
+{% endif %}
+{% endfor %}

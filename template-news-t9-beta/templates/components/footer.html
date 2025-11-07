@@ -1,0 +1,162 @@
+
+{% if footer %}
+<footer style="background-color:#181818;background-color:{{footer.accentColor}};color:#fff;color:{{footer.textColor}};margin-top:20px;">
+<div class="v2-footer-section" >
+  <div class="preview-first-row">
+    <div class="first-column">
+      <div class="logo-section image-section">
+        <div class="logo-section image-section">
+          {% if footer.logo %}
+            <img class="image" src="{{footer.logo|get_absolute_image_url('580,328') }}" style="display: flex;">
+          {% endif %}
+          {% if footer.short_bio %}
+            <p class="p-tag-short-bio">{{footer.short_bio}}</p>
+          {% endif %}
+        </div>
+      </div>
+      {% if not is_mobile_device %}
+        {% if footer.newsletter %}
+        <div class="newsletter-section">
+          <hr class="first-column-hr-tag footer-preview-hr-non-amp" />
+          <p class="title">Subscribe to our Newsletter!</p>
+          <div class="footer-newsletter">
+            <form
+              class="secondary_font footer-news-letter-form"
+              id="subscribe_to_newsletter"
+              method="post"
+              target="_top"
+              role="button"
+              tabindex="0"
+            >
+              <div class="newsletter-input">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  class="input-field-name"
+                  name="name"
+                />
+                <input
+                  type="email"
+                  placeholder="Email address"
+                  class="input-field-email"
+                  name="email"
+                />
+                <button
+                  class="subscribe-button footer_subscribe_submit_btn secondary_font"
+                  [disabled]="disable"
+                  [hidden]="hidden_atr"
+                  type="button"
+                  class="w-100"
+                >
+                  {{ 'subscribe_now'|translate(lang) }}
+                </button>
+              </div>
+              <div class="captcha-container">
+                {% if captcha_enable %}
+                <input type="hidden" name="check_for_captcha" value='1' >
+                <div class="g-recaptcha captcha" data-sitekey="{{captcha_site_key}}"></div>
+                {% endif %}
+              </div>
+            </form>
+            <div
+              class="success newsletter_msg"
+              style="width: 100%; margin-top: 15px;"
+            >
+              <p>{{message}}</p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      {% endif %}
+    </div>
+    <hr class="first-column-hr-tag newsletter-below-hr footer-preview-hr-non-amp" />
+    <div class="second-column">
+      {% if footer.app_links %}
+      <div class="show-app-link-section" style="display:flex;">
+        {% if footer.app_links.android_url %}
+        <p class="footer-social-link-p-tag"><a href="{{footer.app_links.android_url}}" aria-label="{{footer.app_links.android_url}}" class=""><img src="{{ static(template_key+'/assets/images/android_download.png') }}" class="v2-footer-app-link" alt="{{footer.app_links.android_url}}"></a></p>
+        {% endif %}
+        {% if footer.app_links.apple_url %}
+        <p class="footer-social-link-p-tag">
+          <a href="{{footer.app_links.apple_url}}" aria-label="{{footer.app_links.apple_url}}" class=""><img src="{{ static(template_key+'/assets/images/ios_download.png') }}" class="v2-footer-app-link" alt="{{footer.app_links.apple_url}}"></a>
+        </p>
+        {% endif %}
+      </div>
+      {% endif %}
+        {% include template_key~"/templates/components/common_utils/social_links/social-links-footer.html" %}
+    </div>
+    <hr class="first-column-hr-tag footer-preview-hr-non-amp" />
+  </div>
+  <div class="preview-second-row">
+    {% if footer.addQuickMenu %}
+    {% for menu in footer.addQuickMenu %}
+    <div class="quick-link-items">
+      <p class="quick-link-title">{{menu.title}}</p>
+      <div class="menu-title">
+        <ul class="links-div secondary_font">
+          {% for quick_menu in menu.childQuickLinks %}
+          <li>
+            <a class="add-link-input-text" href="{{quick_menu.link}}" aria-label="{{quick_menu.name}}">
+                <span>{{quick_menu.name}} </span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <hr class="footer-preview-hr-non-amp">
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  {% if latest_posts and footer.latestStories %}
+  <div class="preview-third-row" >
+    <p class="quick-link-title">Latest Stories</p>
+        <div class="menu-title">
+          <ul class="links-div secondary_font">
+            {% for post in latest_posts %}
+              <li>
+                <a class="add-link-input-text" href="{{post.absolute_url}}" aria-label="{{post.title}}">
+                  <span>{{post.title}}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <hr class="footer-preview-hr-non-amp" >
+  </div>
+  {% endif %}
+  {% if footer.addAffiliateWebsites %}
+  <div class="preview-fourth-row" >
+    <div class="menu-title">
+      <div class="links-div secondary_font">
+        <!-- run the loop here-->
+
+        {% for website_link in footer.addAffiliateWebsites %}
+        <a class="affiliate-website-link" href="{{website_link.link}}" aria-label="{{website_link.link}}">
+          <img class="image" loading="lazy" src="{{website_link.affliteWebsiteLogo|get_absolute_image_url('100,0')}}" />
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <hr class="footer-preview-hr-non-amp" >
+  </div>
+  {% endif %}
+  <div class="preview-last-row secondary_font">
+    <div class="copy-right-text-publive-logo">
+      <p class="copy-right-text" style="padding-bottom: 3px;">{{footer.copyRightText}}</p>
+      <span class="footer-v2-powered-by-label">
+      {% if publisher.publive_branding %}
+            {{ 'powered_by'|translate(lang)}} <a style="display: inline-block;padding: 0px 8px 0px 1px;font-size:14px;" aria-label="https://thepublive.com/contact_us" href="https://thepublive.com/contact_us">
+              <span class="publive-logo">
+              {% include "common_util_across_templates/svg_html/publive_brand_logo/publive_logo_black_svg.html"%}
+              </span>
+            </a>
+      {% endif %}
+      </span>
+    </div>
+  </div>
+  
+</div>
+</footer>
+{% endif %}

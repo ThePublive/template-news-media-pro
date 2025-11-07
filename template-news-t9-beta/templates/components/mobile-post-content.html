@@ -1,0 +1,287 @@
+
+<article class=" {%if not copy_content %} unselectable {%endif%}">
+    {% if slots.mobile_ap_top %}
+    <div class="responsive-ad-css">
+        <div class="ads-div-style   article-top-ads-style" style="{{slots.mobile_ap_top.custom_css_styles|safe}}">
+        <span class="publive-slot-span ">Advertisment</span>
+            {{ slots.mobile_ap_top.html_content|safe }}
+        </div>
+    </div>
+    {% endif %}
+  <div id="left-col">
+    <div  class="article-box article_main_div ck-content  article_scroll_post_{{post_data.post.legacy_url|valid_url_for_title_update}}" data-page-url="{{ post_data.post.legacy_url}}" data-page-title="{{ post_data.post.title|safe|truncatechars(67)|html_parse }}" data-page-primary-category="{{ post_data.post.primary_category.slug }}" data-page-author="{{ post_data.post.contributors.0.slug }}" data-page-post-id="{{ post_data.post.id }}" data-page-publisher-id="{{ publisher.id }}" data-page-lang-code="{{ post_data.post.language_code }}" data-page-publisher-domain="{{ publisher.actual_domain }}">
+      <div class="mobile_gutter-15">
+        <div class="d-flex mt-3">
+          {% if post_data.post.type == 'LiveBlog' and live_blog_status == 'Live' %}
+            {% include "decoupled_common_components/component/live_blog_component/article_live_blog_icon.html" %}
+          {% endif %}
+          <div class="tags-category primary_font">
+            {% if post_data.post.primary_category and post_data.post.type != 'CustomPage' %}
+                <a href="{{ post_data.post.primary_category.absolute_url}}" class="category-link category_{{post_data.post.primary_category.slug|slash_remove}}_text_color" aria-label="{{ post_data.post.primary_category.name }}" target="_blank">
+                    {{ post_data.post.primary_category.name }}
+                </a>
+            {% endif %}
+            {% if post_data.post.categories %}
+            {% if post_data.post.categories.0.slug != post_data.post.primary_category.slug %}
+                <a href="{{ post_data.post.categories.0.absolute_url }}" class="category-link category_{{post_data.post.categories.0.slug|slash_remove}}_text_color" aria-label="{{ post_data.post.categories.0.name }}" target="_blank">
+                    {{ post_data.post.categories.0.name }}
+                </a>
+            {% elif post_data.post.categories.1 and  post_data.post.categories.1.slug %}
+                <a href="{{ post_data.post.categories.1.absolute_url }}" class="category-link category_{{post_data.post.categories.1.slug|slash_remove}}_text_color" aria-label="{{ post_data.post.categories.1.name }}" target="_blank">
+                    {{ post_data.post.categories.1.name }}
+                </a>
+            {% endif %}
+            {% endif %}
+          </div>
+        </div>
+        <section class="flex-column">
+            <h1 class="post-title primary_font" >{{ post_data.post.title}}
+            </h1>
+            {% if slots.mobile_ap_after_title %}
+            <div class="responsive-ad-css">
+
+              <div class="ads-div-style   article-page-ads" style="{{slots.mobile_ap_after_title.custom_css_styles|safe}}">
+                  <span class="publive-slot-span ">Advertisment</span>
+                  {{ slots.mobile_ap_after_title.html_content|safe }}
+              </div>
+            </div>
+            {% endif %}
+        </section>
+        {% if post_data.post.summary %}
+            <section class="article-summary">
+              <h2 class="secondary_font">{{ post_data.post.summary}}
+              </h2>
+              {% if slots.mobile_ap_after_summary %}
+                <div class="ads-div-style   article-page-ads" style="{{slots.mobile_ap_after_summary.custom_css_styles|safe}}">
+                  <span class="publive-slot-span ">Advertisment</span>
+                  {{ slots.mobile_ap_after_summary.html_content|safe }}
+                </div>
+              {% endif %}
+            </section>
+        {% endif %}
+        <section id="article-content-section" class="secondary_font">
+          {% if post_data.post.read_short_story and   post_data.post.read_short_story.post_url and post_data.post.type != 'CustomPage' %}
+              <div class="author-data mobile_gutter-15 article-solo">
+                  <div class="author-img">
+                      {% if post_data.post.contributors  %}
+                          {% if post_data.post.contributors|length < 2 %}
+                              <img src="{% if post_data.post.contributors.0.avatar != None %}{{ post_data.post.contributors.0.avatar|get_absolute_image_url('100,0') }} {% else %} {{ static(template_key+'/assets/images/user-avatar.svg') }}{% endif %}" alt="author-image">
+                          {% endif %}
+                      {%else%}
+                        <img src="{{ static(template_key+'/assets/images/user-avatar.svg') }}"   alt="author image">
+                      {% endif %}
+                  </div>
+                  <div class="author">
+                      {% if post_data.post.contributors %}
+                          {% if post_data.post.contributors.0 %}
+                              <a href="{{ post_data.post.contributors.0.absolute_url }}" >{{ post_data.post.contributors.0.name }} </a>
+                          {% endif %}
+                          {% if post_data.post.contributors.1 %}
+                              <span class="by"> {{'and'|translate(lang)}} </span>
+                              <a href="{{ post_data.post.contributors.1.absolute_url }}" >{{ post_data.post.contributors.1.name }}    </a>
+                          {% endif %}
+                      {% endif %}
+                  </div>
+              </div>
+          {% endif %}
+  
+          <div class="article-stats mobile_gutter-15">
+              {% include "common_util_across_templates/svg_html/calendar-svg.html" %}
+              <time class="date">{{ post_data.post.formatted_first_published_at_datetime|date_time_format("%d %b %Y %H:%M")}} {{publisher.timezone.timezone_display_name}}</time>
+              {% if post_data.post.formatted_first_published_at_datetime != post_data.post.formatted_last_published_at_datetime %}
+              <span class="updated_date" style="color: #A9A5A5;">
+                  <svg width="3" height="3"  class='stat-divider' viewBox="0 0 3 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="1.5" cy="1.5" r="1.5" fill="#AAA7A7"/>
+                  </svg>
+  
+              </span>
+              <span class="updated_date"> {{ 'updated_on'|translate(lang)}}</span>
+              <time class="updated_date">{{post_data.post.formatted_last_published_at_datetime|date_time_format("%d %b %Y %H:%M")}} {{publisher.timezone.timezone_display_name}}</time>
+              {% endif %}
+              {% if post_data.post.read_time %}
+              <span class="read_time"> 
+                <svg class='stat-divider' width="3" height="3" viewBox="0 0 3 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="1.5" cy="1.5" r="1.5" fill="#AAA7A7"/>
+                </svg>
+                  {{post_data.post.read_time}} {{'minutes_read'|translate(lang)}}
+              </span>
+              {% endif %}
+          </div>
+  
+          <div class="article-detail mobile_gutter-15">
+            {% if post_data.post.read_short_story and  post_data.post.read_short_story.post_url %}
+                <div class='read_in_short_wrapper'>
+                  <a class="read_in_short-btn" href="https://{{ publisher.actual_domain }}{{post_data.post.read_short_story.post_url}}" aria-label={{post_data.post.read_short_story.post_url}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288H175.5L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3s-16.6-20.7-30-20.7H272.5L349.4 44.6z"/></svg>
+  
+                    <p lang={{lang}}>{{'read_in_short'|translate(lang)}}</p>
+                  </a>
+                </div>
+            {% elif post_data.post.type != 'CustomPage' %}
+                <div class="author-data">
+                  <div class="author-img">
+                    {% if post_data.post.contributors  %} 
+                      {% if post_data.post.contributors|length < 2 %}
+                        <img src="{% if post_data.post.contributors.0.avatar != None %}{{ post_data.post.contributors.0.avatar|get_absolute_image_url('100,0') }} {% else %} {{ static(template_key+'/assets/images/user-avatar.svg') }}{% endif %}" alt="author-image">
+                      {% endif %}
+                    {%else%}
+                      <img src="{{ static(template_key+'/assets/images/user-avatar.svg') }}"   alt="author image">
+                    {% endif %}
+                  </div>
+                  <div class="author">
+                      {% if post_data.post.contributors %}
+                        {% if post_data.post.contributors.0 %}
+                          <a href="{{ post_data.post.contributors.0.absolute_url }}" >{{ post_data.post.contributors.0.name }} </a>
+                        {% endif %}
+                        {% if post_data.post.contributors.1 %}
+                          <span class="by"> {{'and'|translate(lang)}} </span>
+                          <a href="{{ post_data.post.contributors.1.absolute_url }}" >{{ post_data.post.contributors.1.name }} </a>
+                        {% endif %}
+                      {% endif %}
+                  </div>
+                </div>
+            {% endif %}
+            <div class="sharelink social-link justify-content-end" id="share_links_above_article_mobile">
+              {% if google_publication_link %}
+  
+                  <a href="{{google_publication_link}}" class="google_news" aria-label="follow us google news" target="_blank">
+  
+                      <p>  <img src="{{ static('images/google_news.png',True)}}"> Follow Us</p>
+                  </a>
+              {% endif %}
+              {% include template_key~"/templates/components/common_utils/share-button.html" %}
+  
+            </div>
+          </div>
+          {% if not post_data.post.hide_banner_image %}
+              <figure style="margin:0px;">
+                <div class="article-image">
+                  {% if post_data.post.banner_url %}
+                          <img 
+                          data-hero 
+                          src="{{ post_data.post.banner_url|get_absolute_image_url('640,430') }}" 
+                          class="art-image" 
+                          alt="{{ post_data.post.banner_alt_text }}"
+                          fetchpriority="high"
+                          >
+                  {% endif %}
+              
+                  {% if allow_reader_login  %}
+                  <div class="mobile_bookmark_container">
+                        <a id="bookmark-redirect-btn-{{post_data.post.id}}" href="/reader/login">
+                            {% include template_key~'/templates/components/common_utils/svgs/add-bookmark-svg.html' %}
+                        </a>
+  
+                        <input id="article-post-id" type="text" value="{{post_data.post.id}}" class="display-none">
+                        <button id="add-bookmark-btn-{{post_data.post.id}}" onClick="add_bookmark('{{ post_data.post.id }}')" class="display-none">
+                              {% include template_key~'/templates/components/common_utils/svgs/add-bookmark-svg.html' %}
+                        </button>
+  
+                        <button id="remove-bookmark-btn-{{post_data.post.id}}" onClick="remove_bookmark('{{ post_data.post.id }}')" class="display-none">
+                            {% include template_key~'/templates/components/common_utils/svgs/remove-bookmark-svg.html' %} 
+                        </button>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+                {% if post_data.post.banner_description %}
+                    <figcaption>
+                        <div style="text-align:center;" class="image_description">
+                            <p style="font-style: italic;">{{ post_data.post.banner_description|safe }}</p>
+                        </div>
+                    </figcaption>
+                  {% endif %}
+              </figure>
+          {% endif %}
+          {% include template_key~"/templates/components/common_utils/featured-video.html" %}
+          {% if read_aloud_audio_file_path %}
+              {% include "decoupled_common_components/component/players/read_aloud_audio_player.html" %}
+          {% endif %}
+          {% if slots.mobile_ap_after_featured %}
+              <div class="mobile_gutter-15 responsive-ad-css">
+                  <div class="ads-div-style   article-page-ads after_featured_ad" style="{{slots.mobile_ap_after_featured.custom_css_styles|safe}}">
+                      <span class="publive-slot-span ">Advertisment</span>
+                          {{ slots.mobile_ap_after_featured.html_content|safe }}
+                  </div>
+              </div>
+          {% endif %}
+          <div class="article mobile_gutter-15" id="article_div_{{ post_data.post.id }}">
+                <div id="postContent" class="article-data
+                  {% if enable_show_article_button %}cropped hide-full-content{% endif %}
+                  {% if allow_reader_login and post_data.post.access_type != 'Public' %} paywall hide-full-content {% endif %}">
+                    {% if allow_reader_login and post_data.post.access_type != 'Public' %}
+                    <div id="access-wall-content">
+                        {% if post_data.post.type == 'Gallery' %}
+                            {% include "decoupled_common_components/component/gallery_post_content_block/gallery_post_content_block.html" %}
+                        {% else %}
+                                {{ post_data.post.trimmed_content|safe}}
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                
+                  <div id="post-container" {% if allow_reader_login and post_data.post.access_type != 'Public' %}  style="display:none;"{% endif %} >
+                      {% if post_data.post.type == 'Gallery' %}
+                          {% include "decoupled_common_components/component/gallery_post_content_block/gallery_post_content_block.html" %}
+                      {% else %}
+                          {{ post_data.post.content|safe}}
+                          {% if post_data.post.type == "LiveBlog" and post_data.post.blog_update %}
+                              {% include "decoupled_common_components/component/live_blog_component/article_live_blog_updates.html" %}
+                          {% endif %}
+                      {% endif %}
+                </div>
+              
+              {% if slots.mobile_ap_after_article %}
+              <div class="responsive-ad-css">
+
+                  <div class="ads-div-style   article-mid-ads-style margin-mobile_gutter-15 article_after_ads {% if enable_show_article_button %}hide_article_content{% endif %}" style="{{slots.mobile_ap_after_article.custom_css_styles|safe}}" {% if enable_show_article_button %}[class]="expand_after_ad"{% endif %}>
+                      <span class="publive-slot-span ">Advertisment</span>
+                      {{ slots.mobile_ap_after_article.html_content|safe }}
+                  </div>
+              </div>
+              {% endif %}
+          </div>
+          {% if enable_show_article_button %}
+                <!-- At the end of the article, Read More -->
+                    <div class="read-more-box access-wall-comp
+                    {% if allow_reader_login and post_data.post.access_type != 'Public' %} d-none {%endif%}
+                    secondary_font" >
+                        <button class="read-more-btn" onClick="show_full_article('{{ post_data.post.id }}');this.style.display = 'none';" data-id="{{ post_data.post.id }}">
+                            Read More 
+                            {%set color=link_text_color%}
+                            {% include template_key~"/templates/components/common_utils/svgs/read-more-svg.html" %}
+                        </button>
+                    </div>
+              {% endif %}
+          <div class="tags-category {% if enable_show_article_button %}hide_article_content{% endif %}" id="article_tag_{{ post_data.post.id }}">
+            {% for tag in post_data.post.tags %}
+                <a href="{{ tag.absolute_url }}" class="" aria-label="{{ tag.name }}" target="_blank">
+                    {{ tag.name }}</a>
+            {% endfor %}
+          </div>
+        <section>
+      </div>
+        <aside>
+          {% if vuukle_module.enabled %}
+            <div id="vuukle-module" class="vuukle-module-css {% if enable_show_article_button and vuukle_module.under_read_more %}hide_article_content{% endif %} ">
+                {% if vuukle_module.comment %}
+                    <div id='vuukle-comments'  class="vuukle_comments_module next_page_hide"></div>
+                {% endif %}
+                {% if vuukle_module.quiz %}
+                    <div id='vuukle-quiz'  class="vuukle_comments_module next_page_hide"></div>
+                {% endif %}
+            </div>
+          {% endif %}
+          {% include template_key~"/templates/components/common_utils/related-post-slider.html" %}
+        </aside>
+        <section class="read-more-article-box" style="display:none;">
+          <span class="divider-line"></span>
+          <span class="next-article-dropdown">
+              {{ 'read_next_article'|translate(lang )}}
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15" height="15"><path fill="{{ publisher.link_color }}" stroke="{{ publisher.link_color }}" d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>   		
+          </span>
+          <span class="divider-line"></span>
+      </section>
+    </div>
+    
+  </div>
+</article>

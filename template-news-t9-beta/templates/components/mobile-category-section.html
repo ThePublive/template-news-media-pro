@@ -1,0 +1,36 @@
+{% for post_section ,category in category_section_posts_list|zip(new_categories_list) %}
+{% set brand_color = category.category_brand_color if category.category_brand_color is not none else publisher.link_color %}
+{% if post_section.posts|length > 0 %}
+		<section class="category-section" style="margin-bottom:20px;">
+			<a class='publisher_color category-title' href="{{ post_section.absolute_url }}">
+					<h2 style="--category-brand-color: {{ brand_color }};margin-bottom: 0px;" class=" category_publisher_color publisher_color line-title primary_font">
+							{{ post_section.name }}
+					</h2>
+					<div style="--category-brand-color: {{ brand_color }};" class="line category_publisher_color"></div>
+			</a>
+      {%set featured = False%}
+			{% include template_key~'/templates/components/mobile-hero-section.html' %}
+
+      {% if post_section.posts_without_banner %}
+        {%set posts=post_section.posts_without_banner%}
+        {% include template_key~"/templates/components/common_utils/post_cards/post-card-8.html"  %}
+      {% endif %}
+		</section>
+
+    {% if loop.index <= 9 %}
+      {%  set slot_content=get_dynamic_slot( slots ,'mobile_hp_', (loop.index+1)) %}
+      {% if slot_content %}
+      <div class="responsive-ad-css">
+      <div class="ads-div-style   mid-ads-style" style="{{slot_content.custom_css_styles|safe}}">
+          <span class="publive-slot-span ">Advertisment</span>
+          {{ slot_content.html_content|safe }}
+      </div>
+      </div>
+      {% endif %}
+    {% endif %}
+{% endif %}
+ {% include template_key~"/templates/components/common_utils/webstory-module.html" %}
+{% endfor %}
+
+
+

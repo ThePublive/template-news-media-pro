@@ -1,0 +1,75 @@
+
+{% if page_type == 'HomePage' %}
+    <!-- Featured Section -->
+    {% if post_section.posts|length == 1 %}
+        {% include template_key~'/templates/components/section_layouts/layout_type_1.html'  %}
+    {% elif post_section.posts|length == 2 %}
+        {% include template_key~'/templates/components/section_layouts/layout_type_2.html'  %}
+    {% else %}
+        {% if image_aspect_ratio == '16/9' and not enable_native_legacy_ui %}
+            {% include template_key~'/templates/components/section_layouts/layout_type_2.html'  %}
+        {% else %}
+            {% include template_key~'/templates/components/section_layouts/layout_type_3.html' %}
+        {% endif %}
+    {% endif %}
+{% elif not enable_native_legacy_ui %}
+<!-- Category, Tag & Author Section -->
+{% include template_key~'/templates/components/section_layouts/layout_type_1.html' %}
+    {% else %}
+{% include template_key~'/templates/components/section_layouts/layout_type_2.html' %}
+{% endif %}
+
+<div class="post-layout posts-layout-2 native-legacy-row-template">
+    {% if post_section.posts %}
+        {% for post in post_section.posts %}
+            {% if image_aspect_ratio == '16/9' and loop.index > 2 and not enable_native_legacy_ui %}
+                {% if featured %}
+                        {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
+                {% else %}
+                    {% if loop.index < 6 %}
+                        {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
+                    {% endif %}
+                {% endif %}
+            {% elif loop.index > 3 and page_type == 'HomePage' %}
+                {% if featured %}
+                        {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
+                {% else %}
+                    {% if loop.index < 6 and enable_native_legacy_ui %}
+                        {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
+                    {% elif loop.index < 7  and not enable_native_legacy_ui%}
+                        {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
+                    {% endif %}
+                {% endif %}
+            {% elif loop.index > 1 and page_type != 'HomePage' and not enable_native_legacy_ui %}
+                <div class="" >
+                    {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
+                </div>
+            {% elif loop.index > 2 and page_type != 'HomePage' and enable_native_legacy_ui %}
+                <div class="" >
+                    {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+{% if page_type == 'AuthorPage' or page_type == 'TagPage' or page_type == 'CategoryPage' %}
+{% if allows_newsletter_subs %}
+    <div class="listing_pages_newsletter display-none">
+        {% include template_key~'/templates/components/subscribe-block.html' %}
+    </div>
+{% endif %}
+<!--  pagination C.A.T Pages  -->
+{% include template_key~'/templates/components/common_utils/pagination.html' %}
+{% endif %}
+
+{% if page_type != 'HomePage' %}
+    {% if slots.desktop_cp_bottom %}
+    <div class="responsive-ad-css">
+
+        <div class="ads-div-style   other-page-ads-bottom" style="margin-top:10px;margin-bottom:10px;{{slots.desktop_cp_bottom.custom_css_styles|safe}}">
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slots.desktop_cp_bottom.html_content|safe }}
+        </div>
+    </div>
+    {% endif %}
+{% endif %}

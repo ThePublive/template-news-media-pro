@@ -1,0 +1,52 @@
+
+<div class="subscribe-div-body-right-side" >
+        <div class="subscribe_div d-flex" >
+          <div class="subscribe-text primary_font" style="align-items: flex-start;zoom: 0.9;">
+            <span class="subscribe-text-head-right-side">{{ 'subscribe_to_our_newsletter'|translate(lang) }}!</span>
+            <span style="color: #908F8F;margin: 14px 0px;">
+              {{ 'be_the_first_to_get_exclusive_offers_and_the_latest_news'|translate(lang) }}</span>
+            </div>
+            <div class="horizontal-separator-line"></div>
+            <div class="subscribe-text primary_font" style="align-items: flex-start;zoom: 0.9;">
+            <form id="right_col_subscribe" method="post" target="_top" role=button tabindex=0 >
+              {% if newsletter_groups_data %}
+                <div class="right-side-newsletter">
+                  <div class="newsletter_groups">
+                    <div class="newsletter_group_div">
+                        <input type="checkbox" name="" value="" checked >
+                        <div class="text-div">
+                            <h6 class="text">All groups</h6>
+                        </div>
+                    </div>
+                    {% for each in newsletter_groups_data %}
+                        {% if loop.index <= 5 %}
+                            <div class="newsletter_group_div">
+                                <input type="checkbox" name="group_ids" value="{{ each.id}}" >
+                                <div class="text-div">
+                                    <h6 class="text">{{ each.name}}</h6>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if newsletter_groups_data|length > 5 %}
+                        <a class="newsletter_group_div" href="/newsletter/subscribe">
+                            <div class="text-div">
+                                <h6 class="see-all-newslletter">See all newsletters</h6>
+                            </div>
+                        </a>
+                    {% endif %}
+                </div>
+              </div>
+              {% endif %}
+                <input type="text" name="name" placeholder="{{ 'your_name'|translate(lang) }}" [hidden]="hidden_atr_right_form" class="w-100 subscribe-text-head " style="margin-bottom: 1rem;">
+                <input type="email" name="email" placeholder="{{ 'email_address'|translate(lang) }}" [hidden]="hidden_atr_right_form" class="w-100 subscribe-text-head" style="margin-bottom: 1rem;">
+                {% if captcha_enable %}
+                <input type="hidden" name="check_for_captcha" value='1' >
+                <div class="g-recaptcha mb-3 right-captcha" data-sitekey="{{captcha_site_key}}"></div>
+                {% endif %}
+                <button  type="button" class="w-100 right_subscribe_submit_btn" style="padding: 8px 0px;" [disabled]="disable_right" [hidden]="hidden_atr_right_form"><span class="subscribe-text-head">{{ 'subscribe_now'|translate(lang) }}</span></button>
+                <div class="newsletter_msg_right secondary_font" style="padding-top: 15px;"><p>{{message}}</p></div>
+            </form>
+          </div>
+        </div>
+      </div>

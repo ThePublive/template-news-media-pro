@@ -1,0 +1,63 @@
+
+
+<div class="header new-header">
+  <nav class="main-menu primary_font" id="main-menu">
+      <ul class="main-menu nav">
+          {%for navbar_items in navbar_components %}
+            {% set processed_navbar_link = prepend_domain(navbar_items.link,publisher.actual_domain) or "" %}
+            {% set processed_request_path = prepend_domain(request.path , publisher.actual_domain) or "" %}
+              <li class="main-menu-dropdown new-menu">
+                <span class="dropdown-item-s hover_bottom {% if processed_navbar_link in processed_request_path %}active_link_nav_nested{% endif %} first-drop">
+                <a {% if navbar_items.link %} href="{{navbar_items.link}}" {% if navbar_items.open_new_tab %}target="_blank"{% endif %} {% endif %} class="navbar_name open_tab">
+                    {{navbar_items.name}}
+                  </a>
+                  {% if navbar_items.children %}
+                  <span class="main-menu-dropdown-icon" style="margin: 0 0px; ">
+                      <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="https://www.w3.org/2000/svg">
+                          <path d="M1 1L6 6L11 1"  stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                  </span>
+                  {% endif %}
+                </span>
+                
+                <input type="checkbox" id="dropdown-list-{{navbar_items.name}}">
+                {% if navbar_items.children %}
+                  <ul class="main-menu-dropdown-list first-submenu" id="{{navbar_items.id}}">
+                    {% for menu in navbar_items.children %}
+                    <li>
+                      {% set processed_menu_link = prepend_domain(menu.link, publisher.actual_domain) or "" %}
+                      <span class="dropdown-item-s">
+                        <a class="sub_navbar_name hover_bottom {% if processed_menu_link in processed_request_path %}active_link_nav_nested{% endif %}" {% if menu.link %} {% if menu.open_new_tab %}target="_blank"{% endif %} href="{{menu.link}}" {% endif %} ><span>{{menu.name}}</span>
+                        </a>
+                        {% if menu.children %}
+                        <span class="main-menu-dropdown-icon open_tab" style=" margin: 0 0px; ">
+                          <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="https://www.w3.org/2000/svg">
+                            <path d="M1 1L6 6L1 11" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </span>
+                        {% endif %}
+                      </span>
+                              {% if menu.children %}
+                              <input type="checkbox" id="main-menu-dropdown-list-{{navbar_items.name}}-{{loop.index}}">
+                                <ul class="main-menu-dropdown-list {%if menu.children|length > 10 %} more_10 {% endif %} second-submenu" id="{{menu.id}}{{loop.index}}">
+                                  {% for submenu in menu.children %}
+                                  {% set processed_submenu_link = prepend_domain(submenu.link, publisher.actual_domain) or "" %}
+                                    <li>
+                                      <a class="sub_navbar_name hover_bottom {% if processed_submenu_link in processed_request_path %}active_link_nav_nested {% endif %}" {% if submenu.link %} {% if submenu.open_new_tab %}target="_blank"{% endif %} href="{{submenu.link}}" {% endif %} >{{submenu.name}}
+                                      </a>
+                                    </li>
+                                  {% endfor %}
+                                </ul>
+                              {% endif %}
+                    </li>
+                  {% endfor %}
+                  </ul>
+                {% endif %}
+              </li>
+          {%endfor%}
+      </ul>
+  </nav>
+</div>
+{% if not is_mobile_device %}
+{% include "common_util_across_templates/component/meta_data/navbar_position_script/script.html" %}
+{% endif %}

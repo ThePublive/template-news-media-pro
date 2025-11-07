@@ -1,0 +1,25 @@
+{% for post in post_section.posts %}
+{% if loop.index ==1 %}
+{% include template_key~'/templates/components/common_utils/post_cards/post-card-6.html' %}
+{% endif %}
+{% endfor %}
+{% if counter == 1 and featured %}
+  {% include 'dashboards/banner_right.html' %}
+{% endif %}
+<div class="post-layout-2">
+{% for post in post_section.posts %}
+    {% if loop.index > 1 %}
+    {% if featured %}
+        {% include template_key~'/templates/components/common_utils/post_cards/post-card-7.html'  %}
+      {% else %}
+        {% if loop.index < 8 %}
+          {% include template_key~'/templates/components/common_utils/post_cards/post-card-7.html'%}
+        {% endif %}
+    {% endif %}
+    {% endif %}
+{% endfor %}
+</div>
+{% if page_type == 'CategoryPage' or page_type == 'AuthorPage' or page_type == 'TagPage' %}
+  <!--  pagination C.A.T Pages -->
+  {% include template_key~'/templates/components/common_utils/pagination.html' %}
+{% endif %}

@@ -1,0 +1,37 @@
+<main>
+  <div class="secondary">
+      {% if slots.mobile_cp_top %}
+        <div class="responsive-ad-css">
+          <div class="ads-div-style   other-top-ads-style" style="{{slots.mobile_cp_top.custom_css_styles|safe}}">
+              <span class="publive-slot-span ">Advertisment</span>
+              {{ slots.mobile_cp_top.html_content|safe }}
+          </div>
+        </div>
+      {% endif %}
+      <h1 class="primary_font">Authors</h1>
+      {% for author in authers_list.results %}
+        {% include template_key~"/templates/components/author-tile.html" %}
+      {% endfor %}
+      {%set next_page=authers_list.next%}
+      {%set prev_page=authers_list.previous%}
+      {% include template_key~"/templates/components/common_utils/pagination.html" %}
+      <br>
+      {#subscribe block #}
+      <br>
+
+      {% if slots.mobile_cp_bottom %}
+      <div class="responsive-ad-css">
+          <div class="ads-div-style   other-bottom-ads-style" style="{{slots.mobile_cp_bottom.custom_css_styles|safe}}">
+              <span class="publive-slot-span ">Advertisment</span>
+              {{ slots.mobile_cp_bottom.html_content|safe }}
+          </div>
+        </div>
+      {% endif %}
+
+      <br>
+      {% if slots.mobile_cp_sticky %}
+          {{ slots.mobile_cp_sticky.html_content|safe }}
+      {% endif %}
+  </div>
+
+</main>

@@ -1,0 +1,34 @@
+<main>
+  <div class="secondary mt-3">
+  {% if slots.mobile_hp_top %}        
+  <div class="responsive-ad-css">
+    <div class="ads-div-style   top-ads-style" style="{{slots.mobile_hp_top.custom_css_styles|safe}}">
+      <span class="publive-slot-span ">Advertisment</span>
+      {{ slots.mobile_hp_top.html_content|safe }}
+    </div>
+    </div>
+      {% endif %}
+  {% if post_section_list %}
+    {% for post_section in post_section_list %}
+      <section id="featured-section">
+        {%set featured=True %}
+        {%set counter=loop.index %}
+        {%set post_section = post_section %}
+        {% include template_key~'/templates/components/mobile-hero-section.html'%}
+      </section>
+    {% endfor %}
+    {% if slots.mobile_hp_1 %}
+    <div class="responsive-ad-css">
+      <div class="ads-div-style   mid-ads-style" style="{{slots.mobile_hp_1.custom_css_styles|safe}}">
+        <span class="publive-slot-span ">Advertisment</span>
+        {{ slots.mobile_hp_1.html_content|safe }}
+      </div>
+    </div>
+    {% endif %}
+  {% endif %}
+      {%set featured=False%}
+    {% include template_key~"/templates/components/mobile-category-section.html"  %}
+  <br>
+
+  </div>
+</main>

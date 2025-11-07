@@ -1,0 +1,27 @@
+
+<div class="modal fade" id="search-modal" tabindex="-1" aria-labelledby="search_modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        {% include template_key~"/templates/components/common_utils/search-bar.html" %}
+        
+        <div class="gh-topic-slider-wrapper">
+        
+                <h4 class="gh-topic-h4">ELLE RECOMMENDS</h4>
+                <div class="gh-topic-slider gh-topic-slider--xs">
+                    <div  id="recommended-pick" class="swiper-wrapper post-wrapper post-author-wrapper-xs  gh-topic-swiper-wrapper">
+
+                    </div>
+                    <div class="sliding-arrow d-none"style="display: none;">
+                      <button class="gh-prev-slide-btn" aria-label="">
+                          {% include template_key~"/templates/components/common_utils/svgs/left-arrow.html" %}
+                      </button>
+                      <button class="gh-next-slide-btn" aria-label="">
+                          {% include template_key~"/templates/components/common_utils/svgs/right-arrow.html" %}
+                      </button>
+                    </div>
+                </div>
+            </div>
+      </div>
+  </div>
+</div>

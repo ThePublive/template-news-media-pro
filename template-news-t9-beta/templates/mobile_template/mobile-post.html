@@ -1,0 +1,15 @@
+<main>
+  {% include template_key~'/templates/components/mobile-post-content.html' %}
+  <!-- subscirbe block -->
+    <aside>
+    
+    {% if slots.mobile_ap_bottom %}
+    <div class="responsive-ad-css">
+        <div class="ads-div-style   article-mid-ads-style margin-mobile_gutter-15" style="{{slots.mobile_ap_bottom.custom_css_styles|safe}}">
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slots.mobile_ap_bottom.html_content|safe }}
+        </div>
+    </div>
+    {% endif %}
+</aside>
+</main>

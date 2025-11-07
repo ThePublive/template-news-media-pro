@@ -1,0 +1,74 @@
+
+{% if is_mobile_device %}
+    {% if page_type == 'HomePage' %}
+        {% if slots.mobile_hp_above_navbar %}
+        <div class="responsive-ad-css">
+
+            <div class="ads-div-style nav_ad_height above_navbar_component" style="{{slots.mobile_hp_above_navbar.custom_css_styles|safe}};margin-top: 0px;margin-bottom:0px;position:relative;">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.mobile_hp_above_navbar.html_content|safe }}
+            </div>
+        </div>
+        {% endif %}
+    {% elif page_type == 'ArticlePage' %}
+        {% if slots.mobile_ap_above_navbar %}
+        <div class="responsive-ad-css">
+
+            <div class="ads-div-style nav_ad_height above_navbar_component" style="{{slots.mobile_ap_above_navbar.custom_css_styles|safe}};margin-top: 0px;margin-bottom:0px;position:relative;">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.mobile_ap_above_navbar.html_content|safe }}
+            </div>
+        </div>
+        {% endif %}
+    {% else %}
+        {% if slots.mobile_cp_above_navbar %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style nav_ad_height above_navbar_component" style="{{slots.mobile_cp_above_navbar.custom_css_styles|safe}};margin-top: 0px;margin-bottom:0px;position:relative;">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.mobile_cp_above_navbar.html_content|safe }}
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+{% else %}
+    {% if page_type == 'HomePage' %}
+        {% if slots.desktop_hp_above_navbar %}
+        <div class="responsive-ad-css">
+
+            <div class="ads-div-style nav_ad_height above_navbar_component" style="{{slots.desktop_hp_above_navbar.custom_css_styles|safe}};margin-top: 0px;margin-bottom:0px;position:relative;">
+                <button class="ad_close_btn">
+                    <img src="{{ static ('images/svg icons/cross_svg.svg',True) }}" alt="ad_close_btn" />
+                </button>
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_hp_above_navbar.html_content|safe }}
+            </div>
+        </div>
+        {% endif %}
+    {% elif page_type == 'ArticlePage' %}
+        {% if slots.desktop_ap_above_navbar %}
+        <div class="responsive-ad-css">
+
+            <div class="ads-div-style nav_ad_height above_navbar_component" style="{{slots.desktop_ap_above_navbar.custom_css_styles|safe}};margin-top: 0px;margin-bottom:0px;position:relative;">
+                <button class="ad_close_btn">
+                    <img src="{{ static ('images/svg icons/cross_svg.svg',True) }}" alt="ad_close_btn" />
+                </button>
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_ap_above_navbar.html_content|safe }}
+            </div>
+        </div>
+        {% endif %}
+    {% else %}
+        {% if slots.desktop_cp_above_navbar %}
+        <div class="responsive-ad-css">
+                <div class="ads-div-style nav_ad_height above_navbar_component" style="{{slots.desktop_cp_above_navbar.custom_css_styles|safe}};margin-top: 0px;margin-bottom:0px;position:relative;">
+                    <button class="ad_close_btn">
+                        <img src="{{ static ('images/svg icons/cross_svg.svg',True) }}" alt="ad_close_btn" />
+                    </button>
+                    <span class="publive-slot-span ">Advertisment</span>
+                    {{ slots.desktop_cp_above_navbar.html_content|safe }}
+                </div>
+        </div>
+        {% endif %}
+    {% endif %}
+{% endif %}

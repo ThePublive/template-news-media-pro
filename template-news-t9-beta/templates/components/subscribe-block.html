@@ -1,0 +1,43 @@
+<div class="newsletter-body" next-page-hide>
+    <div class="">
+      <div class="subscribe-div-body">
+        <div>
+          <div class="subscribe-text primary_font" style="align-items: flex-start;">
+            <span class="subscribe-text-head">{{ 'subscribe_to_our_newsletter'|translate(lang )}}!</span>
+            <span style="color: #908F8F;margin: 14px 0px;">
+              {{ 'be_the_first_to_get_exclusive_offers_and_the_latest_news'|translate(lang )}}</span>
+            </div>
+            <div class="horizontal-separator-line"></div>
+            <div class="subscribe-text primary_font" style="align-items: flex-start;">
+            <form id="subscribe_to_newsletter" method="post" target="_top" class="secondary_font" role=button tabindex=0>
+              {% if newsletter_groups_data %}
+                {% include template_key~"/templates/components/common_utils/newsletter-group.html" %}
+              {% endif %}
+              <div class="d-flex">
+                <div class="w-50">
+                  <img class="calender_logo" alt="logo" src="{{ static(template_key+"/assets/images/newsletter_new_icon.svg") }}">
+                </div>
+                <div class="w-50">
+                    <input type="text" name="name" placeholder="{{ 'your_name'|translate(lang )}}" [hidden]="hidden_atr" class="w-100 subscribe-text-head " style="margin-bottom: 1rem;">
+                    <input type="email" name="email" placeholder="{{ 'email_address'|translate(lang )}}" [hidden]="hidden_atr" class="w-100 subscribe-text-head" style="margin-bottom: 1rem;">
+                    {% if captcha_enable %}
+                    <input type="hidden" name="check_for_captcha" value='1' >
+                    <div class="g-recaptcha mb-3" data-sitekey="{{captcha_site_key}}"></div>
+                    {% endif %}
+                    <button class="w-100 subscribe_submit_btn" style="padding: 8px 0px;" [disabled]="disable" [hidden]="hidden_atr"><span class="subscribe-text-head" >{{ 'subscribe_now'|translate(lang )}}</span></button>
+                    <div class="success newsletter_msg" style="padding-top: 15px;">
+                      <p >{{message}}</p>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% block script %}
+{% if captcha_enable %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endif %}
+{% endblock script %}

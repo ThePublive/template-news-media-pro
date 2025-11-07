@@ -1,0 +1,13 @@
+{% extends template_key~"/templates/default.html" %}
+
+{% block content %}
+<main>
+  <div class="uni-padding">
+      <div class="{% if not is_mobile_device %}main{% endif %}">
+          <div id="left-col">
+            {%include 'decoupled_common_components/component/access_wall_template/manage_subscription.html'%}
+          </div>
+      </div>
+  </div>
+</main>
+{% endblock %} 

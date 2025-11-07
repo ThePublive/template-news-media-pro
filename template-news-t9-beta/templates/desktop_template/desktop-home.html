@@ -1,0 +1,53 @@
+<main>
+  {% if slots.desktop_hp_top %}
+  <div class="responsive-ad-css">
+
+  <div class="ads-div-style   top-ad-height ad-top-mar" style="{{slots.desktop_hp_top.custom_css_styles|safe}}">
+      <span class="publive-slot-span ">Advertisment</span>
+      {{ slots.desktop_hp_top.html_content|safe }}
+  </div>
+  </div>
+  {% endif %} 
+  <div class="uni-padding">
+      {% if slots.desktop_hp_gutter_lhs %}
+      <div class="responsive-ad-css">
+
+          <div class="ads-div-style   sidebar-slots left-sidebar-slots" style="{{slots.desktop_hp_gutter_lhs.custom_css_styles|safe}}">
+              {{ slots.desktop_hp_gutter_lhs.html_content|safe }}
+          </div>
+          </div>
+      {% endif %}
+      <div class="main" style="flex-direction:row-reverse;">
+          {% include template_key~'/templates/components/latest-stories.html' %}
+          <div id="left-col">
+              {% if post_section_list %}
+                  {% for post_section in post_section_list %}
+                      <section id="featured-section" style="margin-bottom:20px;">
+                          {%set featured=True%}
+                          {% include template_key~'/templates/components/hero-section.html' %}
+                      </section>
+                  {% endfor %}
+                  {% if slots.desktop_hp_1 %}
+                    <div class="responsive-ad-css">
+                      <div class="ads-div-style   top-ad-height" style="{{slots.desktop_hp_1.custom_css_styles|safe}}">
+                          <span class="publive-slot-span ">Advertisment</span>
+                          {{ slots.desktop_hp_1.html_content|safe }}
+                      </div>
+                    </div>
+                  {% endif %}
+              {% endif %}
+              {% include template_key~"/templates/components/category-section.html" %}
+          
+          </div>
+
+      </div>
+      {% if slots.desktop_hp_gutter_rhs %}
+      <div class="responsive-ad-css">
+
+          <div class="ads-div-style   sidebar-slots right-sidebar-slots" style="{{slots.desktop_hp_gutter_rhs.custom_css_styles|safe}}">
+              {{ slots.desktop_hp_gutter_rhs.html_content|safe }}
+          </div>
+          </div>
+      {% endif %}
+  </div>
+</main>

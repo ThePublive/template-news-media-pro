@@ -1,0 +1,65 @@
+
+
+<div id="mySidenav" class="sidenav desktop-sidebar">
+  <div class="item_top">
+      <div class="lang-comp d-flex align-items-center justify-content-between">
+          <div class="dropdown">
+              {% if redirect_websites %}
+              <button class="btn lang-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{ content_website.name|translate(lang) }}
+                  <svg style="margin-left: 5px;" width="12" height="7" viewBox="0 0 12 7" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 1L6 6L11 1"  stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+              </button>
+              <ul class="dropdown-menu lang-dropdown shadow-sm">
+                  {% for website in redirect_websites %}
+                    <li>
+                      <a href="{{ website.url }}" style="color: #000" target="_blank"
+                        class="d-flex justify-content-between {% if website.name['0:2'] == lang|title %}active{% endif %}">
+                            {{ website.name }}
+                      </a>
+                    </li>
+                  {% endfor %}
+              </ul>
+              {% endif %}
+          </div>
+          
+          <div style="cursor:pointer;" class="sidebar-button">
+              <img src="{{ static(template_key+'/assets/images/close-icon.svg')}}" alt="ad_close_btn" />
+          </div>
+    </div>
+    
+    <ul class="menu_bar">
+      <div class="search_left">
+        <span class="search_form" style="position: relative;">
+       
+            <form action="https://{{publisher.actual_domain}}/search" method="GET"  class="nav_search_form" target="_top">  <button aria-label="Search Button" type="submit" class="jeg_search_button"> 
+                {% include template_key~"/templates/components/common_utils/svgs/search.html" %}
+            </button>
+            <!-- CustomValidity HTMLObjectElement method for overriding tooltip  -->
+            <input name="title" class="search_input" placeholder="{{'search_for_articles'|translate(lang) }}..." type="text" value="" autocomplete="off" required  oninvalid="this.setCustomValidity(' ')"></form>
+            </span>
+    </div>
+        {%for navbar_items in sidebar_categories %}
+            <li class="menu_li dropdown_button" >
+                <a class=" hover_bottom {%if request.path|slash_remove == navbar_items.slug %} side_nav_active {%endif%} side_a position-relative" href="{{navbar_items.absolute_url}}"target="_top" aria-label="{{ navbar_items.name }}">{{navbar_items.name}} </a>
+            </li>
+        {%endfor%}
+    </ul>
+  </div>
+  <div class="item_bottom sidebar_social_link secondary_font">
+      {% include 'theme_templates/legacy_theme_v2/component/social_links_v2.html' %}
+      {% if publisher.publive_branding %}
+        <span class="tc-and-privacy-text d-lg-block mt-2" style="display:flex;">
+            <p class="powered_by  powered_by_publive title_link justify-content-center" style="font-size:14px;" >
+                {{ 'powered_by'|translate(lang)}} :
+                <span>
+                  <a style="margin-bottom:0px;" target="_blank" href="https://thepublive.com" aria-label="publive link">
+                    {% include "common_util_across_templates/svg_html/publive_brand_logo/publive_logo_black_svg.html"%}
+                  </a>
+                </span>
+            </p>
+        </span>
+      {% endif %}
+  </div>
+</div>

@@ -1,0 +1,23 @@
+{% set custom = custom | default({}) %}
+{% set meta_tags = meta_tags | default({}) %}
+
+<header id="gh-head" class="mega-menu gh-header full-width fixed gh-head"  >
+    
+    <!-- Above Navbar Ad -->
+    {% include template_key~"/templates/components/slots/slots_above_navbar.html" %}
+    <!-- Banner Notification -->
+    {%include template_key~'/templates/components/common_utils/banner_notification.html'%}
+
+    <div class="row"  style="margin:0px;" >
+        <div class="col-md-12 px-0">
+            <!-- navigation bar -->
+            {% include template_key~'/templates/components/common_utils/navigation.html' %}
+        </div>
+    </div>
+    {% if is_mobile_device %}
+        {% include template_key~"/templates/components/sidebar/mobile-sidebar.html" %}
+    {% else %}
+        {% include template_key~"/templates/components/sidebar/desktop-sidebar.html" %}
+    {% endif %}
+
+</header>

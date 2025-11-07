@@ -1,0 +1,17 @@
+{% if banner_notification.banner_text %}
+<div class="sticky-banner">
+    {% if banner_notification.url %}
+        <a href="{{ banner_notification.url }}" target="_blank" style="color: white;">
+            <div style="width: 90%; margin: 0px auto;cursor: pointer;">
+                <label class="primary_font" for="" style="cursor: pointer;">
+                    {{ banner_notification.banner_text }}
+                </label>
+            </div>
+        </a>
+    {% else %}
+            <label class="primary_font" for="" >
+                {{ banner_notification.banner_text }}
+            </label>
+    {% endif %}
+</div>
+{% endif %}
