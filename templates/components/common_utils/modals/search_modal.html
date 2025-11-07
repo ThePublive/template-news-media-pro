@@ -1,180 +1,29 @@
-{# Search Modal #}
-<div class="search-modal" id="searchModal" style="display: none;">
-    <div class="search-modal-overlay" onclick="closeSearchModal()"></div>
-    <div class="search-modal-content">
-        <div class="search-modal-header">
-            <h3>Search</h3>
-            <button class="search-modal-close" onclick="closeSearchModal()" aria-label="Close search">
-                {% include template_key~'/templates/components/common_utils/svgs/close.html' %}
-            </button>
-        </div>
-        <div class="search-modal-body">
-            <form action="/search" method="GET" class="search-form">
-                <div class="search-input-wrapper">
-                    <input
-                        type="text"
-                        name="q"
-                        class="search-input"
-                        placeholder="Search articles, authors, topics..."
-                        autocomplete="off"
-                        autofocus
-                    >
-                    <button type="submit" class="search-submit-btn" aria-label="Submit search">
-                        {% include template_key~'/templates/components/common_utils/svgs/search.html' %}
-                    </button>
-                </div>
+<div class="modal fade pub-platform-signin-modal" id="legacy_search_form" tabindex="-1" aria-labelledby="search_modalLabel" aria-hidden="true">
+    <div class="modal-dialog translate_align_vertical">
+        <div class="modal-content">
+            <div class="modal-body">
+              <form class="search-form secondary_font" action="https://{{publisher.actual_domain}}/search" method="GET" target="_top" >
+                <input id='search-input' type="search" name="title" value="{% if q != None %}{{ q }}{% endif %}"
+                    placeholder="{{ 'search_for_articles'|translate(lang) }}" required />
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="27.564" height="30.381"
+                        viewBox="0 0 27.564 30.381">
+                        <g id="Group_303" data-name="Group 303"
+                        transform="translate(-11877.375 17095.694)">
+                            <path id="Path_51" data-name="Path 51"
+                                d="M20.691,10.345A10.345,10.345,0,1,1,10.345,0,10.345,10.345,0,0,1,20.691,10.345Z"
+                                transform="translate(11881.949 -17094) rotate(8)" fill="none"
+                                stroke="#181818" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="3"></path>
+                            <path id="Path_52" data-name="Path 52" d="M5.625,5.625,0,0"
+                                transform="translate(11896.973 -17074.063) rotate(8)" fill="none"
+                                stroke="#181818" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="3"></path>
+                        </g>
+                    </svg>
+                </button>
             </form>
-            {% if recent_searches and recent_searches|length > 0 %}
-            <div class="search-recent">
-                <h4>Recent Searches</h4>
-                <ul class="search-recent-list">
-                    {% for search in recent_searches %}
-                    <li>
-                        <a href="/search?q={{ search|urlencode }}">{{ search }}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
             </div>
-            {% endif %}
         </div>
     </div>
 </div>
-
-<script>
-function openSearchModal() {
-    document.getElementById('searchModal').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeSearchModal() {
-    document.getElementById('searchModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-// Close on Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeSearchModal();
-    }
-});
-</script>
-
-<style>
-.search-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-}
-
-.search-modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-}
-
-.search-modal-content {
-    position: relative;
-    background: var(--p-main-bg-color, #fff);
-    max-width: 600px;
-    margin: 100px auto;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-}
-
-.search-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.search-modal-header h3 {
-    margin: 0;
-    color: var(--p-txt-color, #333);
-}
-
-.search-modal-close {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-}
-
-.search-modal-close svg {
-    width: 24px;
-    height: 24px;
-    color: var(--p-txt-color, #333);
-}
-
-.search-input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.search-input {
-    width: 100%;
-    padding: 15px 50px 15px 20px;
-    border: 2px solid var(--accent-color, #007bff);
-    border-radius: 50px;
-    font-size: 16px;
-    background: var(--p-main-bg-color, #fff);
-    color: var(--p-txt-color, #333);
-}
-
-.search-submit-btn {
-    position: absolute;
-    right: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    display: flex;
-    align-items: center;
-}
-
-.search-submit-btn svg {
-    width: 20px;
-    height: 20px;
-    color: var(--accent-color, #007bff);
-}
-
-.search-recent {
-    margin-top: 30px;
-}
-
-.search-recent h4 {
-    font-size: 14px;
-    color: var(--p-txt-color, #666);
-    margin-bottom: 10px;
-}
-
-.search-recent-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.search-recent-list li {
-    margin-bottom: 8px;
-}
-
-.search-recent-list a {
-    color: var(--p-txt-color, #333);
-    text-decoration: none;
-    font-size: 15px;
-}
-
-.search-recent-list a:hover {
-    color: var(--accent-color, #007bff);
-}
-</style>

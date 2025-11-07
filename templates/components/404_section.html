@@ -1,0 +1,16 @@
+<div class="gh-container">
+  <section class="gh-404-error">
+
+    {% if no_result_found.message != 'No Result Found' %}
+      <h2 class="title_link primary_font" style="margin: 2rem auto;"> {{no_result_found.message}} </h2>
+    {% else %}
+      <h1 class="gh-404-error-title">
+        Lost in the Digital Wilderness: 404 Error
+      </h1>
+      <p class="gh-404-error-description">
+        Sorry, the page you visited does not exist.
+      </p>
+    {% endif %} 
+      <a class="gh-secondary-button gh-404-error-home-btn" href="/" aria-label="back to homepage">Back To Homepage</a>
+  </section>
+</div>

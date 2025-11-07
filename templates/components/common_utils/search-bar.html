@@ -1,0 +1,9 @@
+<div id="search_page_input" class="primary_font">
+<div class="search_bar_div" style="position: relative;">
+<form action="https://{{publisher.actual_domain}}/search" method="GET" class="" target="_top"> 
+  <input name="title" class="jeg_searchPage_input_top" placeholder="{{'search_for_articles'|translate(lang)}}..." type="text" value="{{request.GET.title}}" autocomplete="off">
+   <button aria-label="Search Button" type="submit" class="searchPage_button btn"> {% include template_key~"/templates/components/common_utils/svgs/search.html" %}
+  </button>
+</form>
+</div>
+</div>

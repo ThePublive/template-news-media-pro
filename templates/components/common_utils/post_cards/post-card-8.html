@@ -1,23 +1,38 @@
-{# Post Card 8 - Sidebar Widget Style #}
-{% if post %}
-<div class="post-card post-card-widget">
-    <a href="{{ post.absolute_url }}" class="post-card-link">
-        <div class="post-card-widget-row">
-            {% if post.banner_url %}
-            <div class="post-card-image-tiny">
-                <img
-                    src="{{ post.banner_url }}"
-                    alt="{{ post.title }}"
-                    loading="lazy"
-                    style="aspect-ratio: 1/1; object-fit: cover; width: 100%;"
-                >
-            </div>
-            {% endif %}
-            <div class="post-card-widget-content">
-                <h6 class="post-card-title-tiny">{{ post.title|truncate(60) }}</h6>
-                <span class="post-card-date-tiny">{{ post.formatted_last_published_at_datetime|date_time_format('%b %d') }}</span>
-            </div>
+{#post without banners#}
+<section class="without_banner_news">
+  <div class="no_ban_head" >
+      <label class="title primary_font">
+          {{'more_in'|translate(lang)}}
+          <span>{{ post_section.name }}</span>
+      </label>
+      <div class="no_ban_title_line"></div>
+  </div>
+  <div class="no_banner">
+    {% for post in posts %}
+    <div class="post-collection">
+      <div class="small-post">
+      <a href="{{post.primary_category.absolute_url}}" aria-label="{{post.primary_category.name}}"><span class="category_tag secondary_font category_{{post.primary_category.slug|slash_remove}}_brand_color">{{post.primary_category.name}}</span></a>
+  
+          <a href="{{ post.absolute_url }}" aria-label="{{ post.title }}" >
+              <div class="post-title title_link primary_font">
+              {{ post.title }}
+              </div>
+          </a>
+  
+          <div class="post-author secondary_font my-1">
+              <span class="">{{'by'|translate(lang)}}</span>
+              <a href="{{ post.contributors.0.absolute_url }}" aria-label="{{ post.contributors.0.name }}" ><span class="author-name ">{{ post.contributors.0.name }}</span></a>
+          </div>
+          <div class="post-date secondary_font">
+          <img alt="logo" src="{{static(template_key+'/assets/images/calender.svg') }}"><span class="publish-date mx-1">{{ post.formatted_last_published_at_datetime|date_time_format("%b %d, %Y %H:%M")}} {{publisher.timezone.timezone_display_name}}</span>
+          {% if post.read_time %}
+            <span class="publish-date js_date {{post.read_time_block_cssclass}} mx-1">
+              <img class="calender_logo" alt="logo" src="{{static(template_key+'/assets/images/clock-svg.svg') }}">{{post.read_time}} {{'minutes_read'|translate(lang)}}
+            </span>
+          {% endif %}
         </div>
-    </a>
-</div>
-{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>

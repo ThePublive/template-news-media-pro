@@ -1,10 +1,62 @@
-{# Footer Sticky Ad Slot #}
-{% if slots.mobile_sticky_footer and is_mobile_device %}
-<div class="sticky-footer-ad">
-    {{ slots.mobile_sticky_footer.html_content|safe }}
-</div>
-{% elif slots.desktop_sticky_footer and not is_mobile_device %}
-<div class="sticky-footer-ad">
-    {{ slots.desktop_sticky_footer.html_content|safe }}
-</div>
+{% load static %}
+{% if is_mobile_device %}
+    {% if slots.mobile_hp_sticky and page_type == 'HomePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style sticky_add" style="{{slots.mobile_hp_sticky.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.mobile_hp_sticky.html_content|safe }}
+            </div>
+        </div>
+    {% elif slots.mobile_ap_sticky and page_type == 'ArticlePage'  %}
+    <div class="responsive-ad-css">
+        <div class="ads-div-style sticky_add" style="{{slots.mobile_ap_sticky.custom_css_styles|safe}}">
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slots.mobile_ap_sticky.html_content|safe }}
+        </div>
+    </div>
+
+    {% elif slots.mobile_cp_sticky and page_type == 'CategoryPage'  %}
+    <div class="responsive-ad-css">
+
+        <div class="ads-div-style sticky_add" style="{{slots.mobile_cp_sticky.custom_css_styles|safe}}">
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slots.mobile_cp_sticky.html_content|safe }}
+        </div>
+    </div>
+    {% endif %}
+{% else %}
+    {% if  slots.desktop_hp_footer_sticky and page_type == 'HomePage'%}
+    <div class="responsive-ad-css">
+        <div class="ads-div-style sticky_add" style="{{slots.desktop_hp_footer_sticky.custom_css_styles|safe}}">
+            <button class="ad_close_btn">
+                <img src="{% static 'images/svg icons/cross_svg.svg' %}" alt="ad_close_btn" />
+            </button>
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slots.desktop_hp_footer_sticky.html_content|safe }}
+        </div>
+    </div>
+    {% elif slots.desktop_ap_footer_sticky and page_type == 'ArticlePage' %}
+    <div class="responsive-ad-css">
+
+        <div class="ads-div-style sticky_add" style="{{slots.desktop_ap_footer_sticky.custom_css_styles|safe}}">
+            <button class="ad_close_btn">
+                <img src="{% static 'images/svg icons/cross_svg.svg' %}" alt="ad_close_btn" />
+            </button>
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slots.desktop_ap_footer_sticky.html_content|safe }}
+        </div>
+    </div>
+
+    {% elif slots.desktop_cp_footer_sticky and page_type == 'CategoryPage' %}
+    <div class="responsive-ad-css">
+
+        <div class="ads-div-style sticky_add" style="{{slots.desktop_cp_footer_sticky.custom_css_styles|safe}}">
+            <button class="ad_close_btn">
+                <img src="{% static 'images/svg icons/cross_svg.svg' %}" alt="ad_close_btn" />
+            </button>
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slots.desktop_cp_footer_sticky.html_content|safe }}
+        </div>
+    </div>            
+    {% endif %}
 {% endif %}

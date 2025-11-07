@@ -1,0 +1,19 @@
+<div class="header old-nav">
+    <nav class="main-menu primary_font {%if not nested%} not-nested {% endif %} desktop-nav" id="main-menu">
+        <input type="checkbox" id="mobile">
+        {%if not nested%}
+        <div class="container  mobile_container" style="display:flex;">
+            <ul class="main-menu not-nested" style="display:flex;align-items:center;position:relative;overflow-x:auto; margin: 0 auto;">  
+                {%for navbar_items in navbar_components %}
+                    <li class="main-menu-dropdown">
+                      {% set processed_navbar_link = prepend_domain(navbar_items.link,publisher.actual_domain) or "" %}
+                      {% set processed_request_path = prepend_domain(request.path , publisher.actual_domain) or "" %}
+                        <a class="navbar_name nav-a-pad hover_bottom {% if processed_navbar_link in processed_request_path %} active_link_navbar {% endif %}"  {%if navbar_items.open_new_tab %}target="_blank"{%endif%} href="{{navbar_items.link }}"> {{navbar_items.name}}
+                        </a>
+                    </li>
+                {%endfor%}
+            </ul>
+        </div>
+        {%endif%}
+    </nav>
+</div>

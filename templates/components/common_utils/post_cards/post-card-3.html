@@ -1,20 +1,53 @@
-{# Post Card 3 - Title Only (No Image) #}
-{% if post %}
-<div class="post-card post-card-text-only">
-    <a href="{{ post.absolute_url }}" class="post-card-link">
-        <div class="post-card-content">
-            {% if post.primary_category %}
-            <span class="post-card-category">{{ post.primary_category.name }}</span>
-            {% endif %}
-            <h4 class="post-card-title">{{ post.title }}</h4>
-            <div class="post-card-meta">
-                {% if post.contributors and post.contributors|length > 0 %}
-                <span class="post-card-author">{{ post.contributors[0].name }}</span>
-                <span class="post-meta-separator">•</span>
+<article class="feat-ab-2">
+    <div class="feat-abc-2 aspect-ratio">
+        <a href="{{ post.absolute_url }}" aria-label="{{ post.title }}" class="clickable" style="height: 100%;">
+        {% if post.type == 'Video'%}
+            <span class="post-type-logo">
+                <img alt="web-stroy-logo" src="{{ static(template_key+'/assets/images/video-icon.svg') }}">
+            </span>
+        {% elif post.type == 'Web Story' %}
+        <span class="post-type-logo">
+            <img alt="web-stroy-logo" src="{{ static(template_key+'/assets/images/web-story-icon.svg') }}">
+        </span>
+        {% elif post.type == 'Gallery' %}
+        <span class="post-type-logo">
+            <img class="gallery-logo" alt="web-stroy-logo" src="{{ static(template_key+'/assets/images/gallery-icon.svg') }}">
+        </span>
+        {% elif post.type == 'LiveBlog' %}
+            {% include template_key~"/templates/components/common_utils/svgs/live-blog-title.html" %}
+        {% endif %}
+        {% if post.banner_url %}
+            <img class="feat-img aspect-ratio" src="{{ post.banner_url|get_absolute_image_url('360,270') }}" loading="lazy" style="{{  post.media_file_banner|get_image_style_property }}" alt="{% if post.media_file_banner.alt_text %}{{post.media_file_banner.alt_text}}{% else %}{{ post.title }}{% endif %}">
+            <a href="{{ post.primary_category.absolute_url }}" aria-label="{{ post.primary_category.name }}"><span class="category_tag secondary_font category_{{post.primary_category.slug|slash_remove}}_brand_color">{{post.primary_category.name }}</span></a>
+        {% endif %}
+        </a>
+    </div>
+    <div class="gallery_content">
+        <a href="{{ post.absolute_url }}" aria-label="{{ post.title }}" class="clickable" style="height: 100%;">
+            <h2 class="title_link post-title primary_font">{{ post.title }}</h2>
+        </a>
+        <div class="post-author secondary_font my-1">
+            <span class=" ">{{'by'|translate(lang)}}</span>
+            {% if post.contributors %}
+                {% if post.contributors.0 %}
+                <a href="{{  post.contributors.0.absolute_url }}" aria-label="{{  post.contributors.0.name }}" ><span class="author-name ">{{ post.contributors.0.name }}</span></a>
                 {% endif %}
-                <span class="post-card-date">{{ post.formatted_last_published_at_datetime|date_time_format('%b %d, %Y') }}</span>
-            </div>
+                {% if post.contributors.1 %}
+                <span class=" ">{{'and'|translate(lang)}}</span>
+                <a href="{{  post.contributors.1.absolute_url }}" aria-label="{{  post.contributors.1.name }}" ><span class="author-name ">{{ post.contributors.1.name }}</span></a>
+                {% endif %}
+            {% endif %}
         </div>
-    </a>
-</div>
-{% endif %}
+        <div class="feat-a-1-date secondary_font">
+            <img class="calender_logo" alt="logo" src="{{static(template_key+'/assets/images/calender.svg') }}"><span class="publish-date mx-1">{{  post.formatted_last_published_at_datetime|date_time_format("%b %d, %Y %H:%M ")}} {{publisher.timezone.timezone_display_name}}</span>
+            {% if post.read_time %}
+                <span class="publish-date mx-1">
+                    <img class="calender_logo" alt="logo" src="{{static(template_key+'/assets/images/clock-svg.svg') }}"> {{ post.read_time }} {{'minutes_read'|translate(lang)}}
+                </span>
+            {% endif %}
+        </div>
+    </div>
+</article>
+
+
+

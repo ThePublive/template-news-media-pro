@@ -1,0 +1,12 @@
+{% if post_data.post.type == 'Video' and post_data.post.meta_video_embed %}
+  <figure class="featured-video-embed">
+      {{post_data.post.meta_video_embed|safe}}
+      {% if post_data.post.banner_description %}
+          <figcaption>
+              <div style="text-align:center;" class="image_description">
+                  <p style="font-style: italic;">{{ post_data.post.banner_description }}</p>
+              </div>
+          </figcaption>
+      {% endif %}
+  </figure>
+{% endif %}
