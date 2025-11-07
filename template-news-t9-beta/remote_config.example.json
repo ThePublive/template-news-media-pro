@@ -1,0 +1,14 @@
+{
+    "s3_path": "s3://publive/publive-publisher-templates/your-template-name/",
+    "template_name": "your-template-name",
+    "aws": {
+        "region": "ap-south-1",
+        "access_key_id": "YOUR_ACCESS_KEY_ID",
+        "secret_access_key": "YOUR_SECRET_ACCESS_KEY",
+        "session_token": "YOUR_SESSION_TOKEN"
+    },
+    "cloudfront": {
+        "distribution_id": "YOUR_CLOUDFRONT_DISTRIBUTION_ID",
+        "base_url": "https://cdn.thepublive.com"
+    }
+} 

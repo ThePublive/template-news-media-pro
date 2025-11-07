@@ -1,0 +1,70 @@
+
+{% if post %}
+
+  <div class="latest-news">
+        <div class="latest_news_data">
+        <div class="desc ">
+            <a href="{{ post.absolute_url }}" aria-label="{{ post.title }}">
+                    <div class="paragraph primary_font"> {{ post.title }}</div>
+            </a>
+                <div class="small_category_tag secondary_font">
+                    <a href="{{ post.primary_category.absolute_url }}" 
+                    aria-label="{{ post.primary_category.name }}"><span  class="category_tag secondary_font category_{{post.primary_category.slug|slash_remove}}_brand_color">{{ post.primary_category.name }}</span></a>
+                </div>
+        </div>
+        <div class="l-cover aspect-ratio" style="position:relative;">
+            <a href="{{ post.absolute_url }}" aria-label="{{ post.title }}">
+            {% if post.type == 'Video'%}
+            <div class="overlay-content small-video-icon category-article-icon">
+              <img alt="web-stroy-logo" src="{{ static(template_key+'/assets/images/video-icon.svg') }}">
+            </div>
+            {% elif post.type == 'Gallery'%}
+            <div class="overlay-content small-video-icon category-article-icon">
+                <img
+                    id="post-gallery-logo"
+                    alt="logo"
+                    src="{{ static(template_key+'/assets/images/gallery-icon.svg') }}"
+                    >
+            </div>
+            {% elif post.type == 'Web Story'%}
+            <div class="overlay-content small-video-icon category-article-icon">
+                <img
+                alt="web-stroy-logo"
+                src="{{ static(template_key+'/assets/images/web-story-icon.svg') }}" 
+                style="height: 100%; width:100%"
+                >
+            </div>
+            {% elif post.type == 'LiveBlog' %}
+            {% include template_key~"/templates/components/common_utils/svgs/live-blog-title.html" %}
+            {% endif %}
+            <img class="aspect-ratio" src="{{ post.banner_url|get_absolute_image_url('360,202') }}" loading="lazy" style="object-fit: cover; {{ post.media_file_banner|get_image_style_property }}" alt="{% if post.media_file_banner and post.media_file_banner.alt_text %}{{post.media_file_banner.alt_text}}{% else %}{% endif %} {{ post.title }}">
+        </a>
+        </div>
+    </div>
+    <div class="secondary_font">
+        <span class="post-author secondary_font my-1">
+            <span class=" ">{{'by'|translate(lang)}}</span>
+            {% if post.contributors.0 %}
+                <a href="{{ post.contributors.0.absolute_url }}" aria-label="{{ post.contributors.0.name }}" ><span class="author-name ">{{ post.contributors.0.name }}</span></a>
+                {% if post.contributors.1 %}
+                    <span class=" ">{{'and'|translate(lang)}}</span>
+                    <a href="{{ post.contributors.1.absolute_url }}" aria-label="{{ post.contributors.1.name }}" ><span class="author-name ">{{ post.contributors.1.name }}</span></a>
+                {% endif %}
+            {% endif %}
+        </span>
+        <span class="feat-a-1-date secondary_font">
+          {% if  post.formatted_last_published_at_datetime %}
+          <img class="calender_logo" alt="logo" src="{{static(template_key+'/assets/images/calender.svg') }}"><span class="publish-date mx-1">{{  post.formatted_last_published_at_datetime|date_time_format("%b %d, %Y %H:%M ")}} {{publisher.timezone.timezone_display_name}}</span>
+          {% endif %}
+          {% if post.read_time %} 
+            <span class="publish-date secondary_font mx-1">
+              <img class="calender_logo" alt="logo" src="{{static(template_key+'/assets/images/clock-svg.svg') }}"> {{ post.read_time }} {{'minutes_read'|translate(lang)}}
+            </span>
+          {% endif %}
+        </span>
+    </div>
+  </div>
+  
+    
+{% endif %}
+        

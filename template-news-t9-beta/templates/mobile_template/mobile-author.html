@@ -1,0 +1,36 @@
+<main>
+  <div class="secondary mt-3">
+  {% if slots.mobile_cp_top %}
+  <div class="responsive-ad-css">
+    <div class="ads-div-style   top-ads-style" style="{{slots.mobile_cp_top.custom_css_styles|safe}}">
+      <span class="publive-slot-span ">Advertisment</span>
+      {{ slots.mobile_cp_top.html_content|safe }}
+    </div>
+  </div>
+      {% endif %}
+  {% if post_section_list %}
+    {% for post_section in post_section_list %}
+      <section id="featured-section">
+        {%set featured=True %}
+        {%set counter=loop.index %}
+        {%set post_section = post_section %}
+        {%set category_content=tag_content%}
+        {% include template_key~"/templates/components/author-tile.html" %}
+        {% include template_key~'/templates/components/mobile-hero-section.html'%}
+      </section>
+    {% endfor %}
+    {% if slots.mobile_cp_bottom %}
+    <div class="responsive-ad-css">
+
+      <div class="ads-div-style   mid-ads-style" style="{{slots.mobile_cp_bottom.custom_css_styles|safe}}">
+        <span class="publive-slot-span ">Advertisment</span>
+        {{ slots.mobile_cp_bottom.html_content|safe }}
+      </div>
+    </div>
+    {% endif %}
+  {% endif %}
+  <br>
+
+  </div>
+</main>
+

@@ -1,0 +1,23 @@
+{% extends template_key~"/templates/default.html" %}
+
+{% block content %}
+<main>
+
+    <div class="uni-padding">
+        <div class="main">
+              {% include "decoupled_common_components/component/login/sign_up_element.html" %}
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block script %}
+{% if captcha_enable %}
+<script src="https://www.google.com/recaptcha/api.js" defer></script>
+{% endif %}
+{% if reader_login.enabled_login_providers.email %}
+<script src="{{ static('/js/reader_login_email.js',True) }}" type="text/javascript"  publisher_platform_id="{{reader_login_client_id}}" is_mobile="{{is_mobile_device}}" page_type="{{ page_type }}"></script>
+{% endif %}
+{% endblock %}
+
+
+

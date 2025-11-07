@@ -1,0 +1,65 @@
+<address class="social-logo-section">
+  {% for social in footer.socialLinks %} 
+    {% if social.title == 'Instagram' %}
+      <a href="{{social.link}}" aria-label="facebook" class="me-4 link-secondary social-footer-link" target="_blank">
+        {% include template_key~"/templates/components/common_utils/svgs/instagram.html" %}
+      </a>
+    {% endif %}
+    {% if social.title == 'Facebook' %}
+      <a href="{{social.link}}" aria-label="facebook" class="me-4 link-secondary social-footer-link" target="_blank">
+        {% include template_key~"/templates/components/common_utils/svgs/facebook.html" %}
+      </a>
+    {% endif %}
+    {% if social.title == 'Pinterest' %}
+      <a href="{{social.link}}" aria-label="facebook" class="me-4 link-secondary social-footer-link"target="_blank">
+        {% include template_key~"/templates/components/common_utils/svgs/pininterest.html" %}
+      </a>
+    {% endif %}
+    {% if social.title == 'LinkedIn' %}
+      <a href="{{social.link}}" aria-label="facebook" class="me-4 link-secondary social-footer-link" target="_blank">
+        {% include template_key~"/templates/components/common_utils/svgs/linkedin.html" %}
+      </a>
+    {% endif %}
+    {% if social.title == 'Twitter' %}
+      <a href="{{social.link}}" aria-label="facebook" class="me-4 link-secondary social-footer-link" target="_blank">
+        {% include template_key~"/templates/components/common_utils/svgs/twitter.html" %}
+      </a>
+    {% endif %}
+    {% if social.title == 'YouTube' %}
+      <a href="{{social.link}}" aria-label="facebook" class="me-4 link-secondary social-footer-link" target="_blank">
+        {% include template_key~"/templates/components/common_utils/svgs/youtube_svg.html" %}
+
+      </a>
+    {% endif %}
+    {% if social.title == 'Whatsapp' %}
+      <a href="{{social.link}}" aria-label="Whatsapp" class="me-4 link-secondary social-footer-link" target="_blank" >
+        {% include template_key~'/templates/components/common_utils/svgs/whatsapp-logo-svg.html' %}
+      </a>
+    {% endif %}
+    {% if social.title == 'Thread' %}
+      <a href="{{social.link}}" aria-label="Whatsapp" class="me-4 link-secondary social-footer-link" target="_blank" >
+        {% include template_key~'/templates/components/common_utils/svgs/thread-svg.html' %}
+      </a>
+    {% endif %}
+    {% if social.title == 'Telegram' %}
+      <a href="{{social.link}}" aria-label="Whatsapp" class="me-4 link-secondary social-footer-link" target="_blank" >
+        {% include template_key~'/templates/components/common_utils/svgs/telegram-svg.html' %}
+      </a>
+    {% endif %}
+    {% if social.title == 'Reddit' %}
+      <a href="{{social.link}}" aria-label="Whatsapp" class="me-4 link-secondary social-footer-link" target="_blank" >
+        {% include template_key~'/templates/components/common_utils/svgs/reddit-svg.html' %}
+      </a>
+    {% endif %}
+    {% if social.title == 'Messenger' %}
+      <a href="{{social.link}}" aria-label="Whatsapp" class="me-4 link-secondary social-footer-link" target="_blank" >
+        {% include template_key~'/templates/components/common_utils/svgs/messenger_logo.html' %}
+      </a>
+    {% endif %}
+    {% if social.title == 'Twitch' %}
+      <a href="{{social.link}}" aria-label="Whatsapp" class="me-4 link-secondary social-footer-link" target="_blank" >
+        {% include template_key~'/templates/components/common_utils/svgs/twitch_logo.html' %}
+      </a>
+    {% endif %}
+  {% endfor %}
+</address>

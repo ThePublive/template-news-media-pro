@@ -1,0 +1,31 @@
+{% extends template_key~"/templates/default.html" %}
+{% block content %}
+<main>
+    <div class="uni-padding">
+        <div class="main" >
+          <div id="left-col">
+            <a style="color: {{ publisher.link_color }};" href="/{{ category_slug }}">
+                <h2 class="primary_font" style="margin: 0px; color: {{ publisher.link_color }};">
+                    {{"bookmarks"|translate(lang)}}
+                </h2>
+            </a>
+            {% if post_section and post_section.results %}
+              <div class="post-layout posts-layout-2 native-legacy-row-template">
+                {% for post in post_section.results %}
+                  {% if is_mobile_device %}
+                    {% include template_key~'/templates/components/common_utils/post_cards/post-card-7.html'  %}
+                  {% else %}
+                    {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+            {%set next_page=next %}
+            {%set prev_page=prev %}
+            {% include template_key~"/templates/components/common_utils/pagination.html" %}
+          </div>
+          {% include template_key~'/templates/components/latest-stories.html' %}
+        </div>
+    </div>
+</main>
+{% endblock %} 

@@ -1,0 +1,9 @@
+{% extends template_key~"/templates/default.html" %}
+
+{% block content %}
+{% if is_mobile_device %}
+  {% include template_key~"/templates/mobile_template/mobile-author.html" %}
+{% else %}
+  {% include template_key~"/templates/desktop_template/desktop-author.html" %}
+{% endif %}
+{% endblock %} 

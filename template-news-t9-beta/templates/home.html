@@ -1,0 +1,39 @@
+
+{% extends template_key~"/templates/default.html" %}
+
+{% block content %}
+<h1 class="gh-site-title" hidden>{{ meta_tags.meta_title }}</h1>
+{% if is_mobile_device %}
+  {% include template_key~"/templates/mobile_template/mobile-home.html" %}
+{% else %}
+  {% include template_key~"/templates/desktop_template/desktop-home.html" %}
+{% endif %}
+{% endblock %} 
+
+
+{% block script %}
+<script>
+  const scrollContainer = document.getElementById('scroll-webstory');
+  function scrollby(direction) {
+      try{
+          const scrollAmount = scrollContainer.scrollWidth * (20 / 100);
+          if (direction == 'left'){
+              document.querySelector('.prev').style.display ='block'
+              scrollContainer.scrollBy({
+                left: scrollAmount, // Scroll right by 50 pixels
+                behavior: 'smooth'
+              });
+          }
+          else{
+            scrollContainer.scrollBy({
+                left: -scrollAmount, // Scroll right by 50 pixels
+                behavior: 'smooth'
+              });
+          }
+      } catch(err) {
+          console.error("scrollWebStoryContainer Error:", err)
+      }
+  }
+
+</script>
+{% endblock script %}

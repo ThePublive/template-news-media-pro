@@ -1,0 +1,729 @@
+{%set post_data = post_data|default({}) %}
+{%set slots = slots|default({}) %}
+<!DOCTYPE html>
+
+{% if post_data and post_data.post.language_code %}
+{% set lang = post_data.post.language_code%}
+{% else %}
+{%set lang = lang%}
+{% endif %}
+<html lang="{{lang}}" prefix="og: https://ogp.me/ns#" data-theme='light'>
+<head>
+	<link rel="preconnect" href="https://img-cdn.thepublive.com/" >
+	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link rel="preconnect" href="https://8merv5it13.execute-api.ap-south-1.amazonaws.com/" crossorigin>
+	<link rel="dns-prefetch" href="https://securepubads.g.doubleclick.net/">
+	<link rel="dns-prefetch" href="https://www.googletagmanager.com/">
+    <link rel="manifest" href="https://{{publisher.actual_domain}}/manifest.json">
+    <link rel="manifest" href="{{ static ('ga4.json',True) }}">
+    <link rel="preload" href="{{ static ('/css/bootstrap.min.css',True) }}" as="style">
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/webp"  href="{{ publisher.short_logo|get_absolute_image_url('48,48') }}">
+    {% if page_type == 'ArticlePage' %}
+    <link rel="canonical" href="{% if meta_canonical_url %}{{meta_canonical_url}}{% else %}{% if post_data and post_data.post %}{{ post_data.post.absolute_url }}{% endif %}{% endif %}">
+    {% elif page_info and  page_info.absolute_url %}
+    <link rel="canonical" href="{{page_info.absolute_url}}">
+    {% else %}
+    <link rel="canonical" href="https://{{publisher.actual_domain}}">
+    {% endif %}
+
+    <link rel="preload" fetchpriority="high" as="script" href="{{ static(template_key+"/assets/bundles/style_bundle.js")}}" >
+    <link rel="preload" fetchpriority="high" as="script" href="{{ static(template_key+"/assets/bundles/index_bundle.js")}}" >
+    {% if is_mobile_device %}
+    <link rel="preload"  fetchpriority="high" as="script" href="{{ static(template_key+"/assets/bundles/mobile_universal_bundle.js")}}" >
+    {% else %}
+    <link rel="preload" fetchpriority="high" as="script" href="{{ static(template_key+"/assets/bundles/desktop_universal_bundle.js")}}" >
+    {% endif %}
+    {% if post_data.post and post_data.post.banner_url and not post_data.post.hide_banner_image%}
+        {% if is_mobile_device %}
+            <link rel="preload" fetchpriority="high" as="image" href="{{ post_data.post.banner_url|get_absolute_image_url('640,430') }}" type="image/webp" >
+        {% else %}
+            <link rel="preload" fetchpriority="high" as="image" href="{{ post_data.post.banner_url|get_absolute_image_url('1280,960') }}" type="image/webp" >
+        {% endif %}
+    {% endif %}
+    {% if page_type =='HomePage' or page_type == 'TagPage' or page_type=='CategoryPage' or page_type == 'AuthorPage' or page_type == 'AuthorListPage' or page_type == 'TagsListPage' or page_type=='NoResultPage'%}
+        {% if not is_mobile_device %}
+            <link rel="preload" fetchpriority="high" as="script" href="{{ static(template_key+"/assets/bundles/desktop_home_bundle.js")}}" >
+        {% endif %}
+    {% endif %}
+    
+    <link rel="preload" fetchpriority="high" as="script" href="{{ static(template_key+"/assets/bundles/media_query_bundle.js")}}" >
+    {% if not is_mobile_device %}
+        {% if page_type == 'HomePage' %}
+            <!-- Featured Section -->
+            {% if post|length == 1 %}
+                <link rel="preload" fetchpriority="high" as="image" href="{{ get_image_size_url(post_section_list.0.posts.0.banner_url ,'hd', image_aspect_ratio) }}">
+            {% elif post|length == 2 %}
+            <link rel="preload" fetchpriority="high" as="image" href="{{ get_image_size_url(post_section_list.0.posts.0.banner_url ,'sd' ,image_aspect_ratio) }}">
+            <link rel="preload"  as="image" href="{{ get_image_size_url(post_section_list.0.posts.1.banner_url ,'sd' ,image_aspect_ratio) }}">
+            {% else %}
+                {% if image_aspect_ratio == '16/9' and not enable_native_legacy_ui %}
+                    <link rel="preload" fetchpriority="high" as="image" href="{{ get_image_size_url(post_section_list.0.posts.0.banner_url, 'sd', image_aspect_ratio) }}">
+                    {% if post_section_list.0.posts.1 %}
+                    <link rel="preload" as="image" href="{{ get_image_size_url(post_section_list.0.posts.1.banner_url ,'sd' ,image_aspect_ratio) }}">
+                    {% endif %}
+                {% else %}
+                    <link rel="preload" fetchpriority="high" as="image" href="{{ get_image_size_url(post_section_list.0.posts.0.banner_url ,'hd' ,image_aspect_ratio) }}">
+                {% endif %}
+            {% endif %}
+        {% elif page_type == 'CategoryPage' or page_type == 'TagPage' or page_type == 'AuthorPage' %}
+        <!-- Category, Tag & Author Section -->
+            <link rel="preload" fetchpriority="high" as="image" href="{{ get_image_size_url(post_section_list.0.posts.0.banner_url ,'hd' ,image_aspect_ratio) }}" type="image/webp">
+        {% endif %}
+
+    {% else %}
+        {% if page_type == 'HomePage' or page_type == 'CategoryPage' or page_type == 'TagPage' or page_type == 'AuthorPage' %}
+             <link rel="preload"  fetchpriority="high" as="image" href="{{get_image_size_url(post_section_list.0.featured_post.banner_url , 'sd', image_aspect_ratio) }}" type="image/webp">
+        {% endif %}
+    {% endif %}
+    {% include "decoupled_common_components/component/meta_data/meta_data_header.html" %}
+    {% if paywall_is_enabled %}
+        <!-- disable ads for paid users -->
+        {% include "common_util_across_templates/js/disable_ads_for_paid_users.html" %}
+    {% endif %}
+
+    <!-- json+ld for logo start-->
+    {% include 'decoupled_common_components/component/json_ld_sub_component/json_ld.html' %}
+    
+
+    {% block json_ld %}
+    {% endblock json_ld %}
+
+{% block head %}
+{% endblock %}
+{% block head_block %}
+{% endblock %}
+
+<link rel="stylesheet" href="{{ static('/css/bootstrap.min.css',True) }}">
+<script src="{{ static(template_key+"/assets/bundles/style_bundle.js")}}" ></script>
+    <script src="{{ static(template_key+"/assets/bundles/index_bundle.js")}}" defer></script>
+    {% if is_mobile_device %}
+    <script src="{{ static(template_key+"/assets/bundles/mobile_universal_bundle.js")}}" ></script>
+    {% else %}
+    <script src="{{ static(template_key+"/assets/bundles/desktop_universal_bundle.js")}}" ></script>
+    {% endif %}
+    
+    {% if page_type =='HomePage' or page_type == 'TagPage' or page_type=='CategoryPage' or page_type == 'AuthorPage' or page_type == 'AuthorListPage' or page_type == 'TagsListPage' or page_type=='NoResultPage' or page_type == 'BookMarksPage' %}
+        {% if not is_mobile_device %}
+            <script src="{{ static(template_key+"/assets/bundles/desktop_home_bundle.js")}}"></script>
+        {% endif %}
+    {% endif %}
+    <script src="{{ static(template_key+"/assets/bundles/media_query_bundle.js")}}" ></script>
+<style>
+/** custom font */
+{% if custom_font %}
+    {{ custom_font|base64_decode|unescape_quotes|safe}}
+{% else %}
+    {% include 'templatecss/fonts/poppins.css' %}
+    :root {--pub-font-family: 'Poppins', sans-serif;
+    --pub-font-family-secondary: 'Poppins', sans-serif;}
+{% endif %}
+
+:root {
+    --accent-color: {{ publisher.link_color }};
+    --header-height: -50px;
+    --aspect-ratio:{{image_aspect_ratio}};
+    --color-text-main: #1d1d1f;
+    --bs-table-color: unset !important;
+}
+:root[data-theme='light']{
+    --color-social-bg-icon: {{ publisher.link_color }};
+    --p-accent-color: {{publisher.link_color}};
+    --p-webstory-bg-color: {{publisher.link_color}}3d;
+    --p-accent-icon-color: {{publisher_icon_color}};
+    --p-accent-text-color: {{link_text_color}};
+    --p-accent-nav-color: {{nav_color}};
+    --color-background-main:#fff;
+    .svg-path-publisher-link-color{
+      fill: var(--p-accent-color) !important;
+    }
+    .svg-path-secondary-color{
+      fill: white !important;
+    }
+    .t7-rss-feed-path{
+      fill: white !important;
+    }
+    .all-share-icon-svg-path{
+      stroke: var(--color-social-bg-icon) !important;
+      fill: var(--color-social-bg-icon) !important;
+  }
+}
+:root[data-theme='dark']{
+    --color-social-bg-icon: #fff;
+    --p-accent-color: {{publisher.darkmode_link_color}};
+    --p-accent-icon-color: {{publisher_icon_color}};
+    --p-accent-nav-color: {{nav_color}};
+    --p-accent-text-color: {{darkmode_text_color}};
+    --color-background-main:#1D1D1F;
+    .svg-path-publisher-link-color{
+      fill: var(--color-main) !important;
+    }
+    .t7-rss-feed-path{
+      fill: var(--color-bg-main) !important;
+    }
+    .svg-path-secondary-color{
+      fill: var(--color-bg-main) !important;
+    }
+    .all-share-icon-svg-path{
+      stroke: white !important;
+      fill: white !important;
+  }
+  .side-bar-publive-logo{
+    fill: white;
+  }
+}
+{% if theme_color == 'light' %}
+:root{
+--p-nav-txt-color: #8D8D8D;
+--p-main-bg-color: #fff;
+--p-txt-1-color: #181818;
+--p-txt-color: #303030;
+--p-icon-color: #000;
+--p-svg-fill:#181818;
+--p-svg-fill-bg:#fff;
+--p-ad-div-color:#F5F5F5;
+--p-sec-bg--color: #fff;
+--p-card-author-color:#EBEBEB;
+--p-rec-color:#fff;
+--p-nav-border-color:#A0A0A0;
+--p-s-form-bg-color:#EFEFEF;
+--p-bg-high-color: #fff;
+}
+{% else %}
+:root{
+--p-sec-bg--color: #494949;
+--p-main-bg-color: #1a1a1a;
+--p-bg-color: #1a1a1a;
+--p-bg-high-color: #131313;
+--p-txt-color: #cacaca;
+--p-txt-1-color: #fff;
+--p-meta-txt-color: #8b8b8b;
+--p-border-color:#303030;
+--p-svg-fill:#fff;
+--p-svg-fill-bg:#1a1a1a;
+--p-ad-div-color:#343333;
+--p-card-author-color:#494949;
+--p-rec-color:#292929;
+}
+{% endif %}
+{% if lang != 'en'%}
+.card-title{
+font-family: var(--pub-font-family);
+font-weight: bold;
+margin-bottom: 0.5rem;
+}
+@font-face {
+font-family: "Noto Sans";
+src: url("/static/fonts/NotoSans-Regular.ttf") format("ttf"),
+}
+#postContent {
+font-family: var(--pub-font-family);
+font-size: 18px;
+}
+@font-face {font-family: "Noto Sans";src: url("/static/fonts/NotoSans-Regular.ttf") format("ttf"),}
+#postContent {font-family: var(--pub-font-family);}
+#postContent a {text-decoration: underline;text-decoration-color: {{ publisher.link_color }};text-decoration-thickness: 2px;text-underline-offset: 6px;}
+.post-detail-card .post-title, .post-card .card-title, .navbar ul li a {font-family: var(--pub-font-family);font-weight: bold;}
+.rightSideArticles .card-title{
+font-family: var(--pub-font-family);
+font-weight: bold;
+}
+{% endif %}
+.morestory,.morestory:hover{color: {{ publisher.link_color }};}
+/** new style code */
+:root {--background-color-notification: black;--ad_display: none;}
+{% if publisher.link_color %}
+:root {--background-color-notification: {{ publisher.link_color }};}
+.publisher_color{
+color: {{ publisher.link_color }};}
+.publisher_color:hover{
+    color: {{ publisher.link_color }};
+}
+{% endif %}
+
+{% if is_mobile_device %}
+#postContent img {
+width: 100%;
+height: auto;
+}
+:root {
+--article-div-padding: 96px;
+--main-div-padding: 0px;
+--author-div-margin:50px;
+--article-share-top-hieght: 0px;
+{% if publisher.acronym_site %}
+--ad_display: flex;
+{% endif %}
+}
+
+{% if banner_notification.banner_text %}
+:root {
+--article-div-padding: calc( 131px + {{ banner_notification.banner_text|get_banner_notf__size }});
+
+--author-div-margin: calc(50px + {{ banner_notification.banner_text|get_banner_notf__size }});
+}
+.sticky-banner{
+width: 100%;
+padding-top: 3px;
+text-align: center;
+color: white;
+background-color: var(--background-color-notification);
+word-break: break-all;
+display: -webkit-box;
+-webkit-box-orient: vertical;
+-moz-box-orient: vertical;
+-ms-box-orient: vertical;
+box-orient: vertical;
+-webkit-line-clamp: 5;
+-moz-line-clamp: 5;
+-ms-line-clamp: 5;
+line-clamp: 5;
+overflow: hidden;
+}
+{% endif %}
+.float{
+    position: fixed;
+    bottom: 10px;
+    {% if page_type == 'HomePage' and slots.mobile_hp_sticky %}
+    bottom: 100px;
+    {% elif page_type == 'ArticlePage' and slots.mobile_ap_sticky %}
+    bottom: 100px;
+    {% elif page_type == 'AuthorPage' or page_type == 'TagPage' or page_type == 'CategoryPage' %}
+      {% if slots.mobile_cp_sticky %}
+      bottom: 100px;
+      {% endif %}
+    {% endif %}
+    right: 10px;
+    display: inline-block;
+    box-sizing: border-box;
+    height: 60px;
+    width: 175px;
+    background: var(--p-accent-color);
+    padding: 0px 5px;
+    border-radius: 999em;
+    text-decoration: none;
+    color: {{ publisher_icon_color }};
+    font-size: 16px;
+    vertical-align: bottom;
+    white-space: nowrap;
+    border: 3px solid var(--p-accent-color);
+    letter-spacing: 2px;
+    transition: .15s background-color,.15s border-color,.15s color,.15s fill;
+    font-weight: 500;
+    line-height: 3.4;
+    zoom:0.9;
+    text-align: center;
+  }
+.reader-login-dropdown {
+    right: 0px !important;
+    top: auto!important;
+    left: auto !important;
+  }
+{% else %}
+:root {
+--main-div-margin: 19px auto;
+--banner-notification-size:0px;
+--article-share-top-hieght: calc(132px);
+--live-blog-article-share-top-hieght: calc(180px );
+--main-div-padding: calc(126px  );
+{% if publisher.acronym_site %}
+--ad_display: flex;
+{% endif %}
+}
+{% if banner_notification and banner_notification.banner_text %}
+:root {
+--banner-notification-size: {{ banner_notification.banner_text|get_banner_notf__size }};
+--article-share-top-hieght: calc(115px  + {{ banner_notification.banner_text|get_banner_notf__size }});
+--live-blog-article-share-top-hieght: calc(181px + 30px );
+--main-div-margin: 20px auto;
+--main-div-padding: calc(126px + 30px );
+}
+
+.sticky-banner{
+width: 100%;
+max-height: 30px;
+padding-top: 3px;
+height: 30px;
+text-align: center;
+color: white;
+background-color: var(--background-color-notification);
+word-break: break-all;
+display: -webkit-box;
+-webkit-box-orient: vertical;
+ -moz-box-orient: vertical;
+-ms-box-orient: vertical;
+box-orient: vertical;
+-webkit-line-clamp: 5;
+-moz-line-clamp: 5;
+-ms-line-clamp: 5;
+line-clamp: 5;
+overflow: hidden;
+}
+{% endif %}
+{% endif %}
+{% include template_key~"/templates/template_css/utils.css" %}
+{% if page_type == 'HomePage' %}
+    {% if is_mobile_device %}
+        {% include template_key~'/templates/template_css/mobile_home_page.css' %}
+    {% endif %}
+{% elif page_type == 'CategoryPage' %}
+    {% if is_mobile_device %}
+        {% include template_key~'/templates/template_css/mobile_home_page.css' %}
+    {% endif %}
+{% elif page_type == 'TagPage' or page_type == 'TagsListPage' %}
+    {% if is_mobile_device %}
+        {% include template_key~'/templates/template_css/mobile_home_page.css' %}
+    {% endif %}
+{% elif page_type == 'AuthorPage' or page_type == 'AuthorListPage' %}
+    {% include template_key~"/templates/template_css/author_page.css" %}
+    {% if is_mobile_device %}
+        {% include template_key~'/templates/template_css/mobile_home_page.css' %}
+    {% endif %}
+{% elif page_type == 'ArticlePage' and post_data.post.type != 'CustomPage' %}
+    {% include 'decoupled_common_components/css/article_main_content.css' %}
+    {% include "common_css_across_all_templates/ck_content.min.css" %}
+    {% if is_mobile_device %}
+        {% include template_key~'/templates/template_css/mobile_article_page.css' %}
+    {% else %}
+        {% include template_key~'/templates/template_css/article_page.css' %}
+    {% endif %}
+    {% if meta_css_code %}{{meta_css_code|safe}}{% endif %}
+{% elif page_type == 'SearchPage'%}
+    {% include template_key~'/templates/template_css/search_page_v2.css' %}
+{% elif post_data and post_data.post.type == 'CustomPage' %}
+    {% include 'decoupled_common_components/css/article_main_content.css' %}
+    {%include template_key~'/templates/template_css/subscription_plan.css' %} 
+    {% if post_data.post.form_id %}
+        {% include 'decoupled_common_components/css/form_page.css' %}
+    {% endif %}
+    {% if is_mobile_device %}
+        {% include template_key~'/templates/template_css/mobile_article_page.css' %}
+    {% else %}
+        {% include template_key~'/templates/template_css/article_page.css' %}
+    {% endif %}
+    {% if meta_css_code %}{{meta_css_code|safe}}{% endif %}
+{% elif page_type == 'StaticPage' %}
+    {% if is_mobile_device %}
+        {% include template_key~'/templates/template_css/mobile_home_page.css' %}
+    {% endif %}
+{% elif page_type == 'ManageSubscription' %}
+    {%include 'access_wall_css/manage_subscription.css' %} 
+{% elif page_type == 'ReaderProfilePage' %}
+    {% include "reader_css/reader_profile.css" %}
+{% else %}
+    {% if is_mobile_device %}
+        {% include template_key~'/templates/template_css/mobile_home_page.css' %}
+    {% endif %}
+{% endif %}
+{% if publisher.publisher_config.footer_json and publisher.publisher_config.footer_json.v2_footer  %}
+    {% include "decoupled_common_components/css/footer/footer.css" %}
+    {% include "decoupled_common_components/css/footer/footer_media_query.css" %}
+{% endif %}
+{% if newsletter_groups_data %}
+    {% include "decoupled_common_components/css/newsletter/newsletter_group.css" %}
+    {% if is_mobile_device %}
+        {% include "decoupled_common_components/css/newsletter/newsletter_group_media_query.css" %}
+    {% endif %}
+{% else %}
+{% include "decoupled_common_components/css/newsletter/newsletter_group_default_page.css" %}
+{% include "decoupled_common_components/css/newsletter/newsletter_group_default_media_query.css" %}
+{% endif %}
+
+.spacing-from-navbar {padding-top: var(--main-div-padding);}
+.html-cricket-slider-widget ul li.active a {color: {{link_text_color}};background: {{ publisher.link_color }};}
+{% if push_notification_config %}
+.align-center-button{display:flex;align-items: center;justify-content:center;flex-direction: row;width:100%}amp-web-push-widget .subscribe{display: flex;flex-direction: row;align-items: center;border-radius:2px;border:1px solid #007ae2;margin:0;padding:8px 15px;cursor:pointer;outline:0;font-size:16px;font-weight:400;background:{{ publisher.link_color }};color:#fff;-webkit-tap-highlight-color:transparent}amp-web-push-widget .unsubscribe{border-radius:2px;border:1px solid #b3b3b3;margin:0;padding:8px 15px;cursor:pointer;outline:0;font-size:15px;font-weight:400;background:#bdbdbd;color:#555;-webkit-tap-highlight-color:transparent}amp-web-push-widget .subscribe .subscribe-icon{margin-inline-end:10px}amp-web-push-widget .subscribe:active{transform:scale(.99)}
+{% endif %}
+    .display-none{
+        display:none!important;
+    }
+    .bookmark-btn-display-none{
+        display:none;
+    }
+    .reader-display-none{
+        display:none ;
+    }
+    .aspect-ratio{aspect-ratio:{{image_aspect_ratio}};}
+    {% if is_mobile_device %}
+        @media only screen and (min-width:1000px){
+        main {
+            padding: 0px 20%;
+        }
+        }
+    {% endif %}
+    
+{% include template_key~"/templates/template_css/slots.css" %}
+
+    {% block style_css %}
+    {% endblock style_css %}
+</style>
+        <script>
+            window.actual_domain = "{{ publisher.actual_domain }}";
+            {% if post_data %}
+            window.page_counter = 1; // infinte scroll article page ads counter
+            window.loaded_article_url = "{{ post_data.post.absolute_url }}";
+            {% endif %}
+        </script>
+    {% if allow_reader_login%}
+        <link rel="preload" href="{{ static('/js/reader/signin.js',True) }}" as="script">
+    {% endif %}
+    {% if  youtube_tag %}
+        {% include "decoupled_common_components/component/json_ld_sub_component/youtube_tag_json_ld.html" %}
+    {% endif %}
+    {% if insta_tag %}
+            <script async defer src="https://platform.instagram.com/en_US/embeds.js"></script>
+    {% endif %}
+    {% if twitter_tag %}
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    {% endif %}
+
+
+    {% if page_type == 'AuthorPage' or page_type == 'TagPage' or page_type == 'CategoryPage' %}
+        {% if prev_page %}
+        <link rel="prev" href="https://{{ publisher.actual_domain }}{{ request.path }}?page={{ prev_page }}">
+        {% endif %}
+
+        {% if next_page %}
+        <link rel="next" href="https://{{ publisher.actual_domain }}{{ request.path }}?page={{ next_page }}">
+        {% endif %}
+    {% endif %}
+
+    {% if push_notification_config and push_notification_config.service_provider == "one_signal" %}
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" defer></script>
+        <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+                appId: "{{ push_notification_config.app_id }}",
+                allowLocalhostAsSecureOrigin: true,
+            });
+        });
+        </script>
+    {% endif %}
+
+{% if allow_reader_login %}
+    {% if reader_login and reader_login.enabled_login_providers and  reader_login.enabled_login_providers.google %}
+        <script src="https://accounts.google.com/gsi/client" defer></script>
+    {% endif %}
+    {% if reader_login and reader_login.enabled_login_providers and reader_login.enabled_login_providers.facebook %}
+            {% set fb_key=reader_login.platform_credentials.facebook_login.client_id %}
+            {% include 'common_util_across_templates/component/fb-login-script.html' %}
+    {% endif %}
+{% endif %}
+{% if enable_native_legacy_ui %}
+    {% include template_key~"/templates/template_css/native_legacy_v2.html" %}
+{% endif %}
+{% if page_type == 'ArticlePage' %}
+<script>
+    window.page_counter = 1; // infinte scroll article page ads counter
+    window.visited_pages = [];
+    window.loaded_article_url = "{{ post_data.post.absolute_url }}";
+</script>
+{% endif %}
+{% if is_mobile_device %}
+    {% if slots.mobile_universal_head %}
+        {{ slots.mobile_universal_head.html_content|safe }}
+    {% endif %}
+{% else %}
+    {% if slots.desktop_universal_head %}
+        {{ slots.desktop_universal_head.html_content|safe }}
+    {% endif %}
+{% endif %}
+	{% if page_type == 'HomePage' %}
+		{% if slots.mobile_hp_head and is_mobile_device %}
+			{{ slots.mobile_hp_head.html_content|safe }}
+		{% elif slots.desktop_hp_head and not is_mobile_device %}
+			{{ slots.desktop_hp_head.html_content|safe }}
+		{% endif %}
+	{% elif page_type == 'ArticlePage' %}
+		{% if slots.mobile_ap_head and is_mobile_device %}
+			{{ slots.mobile_ap_head.html_content|safe }}
+		{% elif slots.desktop_ap_head and not is_mobile_device %}
+			{{ slots.desktop_ap_head.html_content|safe }}
+		{% endif %}
+	{% elif page_type == 'MatchLivePage' or page_type == 'MatchScorecardPage' or page_type == 'MatchCommentaryPage' or page_type == 'MatchSquadsPage' %}
+		{% if slots.mobile_match_page_head and is_mobile_device %}
+			{{ slots.mobile_match_page_head.html_content|safe }}
+		{% elif slots.desktop_match_page_head and not is_mobile_device %}
+			{{ slots.desktop_match_page_head.html_content|safe }}
+		{% endif %}
+	{% elif page_type == 'TournamentFixturePage' or page_type == 'TournamentStandingsPage' or page_type == 'TournamentStatsPage' or page_type == 'TournamentListPage'  %}
+		{% if slots.mobile_tournament_page_head and is_mobile_device %}
+			{{ slots.mobile_tournament_page_head.html_content|safe }}
+		{% elif slots.desktop_tournament_page_head and not is_mobile_device %}
+			{{ slots.desktop_tournament_page_head.html_content|safe }}
+		{% endif %}
+	{% else %}
+		{% if slots.mobile_cp_head and is_mobile_device %}
+			{{ slots.mobile_cp_head.html_content|safe }}
+		{% elif slots.desktop_cp_head and not is_mobile_device %}
+			{{ slots.desktop_cp_head.html_content|safe }}
+		{% endif %}
+	{% endif %}
+
+    {% if ga4_measurement_id %}
+        <!-- Global site tag (gtag.js) - Google Analytics GA4 -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4_measurement_id }}"></script>
+        <script>
+            const ga4MeasurementId = '{{ ga4_measurement_id }}';
+        
+            function gtag() {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', ga4MeasurementId);
+        
+            document.addEventListener('DOMContentLoaded', function() {
+                const playButton = document.querySelector('#playbtn');
+        
+                if (playButton) {
+                    playButton.addEventListener('click', function() {
+                        gtag('event', 'readAudioPlay', {
+                            'event_category': 'Audio',
+                            'event_label': 'readAudioPlay',
+                            'event_value': 1 
+                        });
+                    });
+                }
+            });
+        </script>
+    {% endif %}
+    <script>
+       
+
+        const rootElem = document.querySelector("html[data-theme]");
+
+        const detectSystemTheme = () => {
+            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                rootElem.setAttribute("data-theme", "dark");
+            } else {
+                rootElem.setAttribute("data-theme", "light");
+            }
+        };
+
+        const initTheme = () => {
+            const localStoragePref = localStorage.getItem("data-theme");
+
+            if (localStoragePref) {
+                rootElem.setAttribute("data-theme", localStoragePref);
+            } else {
+              rootElem.setAttribute("data-theme", "light");
+            }
+        };
+
+        initTheme();
+
+    </script>
+{% if page_type == 'ArticlePage' and meta_script_code %}
+{{meta_script_code|safe}}
+{% endif %}
+</head>
+
+<body data-aspect-ratio="{{ image_aspect_ratio }}" {% if enable_native_legacy_ui %} class="native-ui"{% endif %}>
+{% if publisher.publisher_config.widget_config_json.analytics %}
+{% include "decoupled_common_components/component/analytics/non_amp_analytics.html" %}
+{% endif %}
+
+{% if cricket_widget_data.matches_url %}
+    <div id="match_config" data-polling_freq="{{ polling_freq }}" data-match_path="{{cricket_widget_data.matches_url}}" hidden></div>
+{% endif %}
+    {% include template_key~"/templates/components/header.html" %}
+
+    {% block content %}
+    {% endblock content %}
+    {% if publisher.publisher_config.footer_json %} 
+    {%set footer = publisher.publisher_config.footer_json.v2_footer %}
+    {% include template_key~"/templates/components/footer.html" %}
+    {% endif %}
+    <button class="gh-scroll-top-btn" type="button" title="" aria-label="">
+        <svg class="gh-scroll-top-arrow" width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 10.8333L12 5M12 5L18 10.8333M12 5L12 19" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <svg class="gh-scroll-top-progress" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 280.25;"></path>
+        </svg>
+    </button>
+{% include template_key~"/templates/components/slots/footer_sticky_slot_t4.html" %}
+{% if is_mobile_device %}
+    {% if slots.mobile_universal_body_end %}
+        {{ slots.mobile_universal_body_end.html_content|safe }}
+    {% endif %}
+{% else %}
+    {% if slots.desktop_universal_body_end %}
+        {{ slots.desktop_universal_body_end.html_content|safe }}
+    {% endif %}
+{% endif %}
+{% if page_type == 'HomePage' %}
+    {% if slots.mobile_hp_body_end and is_mobile_device %}
+        {{ slots.mobile_hp_body_end.html_content|safe }}
+    {% elif slots.desktop_hp_body_end and not is_mobile_device %}
+        {{ slots.desktop_hp_body_end.html_content|safe }}
+    {% endif %}
+{% elif page_type == 'ArticlePage' %}
+    {% if slots.mobile_ap_body_end and is_mobile_device %}
+        {{ slots.mobile_ap_body_end.html_content|safe }}
+    {% elif slots.desktop_ap_body_end and not is_mobile_device%}
+        {{ slots.desktop_ap_body_end.html_content|safe }}
+    {% endif %}
+{% elif page_type == 'MatchLivePage' or page_type == 'MatchScorecardPage' or page_type == 'MatchCommentaryPage' or page_type == 'MatchSquadsPage' %}
+    {% if slots.mobile_match_page_body_end and is_mobile_device %}
+        {{ slots.mobile_match_page_body_end.html_content|safe }}
+    {% elif slots.desktop_match_page_body_end and not is_mobile_device%}
+        {{ slots.desktop_match_page_body_end.html_content|safe }}
+    {% endif %}
+{% elif page_type == 'TournamentFixturePage' or page_type == 'TournamentStandingsPage' or page_type == 'TournamentStatsPage' or page_type == 'TournamentListPage'  %}
+    {% if slots.mobile_tournament_page_body_end and is_mobile_device %}
+        {{ slots.mobile_tournament_page_body_end.html_content|safe }}
+    {% elif slots.desktop_tournament_page_body_end and not is_mobile_device%}
+        {{ slots.desktop_tournament_page_body_end.html_content|safe }}
+    {% endif %}
+{% else %}
+    {% if slots.mobile_cp_body_end and is_mobile_device %}
+        {{ slots.mobile_cp_body_end.html_content|safe }}
+    {% elif slots.desktop_cp_body_end and not is_mobile_device %}
+        {{ slots.desktop_cp_body_end.html_content|safe }}
+    {% endif %}
+{% endif %}
+</body>
+{% if allow_reader_login %}
+    {% if paywall_is_enabled  %}
+    <script src = "https://checkout.razorpay.com/v1/checkout.js"></script>
+    {% endif %}
+    <script id="signin_page-js" src="{{ static('/js/reader/signin.js' ,True) }}" type="text/javascript" publisher_platform_id='{{reader_login_client_id}}' is_mobile="{{is_mobile_device}}" default_user_avatar="{{ static('images/svg icons/user-avatar.svg' ,True) }}" page_type="{{page_type}}" publisher="{{host_domain}}" hide_full_content="{% if allow_reader_login and global_login_wall and global_login_wall.is_enabled %}true {% else %}false{% endif %}" host_domain="{{publisher.actual_domain}}" publisher_logo="{{ publisher.long_logo|get_absolute_image_url('120,50') }}" publisher_name="{{ publisher.name }}" publisher_color="{{publisher.link_color}}" pricing_page_key="{{pricing_page_id}}" paywall_is_enabled="{{paywall_is_enabled}}" actual_domain="{{publisher.actual_domain}}" defer></script>
+{% endif %}
+<script>
+    const buttons = document.querySelectorAll('.ad_close_btn');
+    buttons.forEach(button => {
+        button.onclick = function() {
+            this.parentNode.style.display = 'none'
+        }
+    })
+</script>
+{% if captcha_enable %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endif %}
+<script src="{{ static('/js/bootstrap5.3-bundle.min.js' ,True) }}" type="text/javascript"></script>
+<script src="{{ static('/js/infinte_scroll.js' ,True) }}" type="text/javascript"></script>
+<script src="{{ static('/js/jquery-3.6.0.min.js',True) }}" type="text/javascript"></script>
+<script id="main.js" src="{{ static(template_key+'/assets/js/main.js') }}" type="text/javascript" link_color="{{publisher.link_color}}" enable_native_legacy_ui="{{enable_native_legacy_ui}}" web_story_logo="{{ static('images/svg icons/web-story-icon.svg' ,True) }}" gallery_logo="{{ static('images/svg icons/Gallery-2.svg' ,True) }}" paywall_is_enabled="{{ paywall_is_enabled }}" actual_domain="{{publisher.actual_domain}}"></script> 
+<script>
+{% if latest_news_ticker and post_data %}
+    latest_ticker('{{ post_data.post.id }}')
+{% endif %}
+{% if post_data.post %}
+latest_articles(`{{ post_data.post.id }}`)
+{% else %}
+latest_articles()
+{% endif %}
+</script>
+{% block script %}
+
+{% endblock script %}
+{% if slots.desktop_custom_script and not is_mobile_device%}
+    {{ slots.desktop_custom_script.html_content|safe }}
+{% elif slots.mobile_custom_script and is_mobile_device%}
+    {{ slots.mobile_custom_script.html_content|safe }}
+{% endif %}
+
+</html>
