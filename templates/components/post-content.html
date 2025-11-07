@@ -1,4 +1,385 @@
-{# Article Content Component #}
-<article class="post-content">
-    {# Article header, content, and metadata #}
+{# Article Content Component - News Media Pro #}
+{% set post = post_data.post %}
+
+<article class="article-content">
+    {# Article Header #}
+    <header class="article-header">
+        {# Category Badge #}
+        {% if post.primary_category %}
+        <div class="article-category-wrapper">
+            <a href="{{ post.primary_category.absolute_url }}" class="article-category category_{{ post.primary_category.slug|slash_remove }}_brand_color">
+                {{ post.primary_category.name }}
+            </a>
+        </div>
+        {% endif %}
+
+        {# Article Title #}
+        <h1 class="article-title">{{ post.title }}</h1>
+
+        {# Article Subtitle/Excerpt #}
+        {% if post.excerpt %}
+        <p class="article-excerpt">{{ post.excerpt }}</p>
+        {% endif %}
+
+        {# Article Meta - Author, Date, Read Time #}
+        <div class="article-meta">
+            {# Author Info #}
+            {% if post.contributors and post.contributors|length > 0 %}
+            <div class="article-authors">
+                {% for contributor in post.contributors[:3] %}
+                <div class="author-item">
+                    {% if contributor.avatar_url %}
+                    <img src="{{ contributor.avatar_url|get_absolute_image_url('50,50') }}"
+                         alt="{{ contributor.name }}"
+                         class="author-avatar">
+                    {% endif %}
+                    <a href="{{ contributor.absolute_url }}" class="author-name">
+                        {{ contributor.name }}
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="article-meta-info">
+                {# Published Date #}
+                <time datetime="{{ post.formatted_last_published_at_datetime|date_time_format('%Y-%m-%d') }}" class="article-date">
+                    {{ post.formatted_last_published_at_datetime|date_time_format('%B %d, %Y') }}
+                </time>
+
+                {# Read Time #}
+                {% if post.read_time %}
+                <span class="meta-separator">•</span>
+                <span class="article-read-time">{{ post.read_time }} min read</span>
+                {% endif %}
+
+                {# Last Updated #}
+                {% if post.formatted_last_published_at_datetime != post.formatted_created_at_datetime %}
+                <span class="meta-separator">•</span>
+                <span class="article-updated">
+                    Updated {{ post.formatted_last_published_at_datetime|date_time_format('%b %d, %Y') }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        {# Featured Image #}
+        {% if post.banner_url %}
+        <figure class="article-featured-image">
+            <img src="{{ post.banner_url }}"
+                 alt="{% if post.media_file_banner.alt_text %}{{ post.media_file_banner.alt_text }}{% else %}{{ post.title }}{% endif %}"
+                 style="{{ post.media_file_banner|get_image_style_property }}">
+            {% if post.media_file_banner.caption %}
+            <figcaption class="article-image-caption">{{ post.media_file_banner.caption }}</figcaption>
+            {% endif %}
+            {% if post.media_file_banner.credit %}
+            <div class="article-image-credit">{{ post.media_file_banner.credit }}</div>
+            {% endif %}
+        </figure>
+        {% endif %}
+    </header>
+
+    {# Article Body Content #}
+    <div class="article-body">
+        {% if post.content %}
+        {{ post.content|safe }}
+        {% endif %}
+    </div>
+
+    {# Article Footer #}
+    <footer class="article-footer">
+        {# Tags #}
+        {% if post.tags and post.tags|length > 0 %}
+        <div class="article-tags">
+            <span class="tags-label">Tags:</span>
+            {% for tag in post.tags %}
+            <a href="{{ tag.absolute_url }}" class="article-tag">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {# Social Share Buttons #}
+        <div class="article-share">
+            <span class="share-label">Share:</span>
+            <div class="share-buttons">
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ post.absolute_url }}"
+                   target="_blank" rel="noopener" class="share-btn share-facebook" aria-label="Share on Facebook">
+                    {% include template_key~'/templates/components/common_utils/svgs/facebook.html' %}
+                </a>
+                <a href="https://twitter.com/intent/tweet?url={{ post.absolute_url }}&text={{ post.title }}"
+                   target="_blank" rel="noopener" class="share-btn share-twitter" aria-label="Share on Twitter">
+                    {% include template_key~'/templates/components/common_utils/svgs/twitter.html' %}
+                </a>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ post.absolute_url }}&title={{ post.title }}"
+                   target="_blank" rel="noopener" class="share-btn share-linkedin" aria-label="Share on LinkedIn">
+                    {% include template_key~'/templates/components/common_utils/svgs/linkedin.html' %}
+                </a>
+                <a href="whatsapp://send?text={{ post.title }} {{ post.absolute_url }}"
+                   target="_blank" rel="noopener" class="share-btn share-whatsapp" aria-label="Share on WhatsApp">
+                    {% include template_key~'/templates/components/common_utils/svgs/whatsapp.html' %}
+                </a>
+            </div>
+        </div>
+    </footer>
 </article>
+
+<style>
+.article-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.article-header {
+    margin-bottom: 40px;
+}
+
+.article-category-wrapper {
+    margin-bottom: 20px;
+}
+
+.article-category {
+    display: inline-block;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+.article-title {
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 20px;
+    color: var(--p-txt-1-color, #181818);
+}
+
+.article-excerpt {
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--p-txt-2-color, #666);
+    margin: 0 0 30px;
+    font-weight: 400;
+}
+
+.article-meta {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--p-border-color, #e0e0e0);
+}
+
+.article-authors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.author-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.author-name {
+    font-weight: 600;
+    color: var(--p-txt-1-color, #181818);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.author-name:hover {
+    color: var(--p-accent-color, #ff0000);
+}
+
+.article-meta-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--p-meta-txt-color, #888);
+}
+
+.meta-separator {
+    color: var(--p-border-color, #ccc);
+}
+
+.article-featured-image {
+    margin: 0 0 40px;
+}
+
+.article-featured-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.article-image-caption {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--p-meta-txt-color, #888);
+    font-style: italic;
+}
+
+.article-image-credit {
+    margin-top: 5px;
+    font-size: 12px;
+    color: var(--p-meta-txt-color, #888);
+}
+
+.article-body {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--p-txt-color, #333);
+}
+
+.article-body p {
+    margin: 0 0 20px;
+}
+
+.article-body h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 40px 0 20px;
+    color: var(--p-txt-1-color, #181818);
+}
+
+.article-body h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 30px 0 15px;
+    color: var(--p-txt-1-color, #181818);
+}
+
+.article-body ul, .article-body ol {
+    margin: 0 0 20px;
+    padding-left: 30px;
+}
+
+.article-body li {
+    margin-bottom: 10px;
+}
+
+.article-body blockquote {
+    margin: 30px 0;
+    padding: 20px 30px;
+    border-left: 4px solid var(--p-accent-color, #ff0000);
+    background: var(--p-sec-bg--color, #f9f9f9);
+    font-size: 20px;
+    font-style: italic;
+}
+
+.article-footer {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px solid var(--p-border-color, #e0e0e0);
+}
+
+.article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.tags-label {
+    font-weight: 600;
+    color: var(--p-txt-1-color, #181818);
+}
+
+.article-tag {
+    padding: 6px 12px;
+    background: var(--p-sec-bg--color, #f0f0f0);
+    color: var(--p-txt-color, #333);
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.article-tag:hover {
+    background: var(--p-accent-color, #ff0000);
+    color: #fff;
+}
+
+.article-share {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.share-label {
+    font-weight: 600;
+    color: var(--p-txt-1-color, #181818);
+}
+
+.share-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--p-sec-bg--color, #f0f0f0);
+    transition: all 0.2s;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+}
+
+.share-facebook:hover {
+    background: #1877f2;
+}
+
+.share-twitter:hover {
+    background: #1da1f2;
+}
+
+.share-linkedin:hover {
+    background: #0077b5;
+}
+
+.share-whatsapp:hover {
+    background: #25d366;
+}
+
+@media (max-width: 768px) {
+    .article-title {
+        font-size: 28px;
+    }
+
+    .article-excerpt {
+        font-size: 16px;
+    }
+
+    .article-body {
+        font-size: 16px;
+    }
+
+    .article-body h2 {
+        font-size: 24px;
+    }
+
+    .article-body h3 {
+        font-size: 20px;
+    }
+}
+</style>
