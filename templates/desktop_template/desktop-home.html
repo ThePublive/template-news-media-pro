@@ -1,18 +1,4 @@
 <main>
-  {# DEBUG: Check what data variables are available #}
-  <div style="background: #ffeb3b; padding: 20px; margin: 20px; border: 3px solid #f57c00; font-family: monospace;">
-    <h2 style="color: #d84315; margin: 0 0 15px 0;">🔍 HOMEPAGE DATA DEBUG</h2>
-    <div style="background: white; padding: 15px; border-radius: 5px;">
-      <p><strong>post_section_list:</strong> {% if post_section_list %}EXISTS ({{ post_section_list|length }} sections){% else %}❌ NOT AVAILABLE{% endif %}</p>
-      <p><strong>category_sections:</strong> {% if category_sections %}EXISTS ({{ category_sections|length }} sections){% else %}❌ NOT AVAILABLE{% endif %}</p>
-      <p><strong>recent_posts:</strong> {% if recent_posts %}EXISTS ({{ recent_posts|length }} posts){% else %}❌ NOT AVAILABLE{% endif %}</p>
-      <p><strong>latest_posts:</strong> {% if latest_posts %}EXISTS ({{ latest_posts|length }} posts){% else %}❌ NOT AVAILABLE{% endif %}</p>
-      <p><strong>all_posts:</strong> {% if all_posts %}EXISTS ({{ all_posts|length }} posts){% else %}❌ NOT AVAILABLE{% endif %}</p>
-      <p><strong>trending_posts:</strong> {% if trending_posts %}EXISTS ({{ trending_posts|length }} posts){% else %}❌ NOT AVAILABLE{% endif %}</p>
-      <p><strong>most_read_posts:</strong> {% if most_read_posts %}EXISTS ({{ most_read_posts|length }} posts){% else %}❌ NOT AVAILABLE{% endif %}</p>
-    </div>
-  </div>
-
   {# Top Ad Slot #}
   {% if slots.desktop_hp_top %}
   <div class="responsive-ad-css">
