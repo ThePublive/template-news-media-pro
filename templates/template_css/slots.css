@@ -1,50 +1,61 @@
-/* Ad Slots Styling */
-.sticky-footer-ad {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
-    background: #fff;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-}
+{% if is_mobile_device %}
+    {% if slots.mobile_universal_css %}
+        {{ slots.mobile_universal_css.html_content|safe }}
+    {% endif %}
+{% else %}
+    {% if slots.desktop_universal_css %}
+        {{ slots.desktop_universal_css.html_content|safe }}
+    {% endif %}
+{% endif %}
 
-.slot-above-navbar {
-    margin-bottom: 0;
-}
-
-.slot-homepage-top {
-    margin: 20px 0 30px;
-}
-
-.slot-homepage-middle {
-    margin: 40px 0;
-}
-
-.slot-article-top {
-    margin: 0 0 30px;
-}
-
-.slot-sidebar {
-    margin-bottom: 20px;
-    background: transparent;
-    border: none;
-    padding: 0;
-}
-
-.slot-gutter {
-    position: sticky;
-    top: 100px;
-}
-
-@media (max-width: 768px) {
-    .slot-desktop-only {
-        display: none;
-    }
-}
-
-@media (min-width: 769px) {
-    .slot-mobile-only {
-        display: none;
-    }
-}
+{% if page_type == 'HomePage' %}
+    {% if is_mobile_device %}
+        {% if slots.mobile_hp_custom_css %}
+            {{ slots.mobile_hp_custom_css.html_content|safe }}
+        {% endif %}
+    {% else %}
+        {% if slots.desktop_hp_custom_css %}
+            {{ slots.desktop_hp_custom_css.html_content|safe }}
+        {% endif %}
+    {% endif %}
+{% elif page_type == 'CategoryPage' %}
+    {% if is_mobile_device %}
+        {% if slots.mobile_cp_custom_css %}
+            {{ slots.mobile_cp_custom_css.html_content|safe }}
+        {% endif %}
+    {% else %}
+        {% if slots.desktop_cp_custom_css %}
+            {{ slots.desktop_cp_custom_css.html_content|safe }}
+        {% endif %}
+    {% endif %}
+{% elif page_type == 'ArticlePage' and post_data.post.type != 'CustomPage' %}
+    {% if is_mobile_device %}
+        {% if slots.mobile_ap_custom_css %}
+            {{ slots.mobile_ap_custom_css.html_content|safe }}
+        {% endif %}
+    {% else %}
+        {% if slots.desktop_ap_custom_css %}
+            {{ slots.desktop_ap_custom_css.html_content|safe }}
+        {% endif %}
+    {% endif %}
+{% elif post_data and post_data.post.type == 'CustomPage' %}
+    {% if is_mobile_device %}
+        {% if slots.mobile_custom_page_css %}
+            {{ slots.mobile_custom_page_css.html_content|safe }}
+        {% endif %}
+    {% else %}
+        {% if slots.desktop_custom_page_css %}
+            {{ slots.desktop_custom_page_css.html_content|safe }}
+        {% endif %}
+    {% endif %}
+{% else %}
+    {% if is_mobile_device %}
+        {% if slots.mobile_cp_custom_css %}
+            {{ slots.mobile_cp_custom_css.html_content|safe }}
+        {% endif %}
+    {% else %}
+        {% if slots.desktop_cp_custom_css %}
+            {{ slots.desktop_cp_custom_css.html_content|safe }}
+        {% endif %}
+    {% endif %}
+{% endif %}

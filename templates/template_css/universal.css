@@ -69,17 +69,16 @@ outline:none;
 
 /* navabar */
 
+
+
+
 /* right column */
 #right-col {
-  min-width: 321px;
+  width: 330px;
   min-height:300px;
   margin-left: 13px; 
   height: fit-content;
   position: sticky;
-}
-.l-stories {
-    min-height: 300px;
-    min-width: 321px;
 }
 .l-title {
 
@@ -94,7 +93,6 @@ outline:none;
 }
 .l-cover img {
   width: 134px;
-  height: auto;
   object-position: 0 0;
 }
 
@@ -102,7 +100,22 @@ outline:none;
   width: 134px;
   position:relative;
 }
-
+.line {
+    content: "";
+    margin-left:14px;
+    display: block;
+    width: 137px !important;
+    height: 2px;
+    background: var(--p-accent-color);
+}
+.line-title{
+    display:contents;
+}
+.category-title{
+    display:inline-flex;
+    align-items:center;
+    font-weight: bold;
+}
 .latest-news {
     margin-bottom: 30px;
     display: flex;
@@ -145,7 +158,7 @@ outline:none;
 }
 /* post layout */
 .posts-layout-2{
-  max-width:976px;
+  max-width:985px;
   margin-right: 0px;
   margin-left: 0px;
   gap:20px;
@@ -279,7 +292,7 @@ height:1.3rem;
 .live-blog-icon{
   max-width: 39px;
   height: 13px;
-  /* display: flex; */
+  display: flex;
   justify-content: center;
   align-items: center;
   gap: 3.574px;
@@ -717,52 +730,4 @@ margin-top:25px;
       display: flex;
   }
   .user-account-logo-logged img{width:2.2rem;height:2.2rem;border-radius:50%;}
-  .tag_content_content_wrapper {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    padding: 10px 0;
-  }
-  .tag_content_content_wrapper img {
-    max-width: 100%;
-    margin: 0.5rem 0;
-    overflow: hidden;
-  }
-  .recommended-icon {
-    color: white;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    height: 2rem;
-    width: 2rem;
-    background-color: rgba(138, 138, 138, 0.5); 
-    border-radius: 50%;
-    padding: 2px;
-    z-index: 3;
-    justify-content: center;
-    align-items: center;
-}
 
-.recommended-icon div:not(.web-story-recommended-icon){
-    height: 1.2rem;
-    width: 1.2rem;
-}
-.web-story-recommended-icon {
-    height: 1.8rem;
-    width: 2rem;
-}
-
-.recommended-icon img{
-    width: 100%;
-    height: 100%;
-}
-.recommended-icon svg {
-    fill: white
-}
-.post-type-logo img.gallery-logo{
-  width: 1rem;
-  height: 1rem;
-}
-.newsletter-page-default {
-  padding: 50px 50px 100px 50px !important;
-}

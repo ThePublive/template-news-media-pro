@@ -1,99 +1,58 @@
-/* Utility CSS Classes */
-.spacing-from-navbar {
-    padding-top: var(--main-div-padding);
+{% for category in new_categories_list %}
+{% if category.category_brand_color != '#000000' %}
+.category_{{category.slug|slash_remove}}_text_color{
+    color:{{category.category_brand_color}};
+  }
+{% endif %}
+{% if category.category_brand_color != '#000000' %}
+.category_{{category.slug|slash_remove}}_brand_color{
+    background-color:{{category.category_brand_color}};
+    color:{{category.category_brand_color|contrast_color}} ;
+    border-color:{{category.category_brand_color}};
+  }
+{% endif %}
+{% if category.category_brand_color != '#000000' %}
+.category_{{category.slug|slash_remove}}_brand_color:hover{
+    background-color:{{category.category_brand_color}};
+    color:{{category.category_brand_color|contrast_color}} ;
+    border-color:{{category.category_brand_color}};
+  }
+{% endif %}
+{% endfor %}
+.publive-dynamic-container{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  background-color: #F5F5F5;
+  color: #777;
+  font-size: 14px;
+  line-height: 16px;
+  margin:10px auto;
+  row-gap: 10px;
 }
 
-.responsive-ad-css {
-    width: 100%;
+.publive-dynamic-container .publive-slot-span {
+  margin-bottom: 10px;
+  display: none;
 }
-
-.ads-div-style {
-    margin: 20px 0;
-    padding: 10px;
-    text-align: center;
+.sticky_add{
+  height: 60px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+  z-index: 10000;
+  margin:auto;
 }
-
-.publive-slot-span {
-    display: block;
-    font-size: 11px;
-    color: #999;
-    text-transform: uppercase;
-    margin-bottom: 10px;
+.ad_close_btn {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  z-index: 9999999;
+  background-color: #c1c1c1;
+  border-radius: 5px;
 }
-
-/* Text Utilities */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-
-/* Spacing Utilities */
-.mt-10 { margin-top: 10px; }
-.mt-20 { margin-top: 20px; }
-.mt-30 { margin-top: 30px; }
-.mb-10 { margin-bottom: 10px; }
-.mb-20 { margin-bottom: 20px; }
-.mb-30 { margin-bottom: 30px; }
-
-/* Display Utilities */
-.d-none { display: none; }
-.d-block { display: block; }
-.d-flex { display: flex; }
-
-/* Post Card Common Styles */
-.post-card {
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.post-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.post-card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.post-card-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.post-card-category {
-    display: inline-block;
-    background: var(--accent-color, #007bff);
-    color: #fff;
-    padding: 4px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-
-.post-card-title {
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1.4;
-    margin: 10px 0;
-    color: var(--p-txt-color, #333);
-}
-
-.post-card-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--p-txt-color-light, #999);
-}
-
-/* Container */
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 20px;
+.ad_close_btn img {
+  width: 8px;
 }
