@@ -1,47 +1,53 @@
-{# Desktop Author Page Layout #}
-<div class="author-page-container">
-    <div class="author-header">
-        <div class="author-info">
-            {% if author.image_url %}
-            <img src="{{ author.image_url }}" alt="{{ author.name }}" class="author-avatar-large">
-            {% endif %}
-            <div class="author-details">
-                <h1 class="author-name">{{ author.name }}</h1>
-                {% if author.designation %}
-                <p class="author-designation">{{ author.designation }}</p>
-                {% endif %}
-                {% if author.bio %}
-                <p class="author-bio">{{ author.bio }}</p>
-                {% endif %}
-                {% if author.social_links %}
-                <div class="author-social">
-                    {% if author.social_links.twitter %}
-                    <a href="{{ author.social_links.twitter }}" target="_blank">Twitter</a>
-                    {% endif %}
-                    {% if author.social_links.linkedin %}
-                    <a href="{{ author.social_links.linkedin }}" target="_blank">LinkedIn</a>
-                    {% endif %}
-                </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
+<main>
+  {% if slots.desktop_cp_top %}
+  <div class="responsive-ad-css">
 
-    <div class="author-main-layout">
-        <div class="author-content">
-            <h2 class="section-title">Articles by {{ author.name }}</h2>
-            {% if post_section_list %}
-                {% for section in post_section_list %}
-                <div class="author-section">
-                    {% include template_key~'/templates/components/section_layouts/layout_type_1.html' %}
-                </div>
-                {% endfor %}
-            {% endif %}
-            {% include template_key~'/templates/components/common_utils/pagination.html' %}
-        </div>
-
-        <aside class="author-sidebar">
-            {% include template_key~'/templates/components/sidebar/desktop-sidebar.html' %}
-        </aside>
+    <div class="ads-div-style   top-ad-height ad-top-mar" style="{{slots.desktop_cp_top.custom_css_styles|safe}}">
+        <span class="publive-slot-span ">Advertisment</span>
+        {{ slots.desktop_cp_top.html_content|safe }}
     </div>
-</div>
+    </div>
+  {% endif %}
+  <div class="uni-padding">
+      {% if slots.desktop_cp_gutter_lhs %}
+      <div class="responsive-ad-css">
+
+          <div class="ads-div-style   sidebar-slots left-sidebar-slots" style="{{slots.desktop_cp_gutter_lhs.custom_css_styles|safe}}">
+              {{ slots.desktop_cp_gutter_lhs.html_content|safe }}
+          </div>
+        </div>
+      {% endif %}
+      <div class="main" style="flex-direction:row-reverse;">
+          {% include template_key~'/templates/components/latest-stories.html' %}
+          <div id="left-col">
+              {% if post_section_list %}
+                  {% for post_section in post_section_list %}
+                      <section id="featured-section" style="margin-bottom:20px;">
+                        {% include template_key~"/templates/components/author-tile.html" %}
+                          {%set featured=True%}
+                          {% include template_key~'/templates/components/hero-section.html' %}
+                      </section>
+                  {% endfor %}
+                  {% if slots.desktop_cp_1 %}
+                  <div class="responsive-ad-css">
+
+                      <div class="ads-div-style   top-ad-height" style="{{slots.desktop_cp_1.custom_css_styles|safe}}">
+                          <span class="publive-slot-span ">Advertisment</span>
+                          {{ slots.desktop_cp_1.html_content|safe }}
+                      </div>
+                    </div>
+                  {% endif %}
+              {% endif %}
+          </div>
+
+      </div>
+      {% if slots.desktop_cp_gutter_rhs %}
+      <div class="responsive-ad-css">
+
+          <div class="ads-div-style   sidebar-slots right-sidebar-slots" style="{{slots.desktop_cp_gutter_rhs.custom_css_styles|safe}}">
+              {{ slots.desktop_cp_gutter_rhs.html_content|safe }}
+          </div>
+        </div>
+      {% endif %}
+  </div>
+</main>

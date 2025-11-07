@@ -1,10 +1,22 @@
-{% extends template_key~'/templates/default.html' %}
+{% extends template_key~"/templates/default.html" %}
 
 {% block content %}
-<main class="subscribe-page spacing-from-navbar">
-    <div class="container">
-        <h1>Subscribe to Our Newsletter</h1>
-        {# Newsletter subscription form #}
+
+<main>
+
+    <div class="uni-padding">
+        {% if newsletter_groups_data %}
+            {% include template_key~"/templates/components/common_utils/grouped_newsletter.html" %}
+        {% else %}
+            {% include template_key~"/templates/components/common_utils/single_newsletter.html" %}
+        {% endif %}
     </div>
+
 </main>
+
 {% endblock %}
+
+{% block script %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script defer id="newsletter-group-page.js" src="{{ static('/js/newsletter_js/newsletter-group-page.js',True) }}" type="text/javascript" ></script>
+{% endblock script %}

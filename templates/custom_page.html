@@ -1,130 +1,104 @@
 {% extends template_key~"/templates/default.html" %}
+{% block head %}
+    {% include "decoupled_common_components/component/json_ld_sub_component/articlePageJsonLd.html" %}
+    
+    {% if post_data.post.form_id %}
+        <link href="{{ static("/css/quill.editor.css",True) }}" rel="stylesheet" >
+        <link rel="preload" href="{{ static("/css/quill.editor.css",True) }}" as="script" ></link>
+    {% endif %}
+{% endblock %}
 
 {% block content %}
-<div class="custom-page-container">
-    <div class="container">
-        <div class="custom-page-content">
-            {% if page_data.title %}
-            <h1 class="custom-page-title">{{ page_data.title }}</h1>
-            {% endif %}
-
-            {% if page_data.content %}
-            <div class="custom-page-body">
-                {{ page_data.content|safe }}
+<main>
+    <div class="uni-padding">
+        {% if slots.desktop_ap_gutter_lhs %}
+            <div class="ads-div-style   sidebar-slots left-sidebar-slots" style="{{slots.desktop_ap_gutter_lhs.custom_css_styles|safe}}">
+                {{ slots.desktop_ap_gutter_lhs.html_content|safe }}
             </div>
-            {% endif %}
+        {% endif %}
+        <div class="main" id="custom_page_main">
 
-            {% if page_data.form %}
-            <div class="custom-page-form-wrapper">
-                <form class="custom-page-form" action="{{ page_data.form.action }}" method="{{ page_data.form.method|default('POST') }}">
-                    {% for field in page_data.form.fields %}
-                    <div class="form-group">
-                        <label for="{{ field.name }}">{{ field.label }}</label>
-                        {% if field.type == 'textarea' %}
-                        <textarea
-                            id="{{ field.name }}"
-                            name="{{ field.name }}"
-                            class="form-control"
-                            {% if field.required %}required{% endif %}
-                            placeholder="{{ field.placeholder }}"
-                        ></textarea>
-                        {% elif field.type == 'select' %}
-                        <select
-                            id="{{ field.name }}"
-                            name="{{ field.name }}"
-                            class="form-control"
-                            {% if field.required %}required{% endif %}
-                        >
-                            {% for option in field.options %}
-                            <option value="{{ option.value }}">{{ option.label }}</option>
-                            {% endfor %}
-                        </select>
-                        {% else %}
-                        <input
-                            type="{{ field.type|default('text') }}"
-                            id="{{ field.name }}"
-                            name="{{ field.name }}"
-                            class="form-control"
-                            {% if field.required %}required{% endif %}
-                            placeholder="{{ field.placeholder }}"
-                        >
-                        {% endif %}
+          <article class="{%if not copy_content %} unselectable {%endif%}">
+            <div id="left-col">
+              <div class="article_main_div article_scroll_post_{{post_data.post.legacy_url|valid_url_for_title_update}}" data-page-url="{{ post_data.post.legacy_url}}" data-page-title="{{ post_data.post.title|safe|truncatechars(67)|html_parse }}" data-page-primary-category="{{ post_data.post.primary_category.slug }}" data-page-author="{{ post_data.post.contributors.0.slug }}" data-page-post-id="{{ post_data.post.id }}" data-page-publisher-id="{{ publisher.id }}" data-page-lang-code="{{ post_data.post.language_code }}" data-page-publisher-domain="{{ publisher.actual_domain }}">
+                <div class="article_div">
+                  <div class="article-box  ck-content">
+                    <div class="mobile_gutter-15">
+                    <section class="article-title primary_font">
+                      <h1 class="title_link primary_font">
+                        {{ post_data.post.title}}
+                      </h1>
+
+                    </section>
+                    {% if post_data.post.summary %}
+                    <section class="article-summary secondary_font">
+                      <h2 class="secondary_font">{{ post_data.post.summary}}</h2>
+                    </section>
+                    {% endif %}
+                  </div>
+                    <section id="article-content-section">
+                      {% if not post_data.post.hide_banner_image %}
+                        <figure style="margin: 0px;">
+                          <div class="article-image">
+                            {% if post_data.post.banner_url %}
+                                <img src="{{ post_data.post.banner_url|get_absolute_image_url('1280,960') }}" class="art-image" style="min-height: 348px;max-height:888px" alt="{{ post_data.post.banner_alt_text }}">
+                            {% endif %}
+                            {% if post_data.post.banner_description %}
+                            <figcaption>
+                                <div style="text-align:center;" class="image_description">
+                                    <p style="font-style: italic;">{{ post_data.post.banner_description }}</p>
+                                </div>
+                            </figcaption>
+                            {% endif %}
+                          </div>
+                        </figure>
+                      {% endif %}
+                      <div class="article secondary_font" id="article_div_{{ post_data.post.id }}">
+                          <div id="postContent" class="article-data {% if allow_reader_login and post_data.post.access_type != 'Public' %} paywall hide-full-content {% endif %}">
+                                {{ post_data.post.content|safe}}
+                          </div>
+                      </div>
+                    </section>
+                    {% if allow_reader_login %} 
+                      {% if post_data.post.access_type == 'Login' %}
+                          {% include template_key~'/templates/components/common_utils/login_wall_V2.html' %}
+                      {% elif post_data.post.access_type == 'Paid' %}
+                          <section id="pub-paywall-container" class="login-wall pub-login-wall">
+                          </section>
+                      {% endif %} 
+                    {% endif %}
                     </div>
-                    {% endfor %}
-                    <button type="submit" class="btn btn-primary">{{ page_data.form.submit_text|default('Submit') }}</button>
-                </form>
+                    <div class="next_page_hide">
+                        <div class="{% if enable_show_article_button and post_data.post.type != 'CustomPage' %}hide_article_content{% endif %}" id="newsletter_div_{{ post_data.post.id }}">
+                        </div>
+                    </div>
+                  </div>
+              </div>
             </div>
-            {% endif %}
+          </article>
+
         </div>
+        {% if slots.desktop_ap_gutter_rhs %}
+            <div class="ads-div-style   sidebar-slots right-sidebar-slots" style="{{slots.desktop_ap_gutter_rhs.custom_css_styles|safe}}">
+                {{ slots.desktop_ap_gutter_rhs.html_content|safe }}
+            </div>
+        {% endif %}
     </div>
-</div>
-
-<style>
-.custom-page-container {
-    min-height: 60vh;
-    padding: 40px 0;
-}
-
-.custom-page-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.custom-page-title {
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 30px;
-    color: var(--p-txt-color, #333);
-}
-
-.custom-page-body {
-    line-height: 1.8;
-    color: var(--p-txt-color, #333);
-    margin-bottom: 40px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--p-txt-color, #333);
-}
-
-.form-control {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--p-border-color, #ddd);
-    border-radius: 6px;
-    font-size: 15px;
-    background: var(--p-main-bg-color, #fff);
-    color: var(--p-txt-color, #333);
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: var(--accent-color, #007bff);
-}
-
-.btn {
-    padding: 12px 30px;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-primary {
-    background: var(--accent-color, #007bff);
-    color: #fff;
-}
-
-.btn-primary:hover {
-    opacity: 0.9;
-}
-</style>
+    {% include "decoupled_common_components/component/payment/payment_loader_modal.html" %}
+    {% if post_data.post.form_id %}
+      {%set class="legacy_post_content"%}
+        {% include "common_util_across_templates/component/ugc/ugc_form_modal.html"  %}
+    {% endif %}
+</main>
 {% endblock %}
+
+
+{% block script %}
+    <script id="custom-js" src="{{static(template_key+'/assets/js/customPage.js')}}" type="text/javascript"></script>
+    <script id="article-js" src="{{ static (template_key+'/assets/bundles/post_bundle.js') }}" type="text/javascript" is_mobile_device={{is_mobile_device}} share_icon="{{ static('images/share.png') }}" primary_category='{{ post_data.post.primary_category.slug }}' enable_infinte_article='{{ do_article_infinte_scroll }}' allow_login_wall="{{global_login_wall.is_enabled}}" web_story_logo="{{ static(template_key+'/assets/images/web-story-icon.svg') }}" gallery_logo="{{ static(template_key+'/assets/images/gallery-icon.svg') }}" hide_full_content="{% if allow_reader_login and global_login_wall and global_login_wall.is_enabled %}true {% else %}false{% endif %}"  allow_reader_login="{{allow_reader_login}}" enable_native_legacy_ui="{{enable_native_legacy_ui}}" article_type="{{ post_data.post.type }}" article_legacy_url="{{ post_data.post.legacy_url }}" post_id="{{ post_data.post.id }}" publisher_actual_domain="https://{{ publisher.actual_domain }}" post_access_type="{{post_data.post.access_type}}"></script>
+
+    {% if post_data.post.form_id %}
+        <script src="{{static("/js/form_page_js/form_page.js",True) }}"  id="form_page-js" type="text/javascript" form_page_id="{{post_data.post.form_id}}" csrf_token = '{{ csrf_token }}'></script>
+        <script src="{{ static ("/js/quill.editor.js",True) }}" onload="window.handleQuillInitialization()"></script>
+    {% endif %}
+{% endblock script %}

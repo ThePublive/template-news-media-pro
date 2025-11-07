@@ -1,36 +1,23 @@
 {% extends template_key~"/templates/default.html" %}
 
 {% block content %}
-<div class="auth-page-container">
-    <div class="auth-card">
-        <h1 class="auth-title">Create Account</h1>
-        <p class="auth-subtitle">Join us today and stay informed</p>
+<main>
 
-        <form class="auth-form" action="/auth/signup" method="POST">
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required placeholder="Enter your full name">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required placeholder="Enter your email">
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required placeholder="Create a password" minlength="8">
-            </div>
-            <div class="form-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" name="newsletter" checked>
-                    <span>Subscribe to our newsletter</span>
-                </label>
-            </div>
-            <button type="submit" class="auth-submit-btn">Create Account</button>
-        </form>
-
-        <p class="auth-switch">
-            Already have an account? <a href="/sign-in">Sign in</a>
-        </p>
+    <div class="uni-padding">
+        <div class="main">
+              {% include "decoupled_common_components/component/login/sign_up_element.html" %}
+        </div>
     </div>
-</div>
+</main>
 {% endblock %}
+{% block script %}
+{% if captcha_enable %}
+<script src="https://www.google.com/recaptcha/api.js" defer></script>
+{% endif %}
+{% if reader_login.enabled_login_providers.email %}
+<script src="{{ static('/js/reader_login_email.js',True) }}" type="text/javascript"  publisher_platform_id="{{reader_login_client_id}}" is_mobile="{{is_mobile_device}}" page_type="{{ page_type }}"></script>
+{% endif %}
+{% endblock %}
+
+
+

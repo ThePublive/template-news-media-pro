@@ -1,55 +1,42 @@
-{% extends template_key~"/templates/default.html" %}
 
-{% block json_ld %}
-{% include 'decoupled_common_components/component/json_ld_sub_component/tag_list_breadcrumb_json_ld.html' %}
-
-{% endblock %}
-
-{% block content %}
 <main>
     {% if slots.desktop_cp_top %}
-    <div class="responsive-ad-css">
-
-        <div class="ads-div-style   other-top-ads-style ad-top-mar" style="{{slots.desktop_cp_top.custom_css_styles|safe}}">
+        <div class="ads-div-style   other-page-ads ad-top-mar" style="{{slots.desktop_cp_top.custom_css_styles|safe}}">
             <span class="publive-slot-span ">Advertisment</span>
             {{ slots.desktop_cp_top.html_content|safe }}
-        </div>
         </div>
     {% endif %}
     <div class="uni-padding">
         {% if slots.desktop_cp_gutter_lhs %}
-        <div class="responsive-ad-css">
-
             <div class="ads-div-style   sidebar-slots left-sidebar-slots" style="{{slots.desktop_cp_gutter_lhs.custom_css_styles|safe}}">
                 {{ slots.desktop_cp_gutter_lhs.html_content|safe }}
             </div>
-        </div>
-        {% endif %} 
+        {% endif %}
         <div class="main">
             <div id="left-col">
-                    <h2>Tags</h2>
-                    <ul class="tags-ul">
-                        {% for each_tag in tags_list.results %}
-                        <li class="tags-li"><a href="{{ each_tag.absolute_url }}"> {{ each_tag.name }} </a></li>
-                        {% endfor %} 
-                    </ul>
-                    {%set next_page=tags_list.next%}
-                    {%set prev_page=tags_list.previous%}
+                <h1 class="primary_font">Authors</h1>
+                {% for author in authers_list.results %}
+                  {% include template_key~"/templates/components/author-tile.html" %}
+                {% endfor %}
+                {%set next_page=authers_list.next%}
+                {%set prev_page=authers_list.previous%}
                 {% include template_key~"/templates/components/common_utils/pagination.html" %}
+                {% if slots.desktop_cp_bottom %}
+                    <div class="ads-div-style   other-page-ads-bottom" style="margin-top:10px;margin-bottom:10px;{{slots.desktop_cp_bottom.custom_css_styles|safe}}">
+                        <span class="publive-slot-span ">Advertisment</span>
+                        {{ slots.desktop_cp_bottom.html_content|safe }}
+                    </div>
+                {% endif %}
+                <br>
             </div>
             {% include template_key~'/templates/components/latest-stories.html' %}
         </div>
         {% if slots.desktop_cp_gutter_rhs %}
-        <div class="responsive-ad-css">
-
             <div class="ads-div-style   sidebar-slots right-sidebar-slots" style="{{slots.desktop_cp_gutter_rhs.custom_css_styles|safe}}">
                 {{ slots.desktop_cp_gutter_rhs.html_content|safe }}
             </div>
-            </div>
         {% endif %}
     </div>
+
 </main>
-
-{% endblock %}
-
 
