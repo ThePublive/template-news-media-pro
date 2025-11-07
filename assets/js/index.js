@@ -1,14 +1,22 @@
-// News Media Pro - Main JavaScript Entry Point
-console.log('News Media Pro Template Loaded');
+// JavaScript files are compiled and minified during the build process to the assets/built folder. 
+// See available scripts in the package.json file.
 
-// Initialize on DOM ready
-document.addEventListener('DOMContentLoaded', function() {
-    initTemplate();
+// Import JS
+
+import {
+  hideHeader ,showSubNav
+} from './header';
+import {
+  latestSectionScrollTop 
+} from './widget';
+import {
+  scrollTop 
+} from './scrollToTopBtn';
+
+showSubNav();
+hideHeader();
+scrollTop()
+window.addEventListener("scroll", function () {
+  latestSectionScrollTop()
+  
 });
-
-function initTemplate() {
-    console.log('Template initialized');
-    // Additional initialization code
-}
-
-export default initTemplate;

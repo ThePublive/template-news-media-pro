@@ -1,83 +1,80 @@
-// Dark Mode Toggle Functionality
-(function() {
-    'use strict';
+export const switchThemeBtn = document.querySelector('.gh-switch-btn');
+export const rootElem = document.querySelector('html[data-theme]');
+const moonIcon = document.querySelector('.gh-moon-icon');
+const sunIcon = document.querySelector('.gh-sun-icon');
 
-    const DARK_MODE_KEY = 'darkMode';
-    const THEME_ATTR = 'data-theme';
+export const changeTwitterCardTheme = () => {
+  const tweets = document.querySelectorAll('[data-tweet-id]');
 
-    // Get saved theme or system preference
-    function getSavedTheme() {
-        const saved = localStorage.getItem(DARK_MODE_KEY);
-        if (saved) {
-            return saved;
-        }
+  const changeTweetsTheme = () => {
+    const storedTheme =
+      localStorage.getItem('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const targetTheme = storedTheme === 'dark' ? 'light' : 'dark';
 
-        // Check system preference
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-        }
-
-        return 'light';
-    }
-
-    // Apply theme
-    function applyTheme(theme) {
-        document.documentElement.setAttribute(THEME_ATTR, theme);
-        localStorage.setItem(DARK_MODE_KEY, theme);
-
-        // Update toggle button state
-        updateToggleButton(theme);
-    }
-
-    // Update toggle button
-    function updateToggleButton(theme) {
-        const toggleBtn = document.getElementById('darkModeToggle');
-        if (toggleBtn) {
-            toggleBtn.setAttribute('data-theme', theme);
-            toggleBtn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-        }
-    }
-
-    // Toggle theme
-    function toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute(THEME_ATTR) || 'light';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        applyTheme(newTheme);
-    }
-
-    // Initialize dark mode
-    function initDarkMode() {
-        const theme = getSavedTheme();
-        applyTheme(theme);
-
-        // Add click listener to toggle button
-        const toggleBtn = document.getElementById('darkModeToggle');
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', toggleTheme);
-        }
-
-        // Listen for system theme changes
-        if (window.matchMedia) {
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                if (!localStorage.getItem(DARK_MODE_KEY)) {
-                    applyTheme(e.matches ? 'dark' : 'light');
-                }
-            });
-        }
-    }
-
-    // Initialize on DOM ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initDarkMode);
-    } else {
-        initDarkMode();
-    }
-
-    // Export for external use
-    window.darkMode = {
-        toggle: toggleTheme,
-        setTheme: applyTheme,
-        getTheme: () => document.documentElement.getAttribute(THEME_ATTR) || 'light'
+    const switchTweetTheme = (currentTheme, targetTheme) => {
+      tweets.forEach((tweet) => {
+        const src = tweet.getAttribute('src');
+        tweet.setAttribute('src', src.replace('theme=' + currentTheme, 'theme=' + targetTheme));
+      });
     };
 
-})();
+    switchTweetTheme(targetTheme, storedTheme);
+  };
+
+  if (tweets) {
+    changeTweetsTheme();
+  }
+};
+
+export const switchTheme = () => {
+  const changeCommentsColorOnToggle = () => {
+    const rootElem = document.querySelector('html');
+    const theme = rootElem.getAttribute('data-theme');
+    const commentsSectionIframe = document.querySelector(
+      "#ghost-comments-root > iframe[title='comments-frame']"
+    );
+
+    if (commentsSectionIframe) {
+      const commentsSection =
+        commentsSectionIframe.contentWindow.document.querySelector('.ghost-display');
+
+      if (theme === 'dark') {
+        commentsSection.classList.add('dark');
+      } else {
+        commentsSection.classList.remove('dark');
+      }
+    }
+  };
+
+  const currentTheme = rootElem.getAttribute('data-theme');
+  
+  switchIcon(currentTheme);
+
+  rootElem.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+  localStorage.setItem('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+  changeTwitterCardTheme();
+  changeCommentsColorOnToggle();
+};
+
+export const switchIcon = (theme) => {
+  if (theme === 'light') {
+    sunIcon.style.display = 'block';
+    moonIcon.style.display = 'none';
+  } else {
+    sunIcon.style.display = 'none';
+    moonIcon.style.display = 'block';
+  }
+};
+
+export const defineIconTheme = () => {
+  const currentTheme = rootElem.getAttribute('data-theme');
+
+  if (currentTheme === 'light') {
+    sunIcon.style.display = 'none';
+    moonIcon.style.display = 'block';
+  } else {
+    sunIcon.style.display = 'block';
+    moonIcon.style.display = 'none';
+  }
+};
