@@ -1,9 +1,40 @@
-{% extends template_key~'/templates/default.html' %}
+{% extends template_key~"/templates/default.html" %}
+{% block json_ld %}
+{% include 'decoupled_common_components/component/json_ld_sub_component/tag_breadcrumb_json_ld.html' %}
+
+    <script type="application/ld+json">
+        {
+          "@context":"https://schema.org",
+          "@type":"ItemList",
+          "itemListElement":[
+            {% for post in post_section_list.0.posts %}
+                {% if loop.last %}
+                {
+                    "@type":"ListItem",
+                    "position":{{ loop.index }},
+                    "url":"https://{{ publisher.actual_domain }}{{ post.legacy_url }}",
+                    "name": "{{ post.title|escape }}",
+                    "description": "{{ post.short_description|escape }}"
+                }
+                {% else %}
+                {
+                    "@type":"ListItem",
+                    "position":{{ loop.index }},
+                    "url":"https://{{ publisher.actual_domain }}{{ post.legacy_url }}",
+                    "name": "{{ post.title|escape }}",
+                    "description": "{{ post.short_description|escape }}"
+                    },
+                {% endif %}
+            {% endfor %}
+          ]
+        }
+    </script>
+{% endblock %}
 
 {% block content %}
 {% if is_mobile_device %}
-  {% include template_key~'/templates/mobile_template/mobile-tag.html' %}
+    {% include template_key~"/templates/mobile_template/mobile-tag.html" %}
 {% else %}
-  {% include template_key~'/templates/desktop_template/desktop-tag.html' %}
+    {% include template_key~"/templates/desktop_template/desktop-tag.html" %}
 {% endif %}
-{% endblock %}
+{% endblock %} 

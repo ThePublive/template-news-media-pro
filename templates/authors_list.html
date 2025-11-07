@@ -1,10 +1,9 @@
-{% extends template_key~'/templates/default.html' %}
+{% extends template_key~"/templates/default.html" %}
 
 {% block content %}
-<main class="authors-list-page spacing-from-navbar">
-    <div class="container">
-        <h1>All Authors</h1>
-        {# Authors grid will go here #}
-    </div>
-</main>
-{% endblock %}
+{% if is_mobile_device %}
+  {% include template_key~"/templates/mobile_template/mobile-author-list.html" %}
+{% else %}
+  {% include template_key~"/templates/desktop_template/desktop-author-list.html" %}
+{% endif %}
+{% endblock %} 

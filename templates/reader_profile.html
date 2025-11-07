@@ -1,40 +1,55 @@
 {% extends template_key~"/templates/default.html" %}
 
 {% block content %}
-<div class="profile-page-container">
-    <div class="container">
-        <div class="profile-grid">
-            <aside class="profile-sidebar">
-                <nav class="profile-nav">
-                    <a href="#profile" class="profile-nav-link active">Profile</a>
-                    <a href="#bookmarks" class="profile-nav-link">Bookmarks</a>
-                    <a href="#subscriptions" class="profile-nav-link">Subscriptions</a>
-                    <a href="#settings" class="profile-nav-link">Settings</a>
-                </nav>
-            </aside>
+  <main>
+    {% if is_mobile_device %}
+      {% if slots.mobile_ap_top %}
+        <div class="ads-div-style   article-top-ads-style" style="{{slots.mobile_ap_top.custom_css_styles|safe}}">
+          <span class="publive-slot-span ">Advertisment</span>
+          {{ slots.mobile_ap_top.html_content|safe }}
+        </div>
+      {% endif %}
+    {% else %}
+      {% if slots.desktop_ap_top %}
+        <div class="ads-div-style   article-page-ads " style="{{slots.desktop_ap_top.custom_css_styles|safe}}">
+          <span class="publive-slot-span ">Advertisment</span>
+          {{ slots.desktop_ap_top.html_content|safe }}
+        </div>
+      {% endif %}
+    {% endif %}
 
-            <div class="profile-content">
-                <h1 class="profile-title">My Profile</h1>
-
-                <div class="profile-info-card">
-                    <form action="/profile/update" method="POST">
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" name="name" value="{{ reader.name }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" value="{{ reader.email }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Bio</label>
-                            <textarea name="bio" rows="4">{{ reader.bio }}</textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
+    <div class="uni-padding">
+        <div class="reader-container mobie-padding">
+            <div class="reader-profile-container">
+                <span id="breadcrumbs" class="secondary_font reader-breadcrumbs">
+                    <a href="/" class="anchor_brnd_hov"> Home </a>
+          
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
+                      <path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" />
+                    </svg>
+          
+                    <a href="/{{request.fullpath}}" class="anchor_brnd_hov" aria-label="bookmarks" >{{"update_profile"|translate(lang)}}</a >
+                </span>
+          
+                <div class="bookmark-title">
+                    <a href="/{{ category_slug }}" >
+                      <h2>
+                        {{"update_profile"|translate(lang)}}
+                      </h2>
+                    </a>
                 </div>
+
+                {% include "decoupled_common_components/component/reader_login/reader_profile_form.html" %}
+                {% include "decoupled_common_components/component/reader_login/reader_profile_modal.html" %}
+                
             </div>
         </div>
     </div>
-</div>
+</main>
 {% endblock %}
+
+{% block script %}
+    <script id="reader-profile-js" src="{{ static('/js/reader/reader_profile.js',True) }}" type="text/javascript" csrf_token="{{ csrf_token }}" ></script>
+{% endblock script %}
+
+

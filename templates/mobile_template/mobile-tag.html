@@ -1,12 +1,34 @@
-{# Mobile Tag Page Layout #}
-<div class="tag-page-mobile">
-    <h1 class="tag-title-mobile">#{{ tag.name }}</h1>
-    {% if post_section_list %}
-        {% for section in post_section_list %}
-        <div class="tag-section-mobile">
-            {% include template_key~'/templates/components/section_layouts/layout_type_1.html' %}
-        </div>
-        {% endfor %}
+<main>
+  <div class="secondary mt-3">
+  {% if slots.mobile_cp_top %}
+  <div class="responsive-ad-css">
+
+    <div class="ads-div-style   top-ads-style" style="{{slots.mobile_cp_top.custom_css_styles|safe}}">
+      <span class="publive-slot-span ">Advertisment</span>
+      {{ slots.mobile_cp_top.html_content|safe }}
+    </div>
+      {% endif %}
+  {% if post_section_list %}
+    {% for post_section in post_section_list %}
+      <section id="featured-section">
+        {%set featured=True %}
+        {%set counter=loop.index %}
+        {%set post_section = post_section %}
+        {%set category_content=tag_content%}
+        {% include template_key~"/templates/components/common_utils/child-categories.html" %}
+        {% include template_key~'/templates/components/mobile-hero-section.html'%}
+      </section>
+    {% endfor %}
+    {% if slots.mobile_cp_bottom %}
+    <div class="responsive-ad-css">
+      <div class="ads-div-style   mid-ads-style" style="{{slots.mobile_cp_bottom.custom_css_styles|safe}}">
+        <span class="publive-slot-span ">Advertisment</span>
+        {{ slots.mobile_cp_bottom.html_content|safe }}
+      </div>
+    </div>
     {% endif %}
-    {% include template_key~'/templates/components/common_utils/pagination.html' %}
-</div>
+  {% endif %}
+  <br>
+
+  </div>
+</main>

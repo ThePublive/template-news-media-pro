@@ -1,24 +1,18 @@
-{% extends template_key~'/templates/default.html' %}
+
+{% extends template_key~"/templates/default.html" %}
 
 {% block content %}
 <h1 class="gh-site-title" hidden>{{ meta_tags.meta_title }}</h1>
-
-{# Breaking News Ticker Component #}
-{% if breaking_news_posts %}
-{% include template_key~'/templates/components/breaking-news-ticker.html' %}
-{% endif %}
-
-{# Device-specific templates #}
 {% if is_mobile_device %}
-  {% include template_key~'/templates/mobile_template/mobile-home.html' %}
+  {% include template_key~"/templates/mobile_template/mobile-home.html" %}
 {% else %}
-  {% include template_key~'/templates/desktop_template/desktop-home.html' %}
+  {% include template_key~"/templates/desktop_template/desktop-home.html" %}
 {% endif %}
-{% endblock %}
+{% endblock %} 
+
 
 {% block script %}
 <script>
-  // Web story carousel scrolling
   const scrollContainer = document.getElementById('scroll-webstory');
   function scrollby(direction) {
       try{
@@ -26,13 +20,13 @@
           if (direction == 'left'){
               document.querySelector('.prev').style.display ='block'
               scrollContainer.scrollBy({
-                left: scrollAmount,
+                left: scrollAmount, // Scroll right by 50 pixels
                 behavior: 'smooth'
               });
           }
           else{
             scrollContainer.scrollBy({
-                left: -scrollAmount,
+                left: -scrollAmount, // Scroll right by 50 pixels
                 behavior: 'smooth'
               });
           }
@@ -40,5 +34,6 @@
           console.error("scrollWebStoryContainer Error:", err)
       }
   }
+
 </script>
 {% endblock script %}

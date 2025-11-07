@@ -1,34 +1,13 @@
 {% extends template_key~"/templates/default.html" %}
 
 {% block content %}
-<div class="subscription-page-container">
-    <div class="container">
-        <h1 class="page-title">Manage Subscriptions</h1>
-
-        <div class="subscription-grid">
-            {% if subscription_plans %}
-                {% for plan in subscription_plans %}
-                <div class="subscription-card {% if plan.is_current %}current-plan{% endif %}">
-                    <h3 class="plan-name">{{ plan.name }}</h3>
-                    <div class="plan-price">
-                        <span class="currency">$</span>
-                        <span class="amount">{{ plan.price }}</span>
-                        <span class="period">/{{ plan.period }}</span>
-                    </div>
-                    <ul class="plan-features">
-                        {% for feature in plan.features %}
-                        <li>{{ feature }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% if plan.is_current %}
-                    <button class="plan-btn current">Current Plan</button>
-                    {% else %}
-                    <button class="plan-btn" onclick="selectPlan('{{ plan.id }}')">Select Plan</button>
-                    {% endif %}
-                </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-    </div>
-</div>
-{% endblock %}
+<main>
+  <div class="uni-padding">
+      <div class="{% if not is_mobile_device %}main{% endif %}">
+          <div id="left-col">
+            {%include 'decoupled_common_components/component/access_wall_template/manage_subscription.html'%}
+          </div>
+      </div>
+  </div>
+</main>
+{% endblock %} 

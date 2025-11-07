@@ -1,86 +1,61 @@
-{% extends template_key~'/templates/default.html' %}
+{% extends template_key~"/templates/default.html" %}
 {%set post_data = post_data | default({}) %}
-
 {% block json_ld %}
-   {# NewsArticle Schema - Enhanced for Google News #}
    {% include "decoupled_common_components/component/json_ld_sub_component/articlePageJsonLd.html" %}
-   {% include 'decoupled_common_components/component/json_ld_sub_component/article_breadcrumb_json_ld.html' %}
 
-   {% if post_data.post.type == 'LiveBlog' %}
-       {% include 'decoupled_common_components/component/json_ld_sub_component/live_blog_posting.html' %}
-   {% elif post_data.post.type == 'Gallery' %}
-       {% include "decoupled_common_components/component/json_ld_sub_component/galleryPageJsonLd.html" %}
-   {% endif %}
+    {% include 'decoupled_common_components/component/json_ld_sub_component/article_breadcrumb_json_ld.html' %}
+    {% if post_data.post.type == 'LiveBlog' %}
+        {% include 'decoupled_common_components/component/json_ld_sub_component/live_blog_posting.html' %}
+    {% elif post_data.post.type == 'Gallery' %}
+        {% include "decoupled_common_components/component/json_ld_sub_component/galleryPageJsonLd.html" %}
+    {% endif %}
+{% endblock %}
+{%block head_block%}
+{% if  custom_template_config.disable_amp_link %}
+    <link rel="amphtml" href="https://{{publisher.actual_domain}}{{post_data.post.legacy_url}}/amp">
+{% endif %}
 {% endblock %}
 
 {% block content %}
     {% if is_mobile_device %}
-        {% include template_key~'/templates/mobile_template/mobile-post.html' %}
+        {% include template_key~"/templates/mobile_template/mobile-post.html" %}
     {% else %}
-        {% include template_key~'/templates/desktop_template/desktop-post.html' %}
+        {% include template_key~"/templates/desktop_template/desktop-post.html" %}
     {% endif %}
-
-    {# Login/Paywall #}
-    {% if allow_reader_login %}
+    {% if allow_reader_login %} 
         {% if post_data.post.access_type == 'Login' %}
             {% include template_key~'/templates/components/common_utils/login_wall_V2.html' %}
         {% elif post_data.post.access_type == 'Paid' %}
             <section id="pub-paywall-container" class="login-wall pub-login-wall">
             </section>
-        {% endif %}
+        {% endif %} 
     {% endif %}
-{% endblock %}
+{% endblock  %}
 
 {% block script %}
-<script id="article-js" src="{{ static(template_key+'/assets/js/post.js') }}" type="text/javascript"
-    is_mobile_device="{{is_mobile_device}}"
-    share_icon="{{ static('images/share.png') }}"
-    primary_category='{{ post_data.post.primary_category.slug }}'
-    enable_infinte_article='{{ do_article_infinte_scroll }}'
-    allow_login_wall="{{global_login_wall.is_enabled}}"
-    article_type="{{ post_data.post.type }}"
-    article_legacy_url="{{ post_data.post.legacy_url }}"
-    post_id="{{ post_data.post.id }}"
-    publisher_actual_domain="https://{{ publisher.actual_domain }}"
-    post_access_type="{{post_data.post.access_type}}">
-</script>
 
+<script id="article-js" src="{{ static (template_key+'/assets/js/post.js') }}" type="text/javascript" is_mobile_device={{is_mobile_device}} share_icon="{{ static('images/share.png') }}" primary_category='{{ post_data.post.primary_category.slug }}' enable_infinte_article='{{ do_article_infinte_scroll }}' allow_login_wall="{{global_login_wall.is_enabled}}" web_story_logo="{{ static(template_key+'/assets/images/web-story-icon.svg') }}" gallery_logo="{{ static(template_key+'/assets/images/gallery-icon.svg') }}" hide_full_content="{% if allow_reader_login and global_login_wall and global_login_wall.is_enabled %}true {% else %}false{% endif %}"  allow_reader_login="{{allow_reader_login}}" enable_native_legacy_ui="{{enable_native_legacy_ui}}" article_type="{{ post_data.post.type }}" article_legacy_url="{{ post_data.post.legacy_url }}" post_id="{{ post_data.post.id }}" publisher_actual_domain="https://{{ publisher.actual_domain }}" post_access_type="{{post_data.post.access_type}}"></script>
 <script>
-    // Related articles
-    related_articles("{{post_data.post.primary_category.slug}}")
+related_articles("{{post_data.post.primary_category.slug}}")
 </script>
-
 <script>
-    // Table of contents collapse
-    document.addEventListener('DOMContentLoaded', function() {
-        var toc = document.querySelector('.mce-toc');
-        var tocHeader = document.querySelector('.mce-toc h2');
-        if (toc && tocHeader) {
-            toc.classList.add('collapsed');
-            tocHeader.addEventListener('click', function() {
-                toc.classList.toggle('collapsed');
-            });
-        }
-    });
-</script>
+document.addEventListener('DOMContentLoaded', function() {
+    var toc = document.querySelector('.mce-toc');
+    var tocHeader = document.querySelector('.mce-toc h2');
 
-{# Read Aloud Feature #}
-<script id="read_aloud-js" src="{{ static('/js/read_aloud.js',True) }}" type="text/javascript"
-    read_aloud_audio_file_path="{{ read_aloud_audio_file_path }}"
-    play_button_svg='{% include "common_util_across_templates/svg_html/play_button.html" %}'
-    pause_button_svg='{% include "common_util_across_templates/svg_html/pause_button.html" %}'
-    valid_legacy_url="{{ post_data.post.legacy_url|valid_url_for_title_update }}">
+    if (toc && tocHeader) {
+        toc.classList.add('collapsed');
+        tocHeader.addEventListener('click', function() {
+            toc.classList.toggle('collapsed');
+        });
+    }
+});
 </script>
+<script id="read_aloud-js" src="{{ static('/js/read_aloud.js',True) }}" type="text/javascript" read_aloud_audio_file_path="{{ read_aloud_audio_file_path }}" play_button_svg='{% include "common_util_across_templates/svg_html/play_button.html" %}' pause_button_svg='{% include 'common_util_across_templates/svg_html/pause_button.html' %}' valid_legacy_url="{{ post_data.post.legacy_url|valid_url_for_title_update }}"></script>
 
-{# Bookmark functionality #}
+
 {% if allow_reader_login %}
-<script id="bookmark-js" src="{{ static(template_key~'/assets/bundles/bookmark_bundle.js') }}" type="text/javascript"
-    primary_category='{{ post_data.post.primary_category.slug }}'
-    article_type="{{ post_data.post.type }}"
-    csrf_token="{{ csrf_token }}"
-    actual_domain="{{ publisher.actual_domain }}"
-    defer>
-</script>
+<script id="bookmark-js" src="{{ static(template_key~'/assets/bundles/bookmark_bundle.js') }}" type="text/javascript" primary_category='{{ post_data.post.primary_category.slug }}' article_type="{{ post_data.post.type }}" csrf_token="{{ csrf_token }}" actual_domain="{{ publisher.actual_domain }}" defer></script>
 {% endif %}
 
 {% endblock script %}
