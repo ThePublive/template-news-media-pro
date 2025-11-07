@@ -1,0 +1,1 @@
+document.querySelectorAll(".faq-pair-html").forEach(e=>{const t=e.querySelector(".question-html"),l=e.querySelector(".answer-html");t.addEventListener("click",()=>{e.classList.toggle("active"),l.classList.toggle("active-answer-html")})});
