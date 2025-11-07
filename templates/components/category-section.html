@@ -1,111 +1,35 @@
-{# Category Sections - Additional post sections after hero #}
-{# Uses alternating layout types for visual variety #}
 
-{% if category_sections and category_sections|length > 0 %}
-    {% for section in category_sections %}
-        {% if section.posts and section.posts|length > 0 %}
-        <div class="category-section-wrapper">
-            {# Section Header #}
-            <div class="section-header">
-                {% if section.name %}
-                <h2 class="section-title">{{ section.name }}</h2>
-                {% endif %}
-                {% if section.absolute_url %}
-                <a href="{{ section.absolute_url }}" class="view-all-link">
-                    View All →
-                </a>
-                {% endif %}
-            </div>
-
-            {# Alternate between layout types for variety #}
-            {% set posts = section.posts %}
-            {% if loop.index % 3 == 1 %}
-                {# Layout Type 1 - Grid #}
-                {% include template_key~'/templates/components/section_layouts/layout_type_1.html' %}
-            {% elif loop.index % 3 == 2 %}
-                {# Layout Type 2 - Featured + List #}
-                {% include template_key~'/templates/components/section_layouts/layout_type_2.html' %}
-            {% else %}
-                {# Layout Type 3 - Horizontal Scroll #}
-                {% include template_key~'/templates/components/section_layouts/layout_type_3.html' %}
-            {% endif %}
+{% for post_section  in category_section_posts_list %}
+{% if post_section.posts|length > 0 %}
+    <section  class="category-section">
+        <a class='publisher_color category-title' href="{{ post_section.absolute_url }}" aria-label="{{ post_section.name }}">
+            <h2 style="margin-bottom: 0px;"  class=" category_{{post_section.slug|slash_remove}}_text_color  line-title primary_font">
+                {{ post_section.name }}
+            </h2>
+            <div class="line category_{{post_section.slug|slash_remove}}_brand_color "></div>
+        </a>
+      {%set featured = False%}
+    {% include template_key~'/templates/components/hero-section.html' %}
+    {% if post_section.posts_without_banner %}
+        {%set posts=post_section.posts_without_banner%}
+        {% include template_key~"/templates/components/common_utils/post_cards/post-card-8.html"  %}
+    {% endif %}
+    </section>
+    {% if is_mobile_device %}
+        {% set slot_content = get_dynamic_slot(slots, 'mobile_hp_' ,(loop.index + 1)) %}
+    {% else %}
+        {% set slot_content = get_dynamic_slot(slots, 'desktop_hp_' , (loop.index + 1)) %}
+    {% endif %}
+    {% if slot_content %}
+    <div class="responsive-ad-css">
+        <div class="ads-div-style between-slot" style="{{slot_content.custom_css_styles|safe}}">
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slot_content.html_content|safe }}
         </div>
-        {% endif %}
-    {% endfor %}
-
-{% elif recent_posts and recent_posts|length > 0 %}
-    {# Fallback: Show recent posts if category_sections not available #}
-    <div class="category-section-wrapper">
-        <div class="section-header">
-            <h2 class="section-title">Latest News</h2>
-        </div>
-        {% set posts = recent_posts[:12] %}
-        {% include template_key~'/templates/components/section_layouts/layout_type_1.html' %}
     </div>
-
-{% elif all_posts and all_posts|length > 0 %}
-    {# Another fallback: Show all posts #}
-    <div class="category-section-wrapper">
-        <div class="section-header">
-            <h2 class="section-title">All Stories</h2>
-        </div>
-        {% set posts = all_posts[:12] %}
-        {% include template_key~'/templates/components/section_layouts/layout_type_1.html' %}
-    </div>
+    {% endif %}
 {% endif %}
+{% include template_key~"/templates/components/common_utils/webstory-module.html" %}
+{% endfor %}
 
-<style>
-.category-section-wrapper {
-    margin-bottom: 50px;
-}
 
-.category-section-wrapper .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid var(--p-border-color, #e0e0e0);
-    position: relative;
-}
-
-.category-section-wrapper .section-title {
-    font-size: 26px;
-    font-weight: 700;
-    margin: 0;
-    color: var(--p-txt-1-color, #181818);
-    position: relative;
-}
-
-.category-section-wrapper .section-title::before {
-    content: '';
-    position: absolute;
-    bottom: -16px;
-    left: 0;
-    width: 60px;
-    height: 3px;
-    background: var(--p-accent-color, #ff0000);
-}
-
-.category-section-wrapper .view-all-link {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--p-accent-color, #ff0000);
-    text-decoration: none;
-    transition: opacity 0.2s;
-}
-
-.category-section-wrapper .view-all-link:hover {
-    opacity: 0.8;
-}
-
-@media (max-width: 768px) {
-    .category-section-wrapper {
-        margin-bottom: 35px;
-    }
-
-    .category-section-wrapper .section-title {
-        font-size: 20px;
-    }
-}
-</style>

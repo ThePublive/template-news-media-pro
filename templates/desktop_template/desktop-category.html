@@ -1,28 +1,64 @@
-{# Desktop Category Page Layout #}
-<div class="category-page-container">
-    <div class="category-header">
-        <h1 class="category-title">{{ category.name }}</h1>
-        {% if category.description %}
-        <p class="category-description">{{ category.description }}</p>
-        {% endif %}
+<main>
+  {% if slots.desktop_cp_top %}'
+  <div class="responsive-ad-css">'
+  <div class="ads-div-style   top-ad-height ad-top-mar" style="{{slots.desktop_cp_top.custom_css_styles|safe}}">
+      <span class="publive-slot-span ">Advertisment</span>
+      {{ slots.desktop_cp_top.html_content|safe }}
+  </div>
     </div>
+  {% endif %}
+  <div class="uni-padding">
+      {% if slots.desktop_cp_gutter_lhs %}
+      <div class="responsive-ad-css">
 
-    <div class="category-main-layout">
-        <div class="category-content">
-            {% if post_section_list %}
-                {% for section in post_section_list %}
-                <div class="category-section">
-                    {% include template_key~'/templates/components/section_layouts/layout_type_1.html' %}
-                </div>
-                {% endfor %}
-            {% endif %}
-
-            {# Pagination #}
-            {% include template_key~'/templates/components/common_utils/pagination.html' %}
+          <div class="ads-div-style   sidebar-slots left-sidebar-slots" style="{{slots.desktop_cp_gutter_lhs.custom_css_styles|safe}}">
+              {{ slots.desktop_cp_gutter_lhs.html_content|safe }}
+          </div>
         </div>
+      {% endif %}
+      <div class="main" style="flex-direction:row-reverse;">
+          {% include template_key~'/templates/components/latest-stories.html' %}
+          <div id="left-col">
+              {% if post_section_list %}
+                  {% for post_section in post_section_list %}
+                      <section id="featured-section" style="margin-bottom:20px;">
+                        {%set category_content=category_content%}
+                        {% include template_key~"/templates/components/common_utils/child-categories.html" %}
+                        {%set featured=True%}
+                        {% if category_content.content_type == 'Web Story' %}
+                        <div class="web-story-listing">
+                            <div class="web-story-list">
+                                {% for web_story in post_section.posts %}
+                                    {% include template_key~'/templates/components/common_utils/post_cards/web-story-card.html' %}  
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% include template_key~'/templates/components/common_utils/pagination.html' %}
+                        {% else %}
+                            {% include template_key~'/templates/components/hero-section.html' %}
+                        {% endif %}
+                      </section>
+                  {% endfor %}
+                  {% if slots.desktop_cp_1 %}
+                  <div class="responsive-ad-css">
 
-        <aside class="category-sidebar">
-            {% include template_key~'/templates/components/sidebar/desktop-sidebar.html' %}
-        </aside>
-    </div>
-</div>
+                      <div class="ads-div-style   top-ad-height" style="{{slots.desktop_cp_1.custom_css_styles|safe}}">
+                          <span class="publive-slot-span ">Advertisment</span>
+                          {{ slots.desktop_cp_1.html_content|safe }}
+                      </div>
+                    </div>
+                  {% endif %}
+              {% endif %}
+          </div>
+
+      </div>
+      {% if slots.desktop_cp_gutter_rhs %}
+      <div class="responsive-ad-css">
+
+          <div class="ads-div-style   sidebar-slots right-sidebar-slots" style="{{slots.desktop_cp_gutter_rhs.custom_css_styles|safe}}">
+              {{ slots.desktop_cp_gutter_rhs.html_content|safe }}
+          </div>
+          </div>
+      {% endif %}
+  </div>
+</main>

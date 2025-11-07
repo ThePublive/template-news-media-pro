@@ -1,12 +1,46 @@
-{# Mobile Category Page Layout #}
-<div class="category-page-mobile">
-    <h1 class="category-title-mobile">{{ category.name }}</h1>
-    {% if post_section_list %}
-        {% for section in post_section_list %}
-        <div class="category-section-mobile">
-            {% include template_key~'/templates/components/section_layouts/layout_type_1.html' %}
-        </div>
-        {% endfor %}
+<main>
+  <div class="secondary mt-3">
+  {% if slots.mobile_cp_top %}
+  <div class="responsive-ad-css">
+
+    <div class="ads-div-style   top-ads-style" style="{{slots.mobile_cp_top.custom_css_styles|safe}}">
+      <span class="publive-slot-span ">Advertisment</span>
+      {{ slots.mobile_cp_top.html_content|safe }}
+    </div>
+    </div>
+      {% endif %}
+  {% if post_section_list %}
+    {% for post_section in post_section_list %}
+      <section id="featured-section">
+        {%set featured=True %}
+        {%set counter=loop.index %}
+        {%set post_section = post_section %}
+        {%set category_content=category_content%}
+        {% include template_key~"/templates/components/common_utils/child-categories.html" %}
+        {% if category_content.content_type == 'Web Story' %}
+          <div class="web-story-listing">
+            <div class="web-story-list">
+              {% for web_story in post_section.posts %}
+                {% include template_key~'/templates/components/common_utils/post_cards/web-story-card.html' %}  
+              {% endfor %}
+            </div>
+          </div>
+        {% else %}
+          {% include template_key~'/templates/components/mobile-hero-section.html'%}
+        {% endif %}
+      </section>
+    {% endfor %}
+    {% if slots.mobile_cp_bottom %}
+    <div class="responsive-ad-css">
+
+      <div class="ads-div-style   mid-ads-style" style="{{slots.mobile_cp_bottom.custom_css_styles|safe}}">
+        <span class="publive-slot-span ">Advertisment</span>
+        {{ slots.mobile_cp_bottom.html_content|safe }}
+      </div>
+      </div>
     {% endif %}
-    {% include template_key~'/templates/components/common_utils/pagination.html' %}
-</div>
+  {% endif %}
+  <br>
+
+  </div>
+</main>

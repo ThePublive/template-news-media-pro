@@ -1,385 +1,374 @@
-{# Article Content Component - News Media Pro #}
-{% set post = post_data.post %}
-
-<article class="article-content">
-    {# Article Header #}
-    <header class="article-header">
-        {# Category Badge #}
-        {% if post.primary_category %}
-        <div class="article-category-wrapper">
-            <a href="{{ post.primary_category.absolute_url }}" class="article-category category_{{ post.primary_category.slug|slash_remove }}_brand_color">
-                {{ post.primary_category.name }}
-            </a>
-        </div>
-        {% endif %}
-
-        {# Article Title #}
-        <h1 class="article-title">{{ post.title }}</h1>
-
-        {# Article Subtitle/Excerpt #}
-        {% if post.excerpt %}
-        <p class="article-excerpt">{{ post.excerpt }}</p>
-        {% endif %}
-
-        {# Article Meta - Author, Date, Read Time #}
-        <div class="article-meta">
-            {# Author Info #}
-            {% if post.contributors and post.contributors|length > 0 %}
-            <div class="article-authors">
-                {% for contributor in post.contributors[:3] %}
-                <div class="author-item">
-                    {% if contributor.avatar_url %}
-                    <img src="{{ contributor.avatar_url|get_absolute_image_url('50,50') }}"
-                         alt="{{ contributor.name }}"
-                         class="author-avatar">
-                    {% endif %}
-                    <a href="{{ contributor.absolute_url }}" class="author-name">
-                        {{ contributor.name }}
-                    </a>
+<article class=" {%if not copy_content %} unselectable {%endif%}">
+    <div id="left-col">
+        <div class="article_main_div article_scroll_post_{{post_data.post.absolute_url|valid_url_for_title_update}}" data-page-url="{{ post_data.post.legacy_url}}" data-page-title="{{ post_data.post.title|safe|truncatechars(67)|html_parse }}" data-page-primary-category="{{ post_data.post.primary_category.slug }}" data-page-author="{{ post_data.post.contributors.0.slug }}" data-page-post-id="{{ post_data.post.id }}" data-page-publisher-id="{{ publisher.id }}" data-page-lang-code="{{ post_data.post.language_code }}" data-page-publisher-domain="{{ publisher.actual_domain }}">
+            <div class="article_div ">
+                <div class="d-flex gh-tags-wrapper">
+                {% if post_data.post.type == 'LiveBlog' and live_blog_status == 'Live' %}
+                    {% include "decoupled_common_components/component/live_blog_component/live_icon.html" %}
+                {% endif %}
+                    <div class="links tags-category primary_font">
+                        {% if post_data.post.primary_category %}
+                            <a  href="{{ post_data.post.primary_category.absolute_url }}" class="category-link category_{{post_data.post.primary_category.slug|slash_remove}}_text_color " aria-label="{{ post_data.post.primary_category.name }}" target="_blank">
+                                {{ post_data.post.primary_category.name }}
+                            </a>
+                        {% endif %}
+                        {% if post_data.post.categories.0 and  post_data.post.categories.0.slug != post_data.post.primary_category.slug %}
+                            <a href="{{ post_data.post.categories.0.absolute_url }}" class="category-link category_{{post_data.post.categories.0.slug|slash_remove}}_text_color" aria-label="{{ post_data.post.categories.0.name }}" target="_blank">
+                                {{ post_data.post.categories.0.name }}
+                            </a>
+                        {% elif post_data.post.categories.1 and post_data.post.categories.1.slug %}
+                            <a href="{{ post_data.post.categories.1.absolute_url }}" class="category-link category_{{post_data.post.categories.1.slug|slash_remove}}_text_color" aria-label="{{ post_data.post.categories.1.name }}" target="_blank">
+                                {{ post_data.post.categories.1.name }}
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
-                {% endfor %}
+                <div class="article ck-content">
+                    <section class="article-title primary_font">
+                        <h1 class="title_link primary_font" >{{ post_data.post.title}}
+                        </h1>
+                        {% if  slots.desktop_ap_after_title %}
+                        <div class="responsive-ad-css">
+
+                        <div class="ads-div-style   article-page-ads" style="{{slots.desktop_ap_after_title.custom_css_styles|safe}}">
+                            <span class="publive-slot-span ">Advertisment</span>
+                            {{ slots.desktop_ap_after_title.html_content|safe }}
+                        </div>
+                        </div>
+                        {% endif %}
+                    </section>
+                    {% if post_data.post.summary %}
+                        <section class="article-summary secondary_font">
+                            <h2 class="secondary_font">{{ post_data.post.summary}}
+                            </h2>
+                        {% if slots.desktop_ap_after_summary %} 
+                        <div class="responsive-ad-css">
+
+                                <div class="ads-div-style   article-page-ads" style="{{slots.desktop_ap_after_summary.custom_css_styles|safe}}">
+
+                                    <span class="publive-slot-span ">Advertisment</span>
+                                    {{ slots.desktop_ap_after_summary.html_content|safe }}
+
+                                </div>
+                        </div>
+                            {% endif %} 
+                        </section>
+                    {% endif %}
+
+                    <section id="article-content-section">
+
+                        {% if post_data.post.read_short_story and post_data.post.read_short_story.post_url %}
+                            <div class="author-detail secondary_font">
+                                <div class="author-data independent_author">
+                                    <div class="author-img">
+                                        {% if post_data.post.contributors %}
+                                            {% if post_data.post.contributors|length < 2 %}
+                                                <img src="{% if post_data.post.contributors.0.avatar != None %}{{ post_data.post.contributors.0.avatar|get_absolute_image_url('100,0') }} {% else %} {{ static(template_key+'/assets/images/user-avatar.svg') }}{% endif %}" alt="author-image contribution">
+                                            {% endif %}
+                                        {%else%}
+                                            <img src="{{ static(template_key+'/assets/images/user-avatar.svg') }}"   alt="author image">
+                                        {% endif %}
+                                    </div>
+                                    <div class="author">
+                                        {% if post_data.post.contributors %}
+                                            {% if post_data.post.contributors.0 %}
+                                                <a href="{{ post_data.post.contributors.0.absolute_url }}" >{{ post_data.post.contributors.0.name }}</a>
+                                            {% endif %}
+                                            {% if post_data.post.contributors.1 %}
+                                                <span class="by"> {{'and'|translate(lang)}} </span>
+                                                <a href="{{ post_data.post.contributors.1.absolute_url }}" >{{ post_data.post.contributors.1.name }}</a>
+                                            {% endif %}
+                                        {% endif %}
+                                        <div>
+                                            {% include "common_util_across_templates/svg_html/calendar-svg.html" %}
+                                            
+                                            <time class="date" style="font-size:13px;">{{ post_data.post.formatted_first_published_at_datetime|date_time_format("%d %b %Y %H:%M")}} {{publisher.timezone.timezone_display_name}}</time>
+                                        {% if post_data.post.formatted_first_published_at_datetime != post_data.post.formatted_last_published_at_datetime %}
+                                            <span class="updated_date">
+                                                <svg class='stat-divider' width="3" height="3" viewBox="0 0 3 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="1.5" cy="1.5" r="1.5" fill="#AAA7A7"/>
+                                                </svg>  
+                                                {{ 'updated_on'|translate(lang)}}
+                                            </span>
+                                            <time class="updated_date">{{post_data.post.formatted_last_published_at_datetime|date_time_format("%d %b %Y %H:%M")}} {{publisher.timezone.timezone_display_name}}</time>
+                                        {% endif %}
+                                        {% if post_data.post.read_time %}
+                                            <span class="read_time"> 
+                                                <svg class='stat-divider' width="3" height="3" viewBox="0 0 3 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <circle cx="1.5" cy="1.5" r="1.5" fill="#AAA7A7"/>
+                                                </svg>
+                                                {{post_data.post.read_time}} {{'minutes_read'|translate(lang)}}
+                                            </span>
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                    {% if allow_reader_login %}
+                                        <div class="article-bookmark bookmark-form px-1">
+                                            <a id="bookmark-redirect-btn-{{post_data.post.id}}" href="https://{{ publisher.actual_domain }}/reader/login">
+                                                {% include template_key~'/templates/components/common_utils/svgs/add-bookmark-svg.html' %}
+                                            </a>
+
+                                            <input id="article-post-id" type="text" value="{{post_data.post.id}}" class="display-none">
+                                            <button id="add-bookmark-btn-{{post_data.post.id}}" onClick="add_bookmark('{{ post_data.post.id }}')" class="bookmark-btn-display-none">
+                                                    {% include template_key~'/templates/components/common_utils/svgs/add-bookmark-svg.html' %}
+                                            </button>
+
+                                            <button id="remove-bookmark-btn-{{post_data.post.id}}" onClick="remove_bookmark('{{ post_data.post.id }}')" class="bookmark-btn-display-none">
+                                                {% include template_key~'/templates/components/common_utils/svgs/remove-bookmark-svg.html' %} 
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div id="article_details" class="article-detail secondary_font">
+
+                            {% if post_data.post.read_short_story and post_data.post.read_short_story.post_url %}
+                                <div class='read_in_short_wrapper'>
+                                    <a class="read_in_short-btn" href="https://{{ publisher.actual_domain }}{{post_data.post.read_short_story.post_url}}" aria-label={{post_data.post.read_short_story.post_url}}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288H175.5L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3s-16.6-20.7-30-20.7H272.5L349.4 44.6z"/></svg>
+
+                                        <p lang={{lang}}>{{'read_in_short'|translate(lang)}}</p>
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="author-detail secondary_font">
+                                    <div class="author-data">
+                                        <div class="author-img">
+                                            {% if post_data.post.contributors  %} 
+                                                {% if post_data.post.contributors|length < 2 %}
+                                                    <img src="{% if post_data.post.contributors.0.avatar != None %}{{ post_data.post.contributors.0.avatar|get_absolute_image_url('100,0') }} {% else %} {{ static (template_key+'/assets/images/user-avatar.svg') }}{% endif %}" alt="author-image">
+                                                {% endif %}
+                                            {%else%}
+                                                <img src="{{ static (template_key+'/assets/images/user-avatar.svg') }}"   alt="author image">
+                                            {% endif %}
+                                        </div>
+                                        <div class="author">
+                                            {% if post_data.post.contributors %}
+                                                {% if post_data.post.contributors.0 %}
+                                                    <a href="{{ post_data.post.contributors.0.absolute_url }}" >{{ post_data.post.contributors.0.name }}</a>
+                                                {% endif %}
+                                                {% if post_data.post.contributors.1 %}
+                                                    <span class="by"> {{'and'|translate(lang)}} </span>
+                                                    <a href="{{ post_data.post.contributors.1.absolute_url }}" >{{ post_data.post.contributors.1.name }}</a>
+                                                {% endif %}
+
+                                            {% endif %}
+                                            <div class="article-stats">
+                                                <div>
+                                                    {% include "common_util_across_templates/svg_html/calendar-svg.html" %}
+                                                    <time class="date">
+                                                        {{ post_data.post.formatted_first_published_at_datetime|date_time_format("%d %b %Y %H:%M")}} {{publisher.timezone.timezone_display_name}}
+                                                    </time>
+                                                </div>
+                                                <div>
+                                                {% if post_data.post.formatted_first_published_at_datetime != post_data.post.formatted_last_published_at_datetime %}
+                                                    <span class="updated_date">
+                                                        <svg class='stat-divider' width="3" height="3" viewBox="0 0 3 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <circle cx="1.5" cy="1.5" r="1.5" fill="#AAA7A7"/>
+                                                        </svg> 
+                                                        {{ 'updated_on'|translate(lang)}}
+                                                    </span> 
+                                                    <time class="updated_date">
+                                                        {{post_data.post.formatted_last_published_at_datetime|date_time_format("%d %b %Y %H:%M")}} {{publisher.timezone.timezone_display_name}}
+                                                    </time>
+                                                    {% endif %}
+                                                </div>
+
+                                                {% if post_data.post.read_time %}
+                                                    <span class="read_time"> 
+                                                        <svg class='stat-divider' width="3" height="3" viewBox="0 0 3 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <circle cx="1.5" cy="1.5" r="1.5" fill="#AAA7A7"/>
+                                                        </svg> 
+
+                                                        {{post_data.post.read_time}} {{'minutes_read'|translate(lang)}}
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% if allow_reader_login %}
+                                        <div class="article-bookmark bookmark-form px-1">
+                                            <a id="bookmark-redirect-btn-{{post_data.post.id}}" href="https://{{ publisher.actual_domain }}/reader/login">
+                                                {% include template_key~'/templates/components/common_utils/svgs/add-bookmark-svg.html' %}
+                                            </a>
+
+                                            <input id="article-post-id" type="text" value="{{post_data.post.id}}" class="display-none">
+                                            <button id="add-bookmark-btn-{{post_data.post.id}}" onClick="add_bookmark('{{ post_data.post.id }}')" class="bookmark-btn-display-none">
+                                                {% include template_key~'/templates/components/common_utils/svgs/add-bookmark-svg.html' %}
+                                                </button>
+
+                                            <button id="remove-bookmark-btn-{{post_data.post.id}}" onClick="remove_bookmark('{{ post_data.post.id }}')" class="bookmark-btn-display-none">
+                                                {% include template_key~'/templates/components/common_utils/svgs/remove-bookmark-svg.html' %} 
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <div class="sharelink social-link justify-content-end " id="share_links_above_article_desktop">
+                                {% if google_publication_link %}
+                                    <a href="{{google_publication_link}}" class="google_news" aria-label="follow us google news" target="_blank">
+                                       <img src="{{ static('images/google_news.png',True)}}"> Follow Us
+                                    </a>
+                                {% endif %}
+                                <a href="http://www.facebook.com/sharer/sharer.php?u={{ post_data.post.absolute_url }}&t={{ post_data.post.title }}" aria-label="fb" target="_blank">
+                                    {% include template_key~"/templates/components/common_utils/svgs/facebook.html" %}
+                                </a>
+                                <a href="http://www.twitter.com/intent/tweet?url={{ post_data.post.absolute_url }}&text={{ post_data.post.title|valid_url }}" aria-label="twitter"
+                                    target="_blank" class="share-popup">
+                                    {% include template_key~"/templates/components/common_utils/svgs/twitter.html" %}
+                                </a>
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ post_data.post.absolute_url }}&title={{ post_data.post.title }}"
+                                aria-label="linkedin"
+                                data-action="share/linkedin/share"
+                                target="_blank"
+                                rel="nofollow">
+                                {% include template_key~"/templates/components/common_utils/svgs/linkedin.html" %}
+                                </a>
+                                <a href="https://api.whatsapp.com/send?text={{ post_data.post.absolute_url }}" aria-label="whatsapp"
+                                    data-action="share/whatsapp/share" target="_blank"
+                                    class="me-0 share-popup">
+                                    {% include template_key~'/templates/components/common_utils/svgs/whatsapp-logo-svg.html' %}
+                                </a>
+                            </div>
+                        </div>
+                        {% if post_data.post.type == "LiveBlog" %}
+                        <div class="live_blog_icon_update_div">
+                            {% include "decoupled_common_components/svgs_html/live_blog_update_icon_svg.html" %}
+                            <span>New Update</span>
+                        </div>
+                        {% endif %}
+                        {% if not post_data.post.hide_banner_image %}
+                        <figure style="margin: 0px;">
+                            <div class="article-image">
+                                {% if post_data.post.banner_url %}
+                                    <img src="{{ post_data.post.banner_url|get_absolute_image_url('1280,960') }}" class="art-image" style="min-height: 348px;max-height:888px" alt="{{ post_data.post.banner_alt_text }}">
+                                {% endif %}
+                                {% if post_data.post.banner_description %}
+                                <figcaption>
+                                    <div style="text-align:center;" class="image_description">
+                                        <p style="font-style: italic;">{{ post_data.post.banner_description|safe }}</p>
+                                    </div>
+                                </figcaption>
+                                {% endif %}
+                            </div>
+                        </figure>
+                        {% endif %}
+                        
+                        {% include "decoupled_common_components/component/players/featured_video.html" %}
+                        {% if read_aloud_audio_file_path %}
+                            {% include "decoupled_common_components/component/players/read_aloud_audio_player.html" %}
+                        {% endif %}
+                        
+                        {% if slots.desktop_ap_after_featured %}
+                        <div class="responsive-ad-css">
+
+                            <div class="ads-div-style   article-page-ads after_featured_ad" style="{{slots.desktop_ap_after_featured.custom_css_styles|safe}}">
+                                <span class="publive-slot-span ">Advertisment</span>
+                                {{ slots.desktop_ap_after_featured.html_content|safe }}
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="article secondary_font" id="article_div_{{ post_data.post.id }}">
+                            <div id="postContent" 
+                            class="article-data
+                            {% if enable_show_article_button %}cropped hide-full-content{% endif %}
+                            {% if allow_reader_login and post_data.post.access_type != 'Public' %} paywall hide-full-content {% endif %}">
+                            {% if allow_reader_login and post_data.post.access_type != 'Public' %}
+                            <div id="access-wall-content">
+                                {% if post_data.post.type == 'Gallery' %}
+                                    {% include "decoupled_common_components/component/gallery_post_content_block/gallery_post_content_block.html" %}
+                                {% else %}
+                                        {{ post_data.post.trimmed_content|safe}}
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            <div id="post-container"  {% if allow_reader_login and post_data.post.access_type != 'Public' %}  style="display:none;"{% endif %} >
+                                    {% if post_data.post.type == 'Gallery' %}
+                                        {% include "decoupled_common_components/component/gallery_post_content_block/gallery_post_content_block.html" %}
+                                    {% else %}
+                                        {{ post_data.post.content|safe}}
+                                        {% if post_data.post.type == "LiveBlog" and post_data.post.blog_update %}
+                                            {% include "decoupled_common_components/component/live_blog_component/article_live_blog_updates.html" %}
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="tags-category {% if enable_show_article_button and post_data.post.type != 'CustomPage' %}hide_article_content{% endif %}" id="article_tag_{{ post_data.post.id }}">
+                                {% for tag in post_data.post.tags %}
+                                    <a href="{{ tag.absolute_url }}" class="" aria-label="{{ tag.name }}" target="_blank">
+                                        {{ tag.name }}</a>
+                                {% endfor %}
+                            </div>
+
+                            {% if slots.desktop_ap_after_article %}
+                            <div class="responsive-ad-css">
+
+                                <div class="ads-div-style   article-page-ads {% if enable_show_article_button and post_data.post.type != 'CustomPage' %}hide_article_content{% endif %}" id="desktop_ap_after_article_{{ post_data.post.id }}" style="{{slots.desktop_ap_after_article.custom_css_styles|safe}}">
+                                    <span class="publive-slot-span ">Advertisment</span>
+                                    {{ slots.desktop_ap_after_article.html_content|safe }}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% if enable_show_article_button %}
+                            <!-- At the end of the article, Read More -->
+                                <div class="read-more-box access-wall-comp
+                                {% if allow_reader_login and post_data.post.access_type != 'Public' %} d-none {%endif%}
+                                secondary_font" [hidden]="hiddenState">
+                                    <button class="read-more-btn" onClick="show_full_article('{{ post_data.post.id }}');this.style.display = 'none';" data-id="{{ post_data.post.id }}">
+                                        Read More 
+                                        {%set color=link_text_color%}
+                                        {% include template_key~"/templates/components/common_utils/svgs/read-more-svg.html" %}
+                                    </button>
+                                </div>
+                        {% endif %}
+                    </section>
+                </div>
+            
+            <div class="next_page_hide">
+                <div class="{% if enable_show_article_button %}hide_article_content{% endif %}" id="newsletter_div_{{ post_data.post.id }}">
+                {% if allows_newsletter_subs %}
+                    <div class="article_page_newsletter display-none">
+                    {% include template_key~'/templates/components/subscribe-block.html' %}
+                    </div>
+                {% endif %}
+                </div>
+                <aside>
+                    {% if vuukle_module and vuukle_module.enabled %}
+                    <div id="vuukle-module" class="vuukle-module-css {% if enable_show_article_button and vuukle_module.under_read_more %}hide_article_content{% endif %} ">
+                        {% if vuukle_module.comment %}
+                            <div id='vuukle-comments'  class="vuukle_comments_module next_page_hide"></div>
+                        {% endif %}
+                        {% if vuukle_module.quiz %}
+                            <div id='vuukle-quiz'  class="vuukle_comments_module next_page_hide"></div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% include template_key~"/templates/components/common_utils/related-post-slider.html" %}
+                </aside>
+            </div>
+            </div>
+            {% if slots.desktop_ap_bottom %}
+            <div class="responsive-ad-css">
+
+                <div class="ads-div-style   top_article_ads" style="{{slots.desktop_ap_bottom.custom_css_styles|safe}}">
+                    <span class="publive-slot-span ">Advertisment</span>
+                    {{ slots.desktop_ap_bottom.html_content|safe }}
+                </div>
             </div>
             {% endif %}
-
-            <div class="article-meta-info">
-                {# Published Date #}
-                <time datetime="{{ post.formatted_last_published_at_datetime|date_time_format('%Y-%m-%d') }}" class="article-date">
-                    {{ post.formatted_last_published_at_datetime|date_time_format('%B %d, %Y') }}
-                </time>
-
-                {# Read Time #}
-                {% if post.read_time %}
-                <span class="meta-separator">•</span>
-                <span class="article-read-time">{{ post.read_time }} min read</span>
-                {% endif %}
-
-                {# Last Updated #}
-                {% if post.formatted_last_published_at_datetime != post.formatted_created_at_datetime %}
-                <span class="meta-separator">•</span>
-                <span class="article-updated">
-                    Updated {{ post.formatted_last_published_at_datetime|date_time_format('%b %d, %Y') }}
+            {% include 'theme_templates/lifestyle_theme/common_utils/infinte_spinner.html' %}
+            <section class="read-more-article-box" style="display:none;">
+                <span class="divider-line"></span>
+                <span class="next-article-dropdown">
+                    {{ 'read_next_article'|translate(lang )}}
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="15" height="15"><path fill="{{ publisher.link_color }}" stroke="{{ publisher.link_color }}" d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>   		
                 </span>
-                {% endif %}
-            </div>
+                <span class="divider-line"></span>
+            </section>
         </div>
-
-        {# Featured Image #}
-        {% if post.banner_url %}
-        <figure class="article-featured-image">
-            <img src="{{ post.banner_url }}"
-                 alt="{% if post.media_file_banner.alt_text %}{{ post.media_file_banner.alt_text }}{% else %}{{ post.title }}{% endif %}"
-                 style="{{ post.media_file_banner|get_image_style_property }}">
-            {% if post.media_file_banner.caption %}
-            <figcaption class="article-image-caption">{{ post.media_file_banner.caption }}</figcaption>
-            {% endif %}
-            {% if post.media_file_banner.credit %}
-            <div class="article-image-credit">{{ post.media_file_banner.credit }}</div>
-            {% endif %}
-        </figure>
-        {% endif %}
-    </header>
-
-    {# Article Body Content #}
-    <div class="article-body">
-        {% if post.content %}
-        {{ post.content|safe }}
-        {% endif %}
     </div>
-
-    {# Article Footer #}
-    <footer class="article-footer">
-        {# Tags #}
-        {% if post.tags and post.tags|length > 0 %}
-        <div class="article-tags">
-            <span class="tags-label">Tags:</span>
-            {% for tag in post.tags %}
-            <a href="{{ tag.absolute_url }}" class="article-tag">{{ tag.name }}</a>
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        {# Social Share Buttons #}
-        <div class="article-share">
-            <span class="share-label">Share:</span>
-            <div class="share-buttons">
-                <a href="https://www.facebook.com/sharer/sharer.php?u={{ post.absolute_url }}"
-                   target="_blank" rel="noopener" class="share-btn share-facebook" aria-label="Share on Facebook">
-                    {% include template_key~'/templates/components/common_utils/svgs/facebook.html' %}
-                </a>
-                <a href="https://twitter.com/intent/tweet?url={{ post.absolute_url }}&text={{ post.title }}"
-                   target="_blank" rel="noopener" class="share-btn share-twitter" aria-label="Share on Twitter">
-                    {% include template_key~'/templates/components/common_utils/svgs/twitter.html' %}
-                </a>
-                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ post.absolute_url }}&title={{ post.title }}"
-                   target="_blank" rel="noopener" class="share-btn share-linkedin" aria-label="Share on LinkedIn">
-                    {% include template_key~'/templates/components/common_utils/svgs/linkedin.html' %}
-                </a>
-                <a href="whatsapp://send?text={{ post.title }} {{ post.absolute_url }}"
-                   target="_blank" rel="noopener" class="share-btn share-whatsapp" aria-label="Share on WhatsApp">
-                    {% include template_key~'/templates/components/common_utils/svgs/whatsapp.html' %}
-                </a>
-            </div>
-        </div>
-    </footer>
 </article>
-
-<style>
-.article-content {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.article-header {
-    margin-bottom: 40px;
-}
-
-.article-category-wrapper {
-    margin-bottom: 20px;
-}
-
-.article-category {
-    display: inline-block;
-    padding: 6px 16px;
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 4px;
-    letter-spacing: 0.5px;
-}
-
-.article-title {
-    font-size: 42px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 0 0 20px;
-    color: var(--p-txt-1-color, #181818);
-}
-
-.article-excerpt {
-    font-size: 20px;
-    line-height: 1.6;
-    color: var(--p-txt-2-color, #666);
-    margin: 0 0 30px;
-    font-weight: 400;
-}
-
-.article-meta {
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--p-border-color, #e0e0e0);
-}
-
-.article-authors {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-.author-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.author-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.author-name {
-    font-weight: 600;
-    color: var(--p-txt-1-color, #181818);
-    text-decoration: none;
-    transition: color 0.2s;
-}
-
-.author-name:hover {
-    color: var(--p-accent-color, #ff0000);
-}
-
-.article-meta-info {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    color: var(--p-meta-txt-color, #888);
-}
-
-.meta-separator {
-    color: var(--p-border-color, #ccc);
-}
-
-.article-featured-image {
-    margin: 0 0 40px;
-}
-
-.article-featured-image img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
-
-.article-image-caption {
-    margin-top: 10px;
-    font-size: 14px;
-    color: var(--p-meta-txt-color, #888);
-    font-style: italic;
-}
-
-.article-image-credit {
-    margin-top: 5px;
-    font-size: 12px;
-    color: var(--p-meta-txt-color, #888);
-}
-
-.article-body {
-    font-size: 18px;
-    line-height: 1.8;
-    color: var(--p-txt-color, #333);
-}
-
-.article-body p {
-    margin: 0 0 20px;
-}
-
-.article-body h2 {
-    font-size: 32px;
-    font-weight: 700;
-    margin: 40px 0 20px;
-    color: var(--p-txt-1-color, #181818);
-}
-
-.article-body h3 {
-    font-size: 24px;
-    font-weight: 700;
-    margin: 30px 0 15px;
-    color: var(--p-txt-1-color, #181818);
-}
-
-.article-body ul, .article-body ol {
-    margin: 0 0 20px;
-    padding-left: 30px;
-}
-
-.article-body li {
-    margin-bottom: 10px;
-}
-
-.article-body blockquote {
-    margin: 30px 0;
-    padding: 20px 30px;
-    border-left: 4px solid var(--p-accent-color, #ff0000);
-    background: var(--p-sec-bg--color, #f9f9f9);
-    font-size: 20px;
-    font-style: italic;
-}
-
-.article-footer {
-    margin-top: 50px;
-    padding-top: 30px;
-    border-top: 2px solid var(--p-border-color, #e0e0e0);
-}
-
-.article-tags {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 30px;
-}
-
-.tags-label {
-    font-weight: 600;
-    color: var(--p-txt-1-color, #181818);
-}
-
-.article-tag {
-    padding: 6px 12px;
-    background: var(--p-sec-bg--color, #f0f0f0);
-    color: var(--p-txt-color, #333);
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 13px;
-    transition: background 0.2s;
-}
-
-.article-tag:hover {
-    background: var(--p-accent-color, #ff0000);
-    color: #fff;
-}
-
-.article-share {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.share-label {
-    font-weight: 600;
-    color: var(--p-txt-1-color, #181818);
-}
-
-.share-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.share-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--p-sec-bg--color, #f0f0f0);
-    transition: all 0.2s;
-}
-
-.share-btn:hover {
-    transform: translateY(-2px);
-}
-
-.share-facebook:hover {
-    background: #1877f2;
-}
-
-.share-twitter:hover {
-    background: #1da1f2;
-}
-
-.share-linkedin:hover {
-    background: #0077b5;
-}
-
-.share-whatsapp:hover {
-    background: #25d366;
-}
-
-@media (max-width: 768px) {
-    .article-title {
-        font-size: 28px;
-    }
-
-    .article-excerpt {
-        font-size: 16px;
-    }
-
-    .article-body {
-        font-size: 16px;
-    }
-
-    .article-body h2 {
-        font-size: 24px;
-    }
-
-    .article-body h3 {
-        font-size: 20px;
-    }
-}
-</style>

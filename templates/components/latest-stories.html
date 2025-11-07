@@ -1,163 +1,97 @@
-{# Latest Stories Sidebar Widget #}
-{% if recent_posts or latest_posts or all_posts %}
-<div class="latest-stories-widget">
-    <div class="latest-stories-header">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5"/>
-            <path d="M2 12l10 5 10-5"/>
-        </svg>
-        <h3 class="latest-stories-title">Latest Stories</h3>
-    </div>
 
-    <div class="latest-stories-list">
-        {% set items = recent_posts or latest_posts or all_posts %}
-        {% for post in items[:8] %}
-        <article class="latest-story-item">
-            {% if post.banner_url %}
-            <a href="{{ post.absolute_url }}" class="latest-story-image-link">
-                <img src="{{ post.banner_url|get_absolute_image_url('120,90') }}"
-                     alt="{% if post.media_file_banner.alt_text %}{{ post.media_file_banner.alt_text }}{% else %}{{ post.title }}{% endif %}"
-                     class="latest-story-image"
-                     loading="lazy">
-            </a>
-            {% endif %}
-            <div class="latest-story-content">
-                {% if post.primary_category %}
-                <span class="latest-story-category">{{ post.primary_category.name }}</span>
-                {% endif %}
-                <h4 class="latest-story-title">
-                    <a href="{{ post.absolute_url }}">{{ post.title|truncate(80) }}</a>
-                </h4>
-                <div class="latest-story-meta">
-                    <time datetime="{{ post.formatted_last_published_at_datetime|date_time_format('%Y-%m-%d') }}">
-                        {{ post.formatted_last_published_at_datetime|date_time_format('%b %d, %Y') }}
-                    </time>
-                </div>
+<aside id="right-col" next-page-hide >
+    <!-- add next-page-hide to hide element in article infinte scroll -->
+    <div>
+        {% if slots.desktop_hp_right_top and page_type == 'HomePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_top_ads" style="{{slots.desktop_hp_right_top.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_hp_right_top.html_content|safe }}
             </div>
-        </article>
-        {% endfor %}
+        </div>
+        {% elif slots.desktop_ap_right_top and page_type == 'ArticlePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_top_ads_article" style="{{slots.desktop_ap_right_top.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_ap_right_top.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_cp_right_top and page_type != 'HomePage' and page_type != 'ArticlePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_top_ads_other" style="{{slots.desktop_cp_right_top.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_cp_right_top.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_match_page_right_top and page_type == 'MatchLivePage' or page_type == 'MatchScorecardPage' or page_type == 'MatchCommentaryPage' or page_type == 'MatchSquadsPage' %}
+        <div class="responsive-ad-css">
+
+            <div class="ads-div-style   right_bottom_ads_other" style="{{slots.desktop_match_page_right_top.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_match_page_right_top.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_tournament_page_right_top and page_type == 'TournamentFixturePage' or page_type == 'TournamentStandingsPage' or page_type == 'TournamentStatsPage' or page_type == 'TournamentListPage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads_other" style="{{slots.desktop_tournament_page_right_top.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_tournament_page_right_top.html_content|safe }}
+            </div>
+        </div>
+        {% endif %}
+        <div class="l-title d-flex align-items-center primary_font">
+            
+            <div class="w-100">{{ 'latest_stories'|translate(lang)}}</div>
+            <div class="line w-100"></div>
+        </div>
+        <div class="l-stories primary_font" id="latest_stories">
+            
+        </div>
+        
+        {% if allows_newsletter_subs %}
+        {% include template_key~'/templates/components/subscribe-box.html' %}
+        {% endif %}
+        <div class="d-md-block d-none" style="z-index: 80;">
+            
+            <div id='left-side-sticky' class="scroller" style="height: 100%;">
+                
+            </div>
+        </div>
+        {% if slots.desktop_hp_right_bottom and page_type == 'HomePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads" style="{{slots.desktop_hp_right_bottom.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_hp_right_bottom.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_ap_right_bottom and page_type == 'ArticlePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads_article" style="{{slots.desktop_ap_right_bottom.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_ap_right_bottom.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_cp_right_bottom and page_type != 'HomePage' and page_type != 'ArticlePage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads_other" style="{{slots.desktop_cp_right_bottom.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_cp_right_bottom.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_match_page_right_bottom and page_type == 'MatchLivePage' or page_type == 'MatchScorecardPage' or page_type == 'MatchCommentaryPage' or page_type == 'MatchSquadsPage' %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads_other" style="{{slots.desktop_match_page_right_bottom.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_match_page_right_bottom.html_content|safe }}
+            </div>
+        </div>
+        {% elif slots.desktop_tournament_page_right_bottom and page_type == 'TournamentFixturePage' or page_type == 'TournamentStandingsPage' or page_type == 'TournamentStatsPage' or page_type == 'TournamentListPage'  %}
+        <div class="responsive-ad-css">
+            <div class="ads-div-style   right_bottom_ads_other" style="{{slots.desktop_tournament_page_right_bottom.custom_css_styles|safe}}">
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_tournament_page_right_bottom.html_content|safe }}
+            </div>
+        </div>
+        {% endif %}
     </div>
-</div>
-
-<style>
-.latest-stories-widget {
-    background: var(--p-sec-bg--color);
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 30px;
-    border: 1px solid var(--p-border-color, #e0e0e0);
-}
-
-.latest-stories-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid var(--p-accent-color);
-}
-
-.latest-stories-header svg {
-    color: var(--p-accent-color);
-    flex-shrink: 0;
-}
-
-.latest-stories-title {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--p-txt-1-color);
-}
-
-.latest-stories-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.latest-story-item {
-    display: flex;
-    gap: 12px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--p-border-color, #e0e0e0);
-}
-
-.latest-story-item:last-child {
-    padding-bottom: 0;
-    border-bottom: none;
-}
-
-.latest-story-image-link {
-    flex-shrink: 0;
-}
-
-.latest-story-image {
-    width: 80px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 6px;
-}
-
-.latest-story-content {
-    flex: 1;
-    min-width: 0;
-}
-
-.latest-story-category {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--p-accent-color);
-    margin-bottom: 5px;
-    letter-spacing: 0.5px;
-}
-
-.latest-story-title {
-    margin: 0 0 6px;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.4;
-}
-
-.latest-story-title a {
-    color: var(--p-txt-1-color);
-    text-decoration: none;
-    transition: color 0.2s;
-    display: block;
-}
-
-.latest-story-title a:hover {
-    color: var(--p-accent-color);
-}
-
-.latest-story-meta {
-    font-size: 11px;
-    color: var(--p-meta-txt-color, #888);
-}
-
-@media (max-width: 768px) {
-    .latest-stories-widget {
-        padding: 15px;
-    }
-
-    .latest-story-image {
-        width: 60px;
-        height: 45px;
-    }
-
-    .latest-story-title {
-        font-size: 13px;
-    }
-
-    .latest-stories-list {
-        gap: 15px;
-    }
-
-    .latest-story-item {
-        padding-bottom: 15px;
-    }
-}
-</style>
-{% endif %}
+</aside>

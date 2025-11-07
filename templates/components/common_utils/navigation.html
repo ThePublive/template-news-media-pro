@@ -1,5 +1,128 @@
-{# Main Navigation #}
-<ul class="nav-menu">
-    <li><a href="https://{{ publisher.actual_domain }}">Home</a></li>
-    {# Category links will be added here #}
-</ul>
+<div class="header-top primary_font">
+    {% if is_mobile_device %}
+    <button type="button" aria-label="sidebar-toggle" class="sidebar-button  background_trans ham-btn" style="margin-left:15px;margin-right:5px;">
+            <div class="hambugger">
+            <svg xmlns="http://www.w3.org/2000/svg"  width="23" height="17.714"
+                viewBox="0 0 26.461 19.714">
+                <g id="Group_1" data-name="Group 1" transform="translate(-14 -19.014)">
+                    <line id="Line_1" data-name="Line 1" x2="26.461"
+                        transform="translate(14 36.728)" fill="none" stroke="{{icon_color}}"
+                        stroke-width="4"/>
+                    <line id="Line_2" data-name="Line 2" x2="26.461"
+                        transform="translate(14 28.871)" fill="none" stroke="{{icon_color}}"
+                        stroke-width="4"/>
+                    <line id="Line_3" data-name="Line 3" x2="26.461"
+                        transform="translate(14 21.014)" fill="none" stroke="{{icon_color}}"
+                        stroke-width="4"/>
+                </g>
+            </svg>
+        </div>
+     </button>
+    
+    {% else %}
+    <span style="cursor:pointer;" class="sidebar-button sb-btn">
+        <svg xmlns="http://www.w3.org/2000/svg"  width="20" height="19.714"viewBox="0 0 26.461 19.714">
+        <g id="Group_1" data-name="Group 1" transform="translate(-14 -19.014)">
+            <line id="Line_1" data-name="Line 1" x2="26.461"
+                transform="translate(14 36.728)" fill="none" stroke="{{publisher_icon_color}}"
+                stroke-width="4"/>
+            <line id="Line_2" data-name="Line 2" x2="26.461"
+                transform="translate(14 28.871)" fill="none" stroke="{{publisher_icon_color}}"
+                stroke-width="4"/>
+            <line id="Line_3" data-name="Line 3" x2="26.461"
+                transform="translate(14 21.014)" fill="none" stroke="{{publisher_icon_color}}"
+                stroke-width="4"/>
+        </g>
+          </svg>
+    </span>
+    {% endif %}
+{% if not is_mobile_device %}
+    <div class="search_left">
+        <span class="search_form" style="position: relative;">
+            <form action="https://{{publisher.actual_domain}}/search" method="GET"  class="nav_search_form" target="_top">  <button aria-label="Search Button" type="submit" class="jeg_search_button"> 
+                {% include template_key~"/templates/components/common_utils/svgs/search.html" %}
+            </button>
+            <!-- CustomValidity HTMLObjectElement method for overriding tooltip  -->
+            <input name="title" class="search_input" placeholder="{{'search_for_articles'|translate(lang) }}..." type="text" value="" autocomplete="off" required  oninvalid="this.setCustomValidity(' ')"></form>
+            </span>
+    </div>
+    {% endif %}
+  <!-- logo -->
+  <a href="/" class="brand-name" aria-label="logo" >
+    <img class="brand-img nav_color"src="{{ publisher.long_logo|get_absolute_image_url('580,326') }}" alt="{{ publisher.title }}">
+     
+  </a>
+  <!-- lang and search -->
+  <div class="lang-and-search non_amp nav_color">
+ 
+    {% if allows_newsletter_subs and not is_mobile_device %}
+        <span class="navbar_subs {% if not allow_reader_login %} subscribe-btn-nav {% endif %}">
+            <a class="float my-float" href="https://{{publisher.actual_domain}}/newsletter/subscribe" aria-label="Subscribe-form">
+                {{'subscribe'|translate(lang)}}
+            </a>
+        </span>
+    {%endif%}
+   {% if is_mobile_device %}
+   <button role="button" data-bs-toggle="modal" data-bs-target="#legacy_search_form" aria-label="search-form"class="search-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="27.564" height="30.381"
+        viewBox="0 0 27.564 30.381">
+        <g id="Group_303" data-name="Group 303"
+        transform="translate(-11877.375 17095.694)">
+            <path id="Path_51" data-name="Path 51"
+                d="M20.691,10.345A10.345,10.345,0,1,1,10.345,0,10.345,10.345,0,0,1,20.691,10.345Z"
+                transform="translate(11881.949 -17094) rotate(8)" fill="none"
+                stroke="{{icon_color}}" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="3"/>
+            <path id="Path_52" data-name="Path 52" d="M5.625,5.625,0,0"
+                transform="translate(11896.973 -17074.063) rotate(8)" fill="none"
+                stroke="{{icon_color}}" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="3"/>
+        </g>
+    </svg>
+</button>
+    {% include template_key~"/templates/components/common_utils/modals/search_modal.html" %}
+   {% endif %}
+    {% if  allow_reader_login %}
+    <div class="nav-user-account">
+        <p id="reader-login-status" class="d-none">0</p>
+              <div id="user-account-logo">
+                        <button type="button" class="user-sign-up-btn" role="button" data-bs-toggle="modal" data-bs-target="#signup_modal">
+                            <svg width="13" height="13" viewBox="0 0 13 13" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6.14844 0.333374C5.48917 0.333374 4.8447 0.528871 4.29654 0.895142C3.74837 1.26141 3.32113 1.78201 3.06884 2.3911C2.81655 3.00018 2.75054 3.67041 2.87915 4.31701C3.00777 4.96361 3.32524 5.55756 3.79141 6.02373C4.25759 6.48991 4.85153 6.80737 5.49814 6.93599C6.14474 7.06461 6.81496 6.9986 7.42405 6.74631C8.03314 6.49401 8.55373 6.06677 8.92 5.51861C9.28627 4.97044 9.48177 4.32598 9.48177 3.66671C9.48177 2.78265 9.13058 1.93481 8.50546 1.30968C7.88034 0.684563 7.03249 0.333374 6.14844 0.333374ZM6.14844 5.66671C5.75287 5.66671 5.3662 5.54941 5.0373 5.32965C4.7084 5.10988 4.45205 4.79753 4.30068 4.43207C4.1493 4.06662 4.1097 3.66449 4.18687 3.27653C4.26404 2.88856 4.45452 2.5322 4.73422 2.25249C5.01393 1.97279 5.3703 1.78231 5.75826 1.70514C6.14622 1.62797 6.54835 1.66757 6.9138 1.81895C7.27926 1.97032 7.59161 2.22667 7.81138 2.55557C8.03114 2.88447 8.14844 3.27114 8.14844 3.66671C8.14844 4.19714 7.93772 4.70585 7.56265 5.08092C7.18758 5.45599 6.67887 5.66671 6.14844 5.66671ZM12.1484 13V12.3334C12.1484 11.0957 11.6568 9.90871 10.7816 9.03354C9.90643 8.15837 8.71945 7.66671 7.48177 7.66671H4.8151C3.57743 7.66671 2.39044 8.15837 1.51527 9.03354C0.640103 9.90871 0.148438 11.0957 0.148438 12.3334V13H1.48177V12.3334C1.48177 11.4493 1.83296 10.6015 2.45808 9.97635C3.0832 9.35123 3.93105 9.00004 4.8151 9.00004H7.48177C8.36583 9.00004 9.21367 9.35123 9.83879 9.97635C10.4639 10.6015 10.8151 11.4493 10.8151 12.3334V13H12.1484Z" fill="{{publisher_icon_color}}"/>
+                                </svg>Login</button>
+              </div>
+
+            <a href="#" id="navbar-user-dropdown" class="reader-display-none reader_drop dropdown position-relative" data-bs-toggle="dropdown" aria-expanded="false">
+                  <div class="user-account-logo-logged"> 
+                    <img id="reader-photo-thumbnail"  src="" alt="user">
+                  </div>
+              
+              <ul class="dropdown-menu dropdown-menu-hover reader-login-dropdown" aria-labelledby="navbar-user-dropdown">
+                  {% if paywall_is_enabled %}
+                  <li><a class="dropdown-item drop-navlink " href="https://{{publisher.actual_domain}}/manage_subscription">Manage Subscription</a></li>
+                {% endif %}
+                <li><a class="dropdown-item drop-navlink " href="https://{{publisher.actual_domain}}/bookmarks">Bookmarks</a></li>
+                <li><a class="dropdown-item drop-navlink " href="https://{{publisher.actual_domain}}/reader/profile">My Profile</a></li>
+                <li><a class="dropdown-item drop-navlink" href="https://{{publisher.actual_domain}}/reader/logout">Log Out</a></li>
+              </ul> 
+            </a>
+         
+        </div>
+        {% endif %}
+     
+  </div>
+</div>
+
+<div class="item_container {% if is_mobile_device and not more_dropdown  %} shadow d-none {% endif %}">
+<div class="custom_navbar desktop-nav">
+    {% if navbar_version_2 %}
+        {% include template_key~"/templates/components/common_utils/nav-items.html" %}
+    {% else %}
+        {% include template_key~"/templates/components/common_utils/navigation-item.html" %} 
+    {% endif %}
+</div>
+</div>
+<!-- html modals -->
+ {% if reader_login and allow_reader_login %}
+{% include 'decoupled_common_components/component/reader_login/common_signin_modal.html' %}
+{% endif %}

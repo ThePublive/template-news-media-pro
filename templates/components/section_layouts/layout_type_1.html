@@ -1,35 +1,7 @@
-{# Layout Type 1 - Grid Layout (3 Columns) #}
-{% if posts and posts|length > 0 %}
-<div class="section-layout layout-type-1">
-    <div class="posts-grid grid-3-col">
-        {% for post in posts %}
-        <div class="grid-item">
-            {% include template_key~'/templates/components/common_utils/post_cards/post-card.html' %}
-        </div>
-        {% endfor %}
-    </div>
+<div id="feat-len-1" class="article-box">
+    {% for post in post_section.posts  %}
+        {% if loop.index ==1 %}
+        {% include template_key~"/templates/components/common_utils/post_cards/post-card.html" %}
+        {% endif %}
+    {% endfor %}
 </div>
-
-<style>
-.layout-type-1 .posts-grid {
-    display: grid;
-    gap: 30px;
-}
-
-.layout-type-1 .grid-3-col {
-    grid-template-columns: repeat(3, 1fr);
-}
-
-@media (max-width: 1024px) {
-    .layout-type-1 .grid-3-col {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 640px) {
-    .layout-type-1 .grid-3-col {
-        grid-template-columns: 1fr;
-    }
-}
-</style>
-{% endif %}

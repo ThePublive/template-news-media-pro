@@ -1,43 +1,7 @@
-{# Layout Type 2 - Featured + List Layout #}
-{% if posts and posts|length > 0 %}
-<div class="section-layout layout-type-2">
-    <div class="featured-list-layout">
-        {% if posts|length > 0 %}
-        <div class="featured-post">
-            {% set post = posts[0] %}
-            {% include template_key~'/templates/components/common_utils/post_cards/post-card-4.html' %}
-        </div>
-        {% endif %}
-
-        {% if posts|length > 1 %}
-        <div class="list-posts">
-            {% for post in posts[1:] %}
-            <div class="list-item">
-                {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
-    </div>
+<div id="feat-len-2" class="article-box feat-len-2">
+  {% for post in post_section.posts %}
+      {% if loop.index < 3 %}
+          {% include template_key~"/templates/components/common_utils/post_cards/post-card.html" %}
+      {% endif %}
+  {% endfor %}
 </div>
-
-<style>
-.layout-type-2 .featured-list-layout {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 30px;
-}
-
-.layout-type-2 .list-posts {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-@media (max-width: 1024px) {
-    .layout-type-2 .featured-list-layout {
-        grid-template-columns: 1fr;
-    }
-}
-</style>
-{% endif %}

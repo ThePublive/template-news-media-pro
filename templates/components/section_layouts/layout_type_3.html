@@ -1,54 +1,14 @@
-{# Layout Type 3 - Horizontal Scroll Layout #}
-{% if posts and posts|length > 0 %}
-<div class="section-layout layout-type-3">
-    <div class="horizontal-scroll-wrapper">
-        <div class="horizontal-scroll-container">
-            {% for post in posts %}
-            <div class="scroll-item">
-                {% include template_key~'/templates/components/common_utils/post_cards/post-card-6.html' %}
-            </div>
-            {% endfor %}
-        </div>
-    </div>
+<div id="feat-len-3" class="article-box">
+  {% for post in post_section.posts %}
+    {% if loop.index==1 %}
+      {% include template_key~"/templates/components/common_utils/post_cards/post-card-4.html" %}
+    {% endif %}
+  {% endfor %}
+  <div class="feat-a-2">
+  {% for post in post_section.posts %}
+    {% if loop.index > 1 and loop.index < 4 %}
+        {% include template_key~"/templates/components/common_utils/post_cards/post-card-3.html" %}
+      {% endif %}
+  {% endfor %}
+  </div>
 </div>
-
-<style>
-.layout-type-3 .horizontal-scroll-wrapper {
-    position: relative;
-}
-
-.layout-type-3 .horizontal-scroll-container {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    padding-bottom: 10px;
-}
-
-.layout-type-3 .horizontal-scroll-container::-webkit-scrollbar {
-    height: 6px;
-}
-
-.layout-type-3 .horizontal-scroll-container::-webkit-scrollbar-track {
-    background: var(--p-secondary-bg, #f1f1f1);
-    border-radius: 3px;
-}
-
-.layout-type-3 .horizontal-scroll-container::-webkit-scrollbar-thumb {
-    background: var(--accent-color, #888);
-    border-radius: 3px;
-}
-
-.layout-type-3 .scroll-item {
-    flex: 0 0 300px;
-}
-
-@media (max-width: 640px) {
-    .layout-type-3 .scroll-item {
-        flex: 0 0 250px;
-    }
-}
-</style>
-{% endif %}
