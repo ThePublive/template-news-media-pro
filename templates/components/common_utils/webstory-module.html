@@ -1,0 +1,16 @@
+{% if show_web_story and loop.index == 1 %}
+<div class="home_webstory_container slider">
+  <div class="web-story--title">
+      <a href="/collections/web-stories">{{'web_stories'|translate(lang)}}</a>
+  </div>
+    <div id="scroll-webstory" class="webstory-box">
+        <div id="web-story-container" class="webstory-list">
+          {% for web_story in webstories_list %}
+            {% include template_key~"/templates/components/common_utils/post_cards/web-story-card.html" %}
+          {% endfor %}
+        </div>
+    </div>
+    <button onClick="scrollby('right')" class="prev">{% include "common_util_across_templates/svg_html/caret_right_svg.html" %}</button>
+    <button onClick="scrollby('left')" class="next">{% include "common_util_across_templates/svg_html/caret_right_svg.html" %}</button>
+</div>
+{% endif %}

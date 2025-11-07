@@ -1,4 +1,8 @@
-{# Login Wall #}
-<div class="login-wall">
-    <p>Please log in to continue reading</p>
-</div>
+<section id="login_Wall_section" class="login-wall">
+  <div class="login-wall--inner">
+      <img src="{{ global_login_wall.data.image_url }}" alt="login-icon">
+      <h3 class="primary_font">{{global_login_wall.data.title}}</h3>
+      <p class="secondary_font">{{global_login_wall.data.description}}</p>
+      <button role="button" class="login-btn pub-wall-btn" data-bs-toggle="modal" data-bs-target="#signup_modal" tabindex="0">Login / Register</button>
+  </div>
+</section>

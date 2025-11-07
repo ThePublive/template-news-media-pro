@@ -1,48 +1,151 @@
-{# Grouped Newsletter Subscription #}
-{% if newsletter_groups and newsletter_groups|length > 0 %}
-<div class="grouped-newsletter">
-    <h3 class="newsletter-title">Subscribe to Our Newsletters</h3>
-    <p class="newsletter-description">Get the latest news and updates delivered to your inbox</p>
+{% if not is_mobile_device %}
+<div class="newsletter_page_main_div">
+  <h2>Email Newsletters</h2>
+  <h4>Stay informed with our curated newsletters.</h4>
+  <div class="horizontal-separator-line"></div>
+  <div class="newsletter-group-tile-container">
+        <div class="group-tile">
+          <img src="" onerror="this.src='{{ "demo/media/media_files/2cQlNQpLquvaJSeR2FwW.png"|get_absolute_image_url('0,0') }}'" class="group-logo" alt="All groups">
+          <span class="group-name">All groups</span>
+          <div class="select-button">
+              {% include "common_util_across_templates/svg_html/newsletter_plus.html" %}
+              <span>select</span>
+          </div>
+          <div class="selected-button" style="display: none;">
+              {% include "common_util_across_templates/svg_html/newsletter_confirm.html" %}
+              <span>Selected</span>
+          </div>
+      </div>
+      {% for each in newsletter_groups_data %}
+          <div class="group-tile" data-id="{{ each.id }}">
 
-    <form action="/subscribe" method="POST" class="newsletter-form-grouped">
-        <div class="newsletter-email-input">
-            <input
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                required
-                class="newsletter-input"
+              <img src="{{ each.logo_url|get_absolute_image_url('0,0') }}" onerror="this.src='{{ "demo/media/media_files/2cQlNQpLquvaJSeR2FwW.png"|get_absolute_image_url('0,0') }}'"  class="group-logo" alt="{{ each.name }}">
+              <span class="group-name">{{ each.name }}</span>
+              {% if each.description %}
+                  <span class="group-description">{{ each.description }}</span>
+              {% endif %}
+              <div class="select-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2C17.523 2 22 6.477 22 12C22 17.523 17.523 22 12 22C6.477 22 2 17.523 2 12ZM12 4C9.87827 4 7.84344 4.84285 6.34315 6.34315C4.84285 7.84344 4 9.87827 4 12C4 14.1217 4.84285 16.1566 6.34315 17.6569C7.84344 19.1571 9.87827 20 12 20C14.1217 20 16.1566 19.1571 17.6569 17.6569C19.1571 16.1566 20 14.1217 20 12C20 9.87827 19.1571 7.84344 17.6569 6.34315C16.1566 4.84285 14.1217 4 12 4Z" fill="{{ publisher.link_color }}"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M13 7C13 6.73478 12.8946 6.48043 12.7071 6.29289C12.5196 6.10536 12.2652 6 12 6C11.7348 6 11.4804 6.10536 11.2929 6.29289C11.1054 6.48043 11 6.73478 11 7V11H7C6.73478 11 6.48043 11.1054 6.29289 11.2929C6.10536 11.4804 6 11.7348 6 12C6 12.2652 6.10536 12.5196 6.29289 12.7071C6.48043 12.8946 6.73478 13 7 13H11V17C11 17.2652 11.1054 17.5196 11.2929 17.7071C11.4804 17.8946 11.7348 18 12 18C12.2652 18 12.5196 17.8946 12.7071 17.7071C12.8946 17.5196 13 17.2652 13 17V13H17C17.2652 13 17.5196 12.8946 17.7071 12.7071C17.8946 12.5196 18 12.2652 18 12C18 11.7348 17.8946 11.4804 17.7071 11.2929C17.5196 11.1054 17.2652 11 17 11H13V7Z" fill="{{ publisher.link_color }}"/>
+                </svg>
+                  <span>select</span>
+              </div>
+              <div class="selected-button" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M1.50856 8.10605C1.74297 7.87172 2.06086 7.74007 2.39231 7.74007C2.72377 7.74007 3.04165 7.87172 3.27606 8.10605L7.69606 12.5261L16.5336 3.6873C16.6496 3.57117 16.7874 3.47902 16.9391 3.41614C17.0907 3.35326 17.2533 3.32086 17.4175 3.3208C17.5817 3.32074 17.7443 3.35302 17.896 3.4158C18.0477 3.47858 18.1855 3.57062 18.3017 3.68668C18.4178 3.80273 18.51 3.94053 18.5729 4.09219C18.6357 4.24386 18.6681 4.40643 18.6682 4.57061C18.6682 4.7348 18.636 4.89739 18.5732 5.0491C18.5104 5.20081 18.4184 5.33867 18.3023 5.4548L7.69606 16.0611L1.50856 9.87355C1.27422 9.63914 1.14258 9.32126 1.14258 8.9898C1.14258 8.65835 1.27422 8.34046 1.50856 8.10605Z" fill="black"/>
+                </svg>
+                  <span>Selected</span>
+              </div>
+          </div>
+      {% endfor %}
+  </div>
+</div>
+<section id="subscribe-wall" class="subscribe-wall pub-subscribes-wall newsletter_subscribe_wall_div" style="display: none;">
+  <form target="_top" id="newsletter-subscribe-form" class="secondary_font newsletter_subscribe_wall_form">
+      <div class="d-flex gap-16">
+        <div class="d-flex w-50 subscribe-group-main-div">
+          <div>
+            <div class="subscribe-group-title-div">
+              <span class="selected-group-count">1</span>
+              <span>newsletters selected</span>
+            </div>
+            <div class="subscribe-group-sub-title-div">
+              <span>Enter the email address where you’d like to receive these newsletters.</span>
+            </div>
+          </div>
+          <div class="d-flex gap-16">
+            <div class="w-50 newsletter-image-logo">
+              <img class="calender_logo" alt="logo" src="{{static(template_key+'/assets/images/calender.svg') }}">
+            </div>
+            <div class="w-50">
+                <input type="text" name="name" placeholder="{{ 'your_name'|translate(lang) }}" [hidden]="hidden_atr" class="w-100 subscribes-group-page-input" style="margin-bottom: 1rem;">
+                <input type="email" name="email" placeholder="{{ 'email_address'|translate(lang) }}" [hidden]="hidden_atr" class="w-100 subscribes-group-page-input" style="margin-bottom: 1rem;">
+                {% if captcha_enable %}
+                <input type="hidden" name="check_for_captcha" value='1' >
+                <div class="g-recaptcha mb-3" data-sitekey="{{captcha_site_key}}"></div>
+                {% endif %}
+                <button type="button" class="w-100 subscribe-group-page-button subscribe_submit_btn" [disabled]="disable" [hidden]="hidden_atr"><span class="subscribe-group-page-button-span" >{{ 'subscribe_now'|translate(lang) }}</span></button>
+                <div class="success newsletter_msg" style="width:100%;padding-top: 15px;">
+                  <p>{{message}}</p>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-50 newsletter-group-term-and-condition">
+          <span>By entering your email address, you agree to Terms of Use and Privacy Policy. You understand  may use your address to send updates, ads, and offers.</span>
+        </div>
+      </div>
+    </form>
+</section>
+{% else %}
+<div class="newsletter_page_main_div">
+  <h1 class='publive-t7-text-color'>Email Newsletters</h1>
+  <h2 class='publive-t7-text-color'>Stay informed with our curated newsletters.</h2>
+  <div class="horizontal-separator-line"></div>
+  <div class="newsletter-group-tile-container">
+    <div class="group-tile">
+      <img src="" onerror="this.src='{{ "demo/media/media_files/2cQlNQpLquvaJSeR2FwW.png"|get_absolute_image_url('0,0') }}'" class="group-logo" alt="All groups">
+      <span class="group-name publive-t7-text-color">All groups</span>
+      <div class="select-button">
+          {% include "common_util_across_templates/svg_html/newsletter_plus.html" %}
+          <span class='publive-t7-text-color'>select</span>
+      </div>
+      <div class="selected-button" style="display: none">
+        {% include "common_util_across_templates/svg_html/newsletter_confirm.html" %}
+        <span class='publive-t7-text-color'>Selected</span>
+      </div>
+    </div>
+    {% for each in newsletter_groups_data %}
+    <div class="group-tile" data-id="{{ each.id }}">
+      <img
+        src="{{ each.logo_url|get_absolute_image_url('0,0') }}"
+        class="group-logo"
+        alt="{{ each.name }}"
+      />
+      <span class="group-name">{{ each.name }}</span>
+      {% if each.description %}
+      <span class="group-description">{{ each.description }}</span>
+      {% endif %}
+      <div class="select-button">
+          {% include "common_util_across_templates/svg_html/newsletter_plus.html" %}
+          <span class='publive-t7-text-color'>select</span>
+      </div>
+      <div class="selected-button" style="display: none">
+        {% include "common_util_across_templates/svg_html/newsletter_confirm.html" %}
+        <span class='publive-t7-text-color'>Selected</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<section
+  id="subscribe-wall"
+  class="subscribe-wall pub-subscribes-wall"
+  style="display: none">
+  <div class="subscribe-text primary_font newsletter_subscribe_wall_div" style="align-items: flex-start;zoom: 0.9;">
+    <form target="_top" id="newsletter-subscribe-form" class="secondary_font newsletter_subscribe_wall_form">
+        <div class="subscribe-group-title-div">
+            <span class="selected-group-count publive-t7-text-color">1</span>
+            <span class='publive-t7-text-color'>newsletters selected</span>
+          </div>
+          <div class="subscribe-group-sub-title-div">
+            <span class='publive-t7-text-color'
+              >Enter the email address where you’d like to receive these
+              newsletters.</span
             >
         </div>
-
-        <div class="newsletter-groups">
-            {% for group in newsletter_groups %}
-            <div class="newsletter-group-item">
-                <label class="newsletter-checkbox-label">
-                    <input
-                        type="checkbox"
-                        name="newsletter_groups[]"
-                        value="{{ group.id }}"
-                        {% if loop.first %}checked{% endif %}
-                    >
-                    <div class="newsletter-group-info">
-                        <span class="newsletter-group-name">{{ group.name }}</span>
-                        {% if group.description %}
-                        <span class="newsletter-group-desc">{{ group.description }}</span>
-                        {% endif %}
-                    </div>
-                </label>
-            </div>
-            {% endfor %}
+        <input type="text" name="name" placeholder="{{ 'your_name'|translate(lang) }}" [hidden]="hidden_atr_right_form" class="w-100 subscribe-text-head subscribes-group-page-input" style="margin-bottom: 1rem;">
+        <input type="email" name="email" placeholder="{{ 'email_address'|translate(lang) }}" [hidden]="hidden_atr_right_form" class="w-100 subscribe-text-head subscribes-group-page-input" style="margin-bottom: 1rem;">
+        {% if captcha_enable %}
+        <input type="hidden" name="check_for_captcha" value='1' >
+        <div class="g-recaptcha mb-3 right-captcha" data-sitekey="{{captcha_site_key}}"></div>
+        {% endif %}
+        <button type="button" class="w-100 subscribe_submit_btn subscribe-group-page-button" style="padding: 8px 0px;"><span class="subscribe-text-head">{{ 'subscribe_now'|translate(lang) }}</span></button>
+        <div class="success newsletter_msg success-style-css publive-t7-text-color" >
+          <p>{{message}}</p>
         </div>
-
-        <button type="submit" class="newsletter-submit-btn">
-            Subscribe Now
-        </button>
-
-        <p class="newsletter-privacy">
-            By subscribing, you agree to our <a href="/privacy-policy">Privacy Policy</a>
-        </p>
     </form>
-</div>
+  </div>
+</section>
 {% endif %}

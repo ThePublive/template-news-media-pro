@@ -1,0 +1,57 @@
+<address class="gh-social-icons mt-4">
+    <a href='/rss' target='_blank' aria-label="rss feed" style='border-radius: 50%;' class="me-2 link-secondary social-footer-link">
+      {% include template_key~template_key~"/templates/components/common_utils/svgs/rss-svg.html" %}
+    </a>
+  {% if  publisher.instagram_page_url %}
+    <a href="{{ publisher.instagram_page_url }}" aria-label="{{ publisher.name }} instagram page" class="me-2 link-secondary social-footer-link">
+      {% include template_key~"/templates/components/common_utils/svgs/instagram.html" %}
+    </a>
+  {% endif %}
+  {% if publisher.facebook_page_url %}
+    <a href="{{ publisher.facebook_page_url }}" aria-label="{{ publisher.name }} facebook page" class="me-2 link-secondary social-footer-link">
+      {% include template_key~"/templates/components/common_utils/svgs/facebook.html" %}
+    </a>
+  {% endif %}
+  {% if publisher.linkedin_page_url %}
+    <a href="{{ publisher.linkedin_page_url }}" aria-label="{{ publisher.name }} linkedin page" class="me-2 link-secondary social-footer-link">
+      {% include template_key~"/templates/components/common_utils/svgs/linkedin.html" %}
+    </a>
+  {% endif %}
+  {% if publisher.twitter_page_url %}
+    <a href="{{ publisher.twitter_page_url }}" aria-label="{{ publisher.name }} twitter page" class="me-2 link-secondary social-footer-link">
+      {% include template_key~"/templates/components/common_utils/svgs/twitter.html" %}
+    </a>
+  {% endif %}
+  {% if publisher.youtube_page_url  %}
+      <a href="{{ publisher.youtube_page_url }}" aria-label="{{ publisher.name }} youtube page"class="me-2 link-secondary social-footer-link" target="_blank">
+          {% include template_key~"/templates/components/common_utils/svgs/youtube_svg.html" %}
+      </a>
+  {% endif %}
+  {% if publisher.koo_page_url  %}
+    <a href="{{ publisher.koo_page_url }}" aria-label="{{ publisher.name }} koo page" target="_blank">
+      {% include template_key~"/templates/components/common_utils/svgs/koo-svg.html" %}
+    </a>
+  {% endif %}
+  {% if publisher.whatsapp_page_url %}
+      <a href="{{ publisher.whatsapp_page_url }}" aria-label="{{ publisher.name }} whatsapp_page_url" target="_blank" class="me-2 link-secondary social-footer-link">
+          {% include template_key~'/templates/components/common_utils/svgs/whatsapp-logo-svg.html' %}
+      </a>
+  {% endif %}
+  {% if publisher.thread_page_url %}
+      <a href="{{ publisher.thread_page_url }}" aria-label="{{ publisher.name }} thread_page_url" target="_blank" class="me-2 link-secondary social-footer-link">
+          {% include template_key~'/templates/components/common_utils/svgs/thread-svg.html' %}
+      </a>
+  {% endif %}
+  {% if publisher.telegram_page_url %}
+      <a href="{{ publisher.telegram_page_url }}" aria-label="{{ publisher.name }} telegram_page_url" target="_blank" class="me-2 link-secondary social-footer-link">
+          {% include template_key~'/templates/components/common_utils/svgs/telegram-svg.html' %}
+      </a>
+  {% endif %}
+  {% if publisher.reddit_page_url %}
+      <a href="{{ publisher.reddit_page_url }}" aria-label="{{ publisher.name }} reddit_page_url" target="_blank" class="me-2 link-secondary social-footer-link">
+          {% include template_key~'/templates/components/common_utils/svgs/reddit-svg.html' %}
+      </a>
+  {% endif %}
+</address>
+
+

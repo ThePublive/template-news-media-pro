@@ -1,0 +1,52 @@
+<amp-story-page id="pan-left">
+  <amp-story-grid-layer template="fill">
+    <amp-list width="auto" height="100" layout="fixed-height" src="https://{{publisher.actual_domain}}/get_recommended_web_story/{{post_data.post.id}}" binding="no" reset-on-refresh >
+      <template type="amp-mustache">
+        {% raw %}
+        <amp-img layout="fill"
+        src="{% endraw %}{{S3_BASE_URL}}{% raw %}{{banner_url}}"
+        width="720"
+        height="1280"
+        class="cover-image"
+        alt="{{title}}"></amp-img>
+            <div class='full-content-wrapper'>
+                <div id="amp_story_content_recommended">
+                  <div class="story-content-section_recommended">
+                    <p id='story-category'>{{ primary_category.name }}</p>
+                    <h2 class="primary_font truncate_title">{{title}}</h2>
+                    <p class="article-author">{% endraw %}{{'by'|translate(lang) }} {% raw %} {{ contributors.0.name }}
+                      <span class="{{second_author_display_class}}">{% endraw %} {{'and'|translate(lang)}} {% if contributors and contributors.1 %} {% raw %}{{ contributors.1.name }} 
+                        {% endraw %}
+                        {% endif %}
+                        {% raw %}
+                      </span></p>
+                  </div>
+                </div>
+            </div>
+        {% endraw %}
+        <div class="publisher_logo">
+          <amp-img
+          src="{{ S3_BASE_URL }}{{ publisher.short_logo }}"
+          height="1000"
+          width="1000"
+          layout="responsive"
+          class="cover"
+          >
+          </amp-img>
+        </div>
+        <div class="outlink-container">
+          {% raw %}
+          <a href="{{absolute_url}}">
+            {% endraw %}
+            <div class="arrow-next"><svg fill="#fff"viewBox="0 0 20 8" width="20px" height="8px"><path d="m18 7.7-.7-.2-7.3-4-7.3 4c-.7.4-1.6.2-2-.6-.4-.7-.1-1.6.6-2l8-4.4a2 2 0 0 1 1.5 0l8 4.4c.7.4 1 1.3.6 2-.4.5-.9.8-1.4.8z"></path></svg></div>
+          <div class="svg-container">
+            <amp-img src="{{ S3_BASE_URL }}{{ publisher.short_logo }}" width="25" height="25"></amp-img>
+          </div>
+          Read Next</a>
+        </div>
+      </template>
+      
+    </amp-list>
+    
+  </amp-story-grid-layer>
+</amp-story-page>

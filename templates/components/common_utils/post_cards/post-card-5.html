@@ -1,11 +1,48 @@
-{# Post Card 5 - Compact List Item #}
-{% if post %}
-<div class="post-card post-card-compact">
-    <a href="{{ post.absolute_url }}" class="post-card-link-compact">
-        <h5 class="post-card-title-compact">{{ post.title }}</h5>
-        <div class="post-card-meta-compact">
-            <span class="post-card-date-small">{{ post.formatted_last_published_at_datetime|date_time_format('%b %d') }}</span>
-        </div>
-    </a>
+<div class="abc search_post_div">
+    <a href="{{post.absolute_url}}" aria-label="{{ post.absolute_url }}" class="overlay__link"></a>
+    <div class="post-card card w-100 border-0" style="/*height: 430px;*/">
+        <a href="{{post.absolute_url}}" aria-label="{{ post.absolute_url }}" > 
+            {% if post.banner_url != None and post.banner_url != ''%}
+              <a href="{{ post.absolute_url }}" class="BackgroundImage-Container" style=" height: 350px;">
+                <img {% if counter != 1 %} loading="lazy" {% endif %} src="{{ post.banner_url|get_absolute_image_url('580,348') }}" class="card-img-top foreground_img" alt="{{ post.title }}">
+              </a>
+              {% if post.type == 'Video'%}
+                    <span class="post-type-logo">
+                        <img alt="web-stroy-logo" src="{{ static(template_key+'/assets/images/video-icon.svg') }}">
+                    </span>
+                {% elif post.type == 'Web Story' %}
+                    <span class="post-type-logo">
+                        <img
+                        alt="web-stroy-logo"
+                        src="{{ static(template_key+'/assets/images/web-story-icon.svg') }}">
+                    </span>
+                {% elif post.type == 'Gallery' %}
+                    <span class="post-type-logo">
+                        <img
+                        class="gallery-logo"
+                        alt="web-stroy-logo"
+                        src="{{ static(template_key+'/assets/images/gallery-icon.svg') }}">
+                    </span>
+                {% elif post.type == 'LiveBlog' %}
+                    {% include template_key~"/templates/components/common_utils/svgs/live-blog-title.html" %}
+                {% endif %}
+            {% endif %}
+            <div class="card-body" style="padding-top: 10px;padding-bottom: 10px;">
+                <a href="{{ post.absolute_url}}">
+                    <span class="card-title h5 primary_font" style="color:black;">
+                        {{ post.title }}
+                    </span>
+                </a>
+                <div class="secondary_font" style='display:flex ;align-items:end;'>
+                    <p style='margin-bottom: 0px ;'>
+                        {% if post.contributors.0 %}
+                            <a href="{{ post.contributors.0.absolute_url }}" style="color: black;">{{ post.contributors.0.name }}</a>
+                        {% endif %}
+                    </p>
+                    <span class="time" style='margin-left: auto ;'>{{ post.formatted_last_published_at_datetime|date_time_format("%d %b %Y") }}</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    
 </div>
-{% endif %}
