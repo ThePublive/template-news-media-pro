@@ -1,3 +1,4 @@
+{% load static %}
 {% if is_mobile_device %}
     {% if slots.mobile_hp_sticky and page_type == 'HomePage' %}
         <div class="responsive-ad-css">
@@ -28,7 +29,7 @@
     <div class="responsive-ad-css">
         <div class="ads-div-style sticky_add" style="{{slots.desktop_hp_footer_sticky.custom_css_styles|safe}}">
             <button class="ad_close_btn">
-                <img src="{{ static(template_key+'/assets/images/cross_svg.svg') }}" alt="ad_close_btn" />
+                <img src="{% static 'images/svg icons/cross_svg.svg' %}" alt="ad_close_btn" />
             </button>
             <span class="publive-slot-span ">Advertisment</span>
             {{ slots.desktop_hp_footer_sticky.html_content|safe }}
@@ -39,7 +40,7 @@
 
         <div class="ads-div-style sticky_add" style="{{slots.desktop_ap_footer_sticky.custom_css_styles|safe}}">
             <button class="ad_close_btn">
-                <img src="{{ static(template_key+'/assets/images/cross_svg.svg') }}" alt="ad_close_btn" />
+                <img src="{% static 'images/svg icons/cross_svg.svg' %}" alt="ad_close_btn" />
             </button>
             <span class="publive-slot-span ">Advertisment</span>
             {{ slots.desktop_ap_footer_sticky.html_content|safe }}
@@ -51,7 +52,7 @@
 
         <div class="ads-div-style sticky_add" style="{{slots.desktop_cp_footer_sticky.custom_css_styles|safe}}">
             <button class="ad_close_btn">
-                <img src="{{ static(template_key+'/assets/images/cross_svg.svg') }}" alt="ad_close_btn" />
+                <img src="{% static 'images/svg icons/cross_svg.svg' %}" alt="ad_close_btn" />
             </button>
             <span class="publive-slot-span ">Advertisment</span>
             {{ slots.desktop_cp_footer_sticky.html_content|safe }}
