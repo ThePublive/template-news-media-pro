@@ -1,75 +1,230 @@
+{# Gazet Theme - Hero Section #}
 
-{% if page_type == 'HomePage' %}
-    <!-- Featured Section -->
-    {% if post_section.posts|length == 1 %}
-        {% include template_key~'/templates/components/section_layouts/layout_type_1.html'  %}
-    {% elif post_section.posts|length == 2 %}
-        {% include template_key~'/templates/components/section_layouts/layout_type_2.html'  %}
-    {% else %}
-        {% if image_aspect_ratio == '16/9' and not enable_native_legacy_ui %}
-            {% include template_key~'/templates/components/section_layouts/layout_type_2.html'  %}
-        {% else %}
-            {% include template_key~'/templates/components/section_layouts/layout_type_3.html' %}
-        {% endif %}
-    {% endif %}
-{% elif not enable_native_legacy_ui %}
-<!-- Category, Tag & Author Section -->
-{% include template_key~'/templates/components/section_layouts/layout_type_1.html' %}
-    {% else %}
-{% include template_key~'/templates/components/section_layouts/layout_type_2.html' %}
-{% endif %}
+{% if page_type == 'HomePage' and post_section and post_section.posts %}
 
-<div class="post-layout posts-layout-2 native-legacy-row-template">
-    {% if post_section.posts %}
-        {% for post in post_section.posts %}
-            {% if image_aspect_ratio == '16/9' and loop.index > 2 and not enable_native_legacy_ui %}
-                {% if featured %}
-                        {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
-                {% else %}
-                    {% if loop.index < 6 %}
-                        {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
-                    {% endif %}
+    <section style="padding: 0 1.25rem; margin-top: 1.5rem;">
+        <div class="max-w-site" style="max-width: var(--max-w-site); margin: 0 auto;">
+
+            {# Hero Grid Layout #}
+            <div class="hero-grid" style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+                {# Main Featured Post (First Post) #}
+                {% if post_section.posts|length > 0 %}
+                    {% set post = post_section.posts[0] %}
+                    <article style="display: flex; flex-direction: column; gap: 1rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-brd-soft);">
+
+                        {# Featured Image #}
+                        <a href="{{ post.absolute_url }}" style="display: block; border-radius: var(--rounded-theme); overflow: hidden;">
+                            <figure style="margin: 0; position: relative;">
+                                {% if post.feature_image_url %}
+                                    <img
+                                        src="{{ post.feature_image_url }}"
+                                        alt="{{ post.title }}"
+                                        class="aspect-[3/2]"
+                                        loading="eager"
+                                        style="width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--rounded-theme); transition: opacity 0.2s;">
+                                {% endif %}
+                            </figure>
+                        </a>
+
+                        {# Post Content #}
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+
+                            {# Category Tag #}
+                            {% if post.categories and post.categories|length > 0 %}
+                                <div style="font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">
+                                    <a href="{{ post.categories[0].absolute_url }}" class="text-brand" style="color: var(--color-brand); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">
+                                        {{ post.categories[0].name }}
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            {# Title #}
+                            <h1 style="font-family: var(--font-heading); font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: var(--font-weight-headings); line-height: 1.2; margin: 0;">
+                                <a href="{{ post.absolute_url }}" class="hover:underline" style="color: var(--color-typ); text-decoration: none; text-underline-offset: 4px;">
+                                    {{ post.title }}
+                                </a>
+                            </h1>
+
+                            {# Excerpt #}
+                            {% if post.excerpt %}
+                                <p style="font-size: 1rem; line-height: 1.5; color: var(--color-typ); margin: 0;">
+                                    {{ post.excerpt[:150] }}{% if post.excerpt|length > 150 %}...{% endif %}
+                                </p>
+                            {% endif %}
+
+                            {# Meta Information #}
+                            <div style="font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; font-weight: 400; color: var(--color-typ); opacity: 0.75; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;">
+                                {# Author #}
+                                {% if post.authors and post.authors|length > 0 %}
+                                    <span style="font-style: italic; text-transform: lowercase;">By</span>
+                                    {% for author in post.authors %}
+                                        <a href="{{ author.absolute_url }}" class="hover:underline" style="color: var(--color-typ); font-weight: 500; text-decoration: none; text-underline-offset: 2px; text-decoration-thickness: 2px;">
+                                            {{ author.name }}
+                                        </a>
+                                        {% if not loop.last %}<span style="font-style: italic; text-transform: lowercase;">and</span>{% endif %}
+                                    {% endfor %}
+                                {% endif %}
+
+                                {# Date #}
+                                {% if post.published_date %}
+                                    <span style="margin: 0 0.375rem; color: var(--color-brd-soft);">/</span>
+                                    <time style="opacity: 0.75; font-weight: 500;">{{ post.published_date.strftime('%d %b %Y') }}</time>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </article>
                 {% endif %}
-            {% elif loop.index > 3 and page_type == 'HomePage' %}
-                {% if featured %}
-                        {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
-                {% else %}
-                    {% if loop.index < 6 and enable_native_legacy_ui %}
-                        {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
-                    {% elif loop.index < 7  and not enable_native_legacy_ui%}
-                        {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
-                    {% endif %}
+
+                {# Secondary Posts Grid #}
+                {% if post_section.posts|length > 1 %}
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+
+                        {# Posts 2-4 #}
+                        {% for post in post_section.posts[1:4] %}
+                            <article style="display: flex; gap: 1rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-brd-soft);">
+
+                                {# Post Content (Left) #}
+                                <div style="flex: 3; display: flex; flex-direction: column; gap: 0.5rem;">
+
+                                    {# Category Tag #}
+                                    {% if post.categories and post.categories|length > 0 %}
+                                        <div style="font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">
+                                            <a href="{{ post.categories[0].absolute_url }}" class="text-brand" style="color: var(--color-brand); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px;">
+                                                {{ post.categories[0].name }}
+                                            </a>
+                                        </div>
+                                    {% endif %}
+
+                                    {# Title #}
+                                    <h3 style="font-family: var(--font-heading); font-size: clamp(1rem, 2vw, 1.125rem); font-weight: var(--font-weight-headings); line-height: 1.15; margin: 0;">
+                                        <a href="{{ post.absolute_url }}" class="hover:underline" style="color: var(--color-typ); text-decoration: none; text-underline-offset: 4px; text-decoration-thickness: 2px;">
+                                            {{ post.title }}
+                                        </a>
+                                    </h3>
+
+                                    {# Meta Information #}
+                                    <div style="font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; font-weight: 400; color: var(--color-typ); opacity: 0.75; margin-top: auto;">
+                                        {% if post.authors and post.authors|length > 0 %}
+                                            <span style="font-style: italic; text-transform: lowercase;">By</span>
+                                            <a href="{{ post.authors[0].absolute_url }}" class="hover:underline" style="color: var(--color-typ); font-weight: 500; text-decoration: none; text-underline-offset: 2px; text-decoration-thickness: 2px;">
+                                                {{ post.authors[0].name }}
+                                            </a>
+                                        {% endif %}
+                                        {% if post.published_date %}
+                                            <span style="margin: 0 0.375rem; color: var(--color-brd-soft);">/</span>
+                                            <time style="opacity: 0.75; font-weight: 500;">{{ post.published_date.strftime('%d %b %Y') }}</time>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                {# Image (Right) #}
+                                <a href="{{ post.absolute_url }}" style="flex: 1; flex-shrink: 0; max-width: 80px; background-color: var(--color-bgr-tone); border-radius: var(--rounded-theme); overflow: hidden;">
+                                    {% if post.feature_image_url %}
+                                        <img
+                                            src="{{ post.feature_image_url }}"
+                                            alt="{{ post.title }}"
+                                            class="aspect-[1/1]"
+                                            loading="lazy"
+                                            style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--rounded-theme); transition: opacity 0.2s;">
+                                    {% endif %}
+                                </a>
+                            </article>
+                        {% endfor %}
+                    </div>
                 {% endif %}
-            {% elif loop.index > 1 and page_type != 'HomePage' and not enable_native_legacy_ui %}
-                <div class="" >
-                    {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
-                </div>
-            {% elif loop.index > 2 and page_type != 'HomePage' and enable_native_legacy_ui %}
-                <div class="" >
-                    {% include template_key~'/templates/components/common_utils/post_cards/post-card-2.html' %}
-                </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-</div>
-{% if page_type == 'AuthorPage' or page_type == 'TagPage' or page_type == 'CategoryPage' %}
-{% if allows_newsletter_subs %}
-    <div class="listing_pages_newsletter display-none">
-        {% include template_key~'/templates/components/subscribe-block.html' %}
-    </div>
-{% endif %}
-<!--  pagination C.A.T Pages  -->
-{% include template_key~'/templates/components/common_utils/pagination.html' %}
-{% endif %}
 
-{% if page_type != 'HomePage' %}
-    {% if slots.desktop_cp_bottom %}
-    <div class="responsive-ad-css">
+            </div>
 
-        <div class="ads-div-style   other-page-ads-bottom" style="margin-top:10px;margin-bottom:10px;{{slots.desktop_cp_bottom.custom_css_styles|safe}}">
-            <span class="publive-slot-span ">Advertisment</span>
-            {{ slots.desktop_cp_bottom.html_content|safe }}
+            {# Responsive Grid for Desktop #}
+            <style>
+                @media (min-width: 768px) {
+                    .hero-grid {
+                        display: grid !important;
+                        grid-template-columns: 2fr 1fr;
+                        gap: 2rem;
+                    }
+                    .hero-grid > article:first-child {
+                        border-bottom: none !important;
+                        border-right: 1px solid var(--color-brd-soft);
+                        padding-right: 2rem;
+                        padding-bottom: 0 !important;
+                    }
+                }
+            </style>
+
         </div>
-    </div>
-    {% endif %}
+    </section>
+
+{% elif page_type != 'HomePage' and post_section and post_section.posts %}
+    {# For Category/Tag/Author Pages - Simpler Layout #}
+    <section style="padding: 0 1.25rem; margin-top: 1.5rem;">
+        <div class="max-w-site" style="max-width: var(--max-w-site); margin: 0 auto;">
+            {% if post_section.posts|length > 0 %}
+                {% set post = post_section.posts[0] %}
+                <article style="display: flex; flex-direction: column; gap: 1rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-brd-soft);">
+                    <a href="{{ post.absolute_url }}" style="display: block; border-radius: var(--rounded-theme); overflow: hidden;">
+                        {% if post.feature_image_url %}
+                            <img
+                                src="{{ post.feature_image_url }}"
+                                alt="{{ post.title }}"
+                                loading="eager"
+                                style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--rounded-theme);">
+                        {% endif %}
+                    </a>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        {% if post.categories and post.categories|length > 0 %}
+                            <div style="font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">
+                                <a href="{{ post.categories[0].absolute_url }}" class="text-brand" style="color: var(--color-brand); text-decoration: underline;">
+                                    {{ post.categories[0].name }}
+                                </a>
+                            </div>
+                        {% endif %}
+                        <h1 style="font-family: var(--font-heading); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: var(--font-weight-headings); line-height: 1.2; margin: 0;">
+                            <a href="{{ post.absolute_url }}" class="hover:underline" style="color: var(--color-typ); text-decoration: none;">
+                                {{ post.title }}
+                            </a>
+                        </h1>
+                    </div>
+                </article>
+            {% endif %}
+        </div>
+    </section>
+{% endif %}
+
+{# Remaining Posts (List View) #}
+{% if post_section and post_section.posts and post_section.posts|length > 4 %}
+    <section style="padding: 0 1.25rem; margin-top: 2rem;">
+        <div class="max-w-site" style="max-width: var(--max-w-site); margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: 1fr; md:grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                {% for post in post_section.posts[4:] %}
+                    <article style="display: flex; flex-direction: column; gap: 1rem;">
+                        <a href="{{ post.absolute_url }}" style="display: block; border-radius: var(--rounded-theme); overflow: hidden;">
+                            {% if post.feature_image_url %}
+                                <img
+                                    src="{{ post.feature_image_url }}"
+                                    alt="{{ post.title }}"
+                                    loading="lazy"
+                                    style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--rounded-theme); transition: opacity 0.2s;">
+                            {% endif %}
+                        </a>
+                        <div style="display: flex; flex-direction: column; gap: 0.625rem;">
+                            {% if post.categories and post.categories|length > 0 %}
+                                <div style="font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">
+                                    <a href="{{ post.categories[0].absolute_url }}" class="text-brand" style="color: var(--color-brand); text-decoration: underline;">
+                                        {{ post.categories[0].name }}
+                                    </a>
+                                </div>
+                            {% endif %}
+                            <h3 style="font-family: var(--font-heading); font-size: 1.125rem; font-weight: var(--font-weight-headings); line-height: 1.2; margin: 0;">
+                                <a href="{{ post.absolute_url }}" class="hover:underline" style="color: var(--color-typ); text-decoration: none; text-underline-offset: 4px;">
+                                    {{ post.title }}
+                                </a>
+                            </h3>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 {% endif %}
