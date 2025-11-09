@@ -1,0 +1,74 @@
+{% if is_mobile_device %}
+
+<div class="newsletter-page-default d-flex" style="flex-direction: column;">
+  <div style="margin: 0px auto;">
+    <img src="{{ static(template_key+'/assets/images/newsletter_new_icon.svg') }}" alt="newsletter" style="width: 100%;">
+  </div>
+  <div>
+    <h1>Subscribe to our Newsletter!</h1>
+    <h4>Be the first to get exclusive offers and the latest news</h4>
+
+      <div class="">
+        <div>
+          <div class="subscribe-text primary_font" style="align-items: flex-start;margin:0px;">
+            </div>
+            <div class="horizontal-separator-line"></div>
+            <div class="subscribe-text primary_font" style="align-items: flex-start;margin:20px 0px;">
+              <form target="_top" id="newsletter-subscribe-form" class="secondary_font newsletter_subscribe_wall_form">
+                <div class="d-flex">
+                  <div >
+                      <input type="text" name="name" placeholder="{{ 'your_name'|translate(lang) }}" [hidden]="hidden_atr" class="w-100 subscribe-text-head " style="margin-bottom: 1rem;">
+                      <input type="email" name="email" placeholder="{{ 'email_address'|translate(lang) }}" [hidden]="hidden_atr" class="w-100 subscribe-text-head" style="margin-bottom: 1rem;">
+                      {% if captcha_enable %}
+                      <input type="hidden" name="check_for_captcha" value='1' >
+                      <div class="g-recaptcha mb-3" data-sitekey="{{captcha_site_key}}"></div>
+                      {% endif %}
+                      <button type="button" class="w-100 subscribe_submit_btn_1" style="padding: 8px 0px;" [disabled]="disable" [hidden]="hidden_atr"><span class="subscribe-text-head" >{{ 'subscribe_now'|translate(lang )}}</span></button>
+                      <div class="success newsletter_msg" style="width:100%;padding-top: 15px;">
+                        <p>{{message}}</p>
+                      </div>
+                  </div>
+                </div>
+              </form>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+{% else %}
+<div class="newsletter-page-default d-flex" >
+  <div>
+    <img src="{{ static(template_key+'/assets/images/newsletter_new_icon.svg') }}" alt="newsletter">
+  </div>
+  <div>
+    <h1>Subscribe to our Newsletter!</h1>
+    <h4>Be the first to get exclusive offers and the latest news</h4>
+
+      <div class="">
+        <div>
+          <div class="subscribe-text primary_font" style="align-items: flex-start;margin:0px;">
+            </div>
+            <div class="horizontal-separator-line"></div>
+            <div class="subscribe-text primary_font" style="align-items: flex-start;margin:20px 0px;">
+              <form target="_top" id="newsletter-subscribe-form" class="secondary_font newsletter_subscribe_wall_form">
+              <div class="d-flex">
+                <div >
+                    <input type="text" name="name" placeholder="{{ 'your_name'|translate(lang) }}" [hidden]="hidden_atr" class="w-100 subscribe-text-head " style="margin-bottom: 1rem;">
+                    <input type="email" name="email" placeholder="{{ 'email_address'|translate(lang) }}" [hidden]="hidden_atr" class="w-100 subscribe-text-head" style="margin-bottom: 1rem;">
+                    {% if captcha_enable %}
+                    <input type="hidden" name="check_for_captcha" value='1' >
+                    <div class="g-recaptcha mb-3" data-sitekey="{{captcha_site_key}}"></div>
+                    {% endif %}
+                    <button type="button" class="w-100 subscribe_submit_btn_1" style="padding: 8px 0px;" [disabled]="disable" [hidden]="hidden_atr"><span class="subscribe-text-head" >{{ 'subscribe_now'|translate(lang )}}</span></button>
+                    <div class="success newsletter_msg" style="width:100%;padding-top: 15px;">
+                      <p>{{message}}</p>
+                    </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+{% endif %}

@@ -1,0 +1,49 @@
+
+
+<div class="modal fade pub-platform-signin-modal lang_modal" data-bs-toggle="modal" id="legacy_lang_modal" tabindex="-1" aria-labelledby="search_modalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+    <div class="modal-content" role="button" tabindex=0>
+        <div class="modal-header border-0">
+            {{ 'select_language'|translate(lang)}}
+        </div>
+        <div class="modal-body py-0">
+            <a href="{{ content_website.url }}" style="color: #000" class="d-flex lang_a justify-content-between active">
+                {{ content_website.name|translate(lang) }}
+                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
+                    <g id="Group_326" data-name="Group 326" transform="translate(-0.156 -0.002)">
+                        <g id="Ellipse_194" data-name="Ellipse 194" transform="translate(0.156 0.002)" fill="none"
+                        stroke="#181818" stroke-width="4">
+                            <circle cx="11.5" cy="11.5" r="11.5" stroke="none"/>
+                            <circle cx="11.5" cy="11.5" r="9.5" fill="none"/>
+                        </g>
+                        <circle id="Ellipse_195" data-name="Ellipse 195" cx="5.5" cy="5.5" r="5.5"
+                                transform="translate(6.156 6.002)" fill="#181818"/>
+                    </g>
+                </svg>
+
+            </a>
+            {% for website in redirect_websites %}
+                <a href="{{ website.url }}" style="color: #000" target="_blank"
+                class="d-flex lang_a justify-content-between {% if website.name[:2] == lang|title %}active{% endif %}">
+                    {{ website.name }}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
+                        <g id="Group_326" data-name="Group 326" transform="translate(-0.156 -0.002)">
+                            <g id="Ellipse_194" data-name="Ellipse 194" transform="translate(0.156 0.002)"
+                            fill="none" stroke="#181818" stroke-width="4">
+                                <circle cx="11.5" cy="11.5" r="11.5" stroke="none"/>
+                                <circle cx="11.5" cy="11.5" r="9.5" fill="none"/>
+                            </g>
+                            <circle id="Ellipse_195" data-name="Ellipse 195" cx="5.5" cy="5.5" r="5.5"
+                                    transform="translate(6.156 6.002)" fill="none"/>
+                        </g>
+                    </svg>
+
+                </a>
+            {% endfor %}
+        </div>
+        <div class="modal-footer border-0">
+            <button type="button" class="cancel-btn secondary_font" data-bs-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+  </div>
+</div>

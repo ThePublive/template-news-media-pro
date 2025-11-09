@@ -1,0 +1,7 @@
+<div id="feat-len-1" class="article-box">
+    {% for post in post_section.posts  %}
+        {% if loop.index ==1 %}
+        {% include template_key~"/templates/components/common_utils/post_cards/post-card.html" %}
+        {% endif %}
+    {% endfor %}
+</div>

@@ -1,0 +1,62 @@
+{% if category_content.name  %}
+    <div style="color: {{ publisher.link_color }};">
+        <h1 class="category_name primary_font category_{{category_slug}}_text_color">
+            {% if category_content.name  %}
+            {{category_content.name}}
+            {% endif %}
+        </h1>
+    </div>
+{% endif %}
+
+{% if category_content.child_categories %}
+    <div class="div-handle">
+        <!-- parent category div -->
+        <div class="category_name_wrapper">
+            <a class="child_category_pill active_cat category_{{category_content.slug|slash_remove}}_brand_color" href="{{ category_content.absolute_url }}" >
+                <span class="primary_font">
+                    {{category_content.name}}
+                </span>
+            </a>
+        </div>
+        <!-- child category div -->
+        {% for child_category in category_content.child_categories %}
+            <div class="category_name_wrapper">
+                <a class="child_category_pill {% if child_category.id == category_content.id %}active_cat{% endif %}" href="{{ child_category.absolute_url }}" 
+                style="border-color:{{category_content.category_brand_color}};">
+                    <span class="primary_font">
+                        {{child_category.name}}
+                    </span>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% elif category_content.siblings_categories %}
+    <div class="div-handle">
+        <!-- parent category div -->
+        <div class="category_name_wrapper">
+            <a class="child_category_pill" href="{{ category_content.parent_category.absolute_url }}"  
+            style="border-color:{{category_content.category_brand_color}}">
+                <span class="primary_font">
+                    {{category_content.parent_category.name}}
+                </span>
+            </a>
+        </div>
+        <!-- parent category div -->
+        {% for child_category in category_content.siblings_categories %}
+            <div class="category_name_wrapper">
+                <a class="child_category_pill category_{{category_content.slug|slash_remove}}_brand_color {% if child_category.id == category_content.id %}active_cat{% endif %}" href="/{{ child_category.slug }}">
+                    <span class="primary_font">
+                        {{child_category.name}}
+                    </span>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% if category_content.content %}
+    <div class="tag_content_content_wrapper secondary_font">
+        {% if category_content.content %}
+          {{category_content.content|safe}}
+        {% endif %}
+    </div>
+{% endif %}

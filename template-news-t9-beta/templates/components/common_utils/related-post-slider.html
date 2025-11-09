@@ -1,0 +1,16 @@
+<div class="post-collection article-pg-related  next_page_hide {% if enable_show_article_button and post_data.post.type != 'CustomPage' %}hide_article_content{% endif %}"  id="recomened_article_title_{{ post_data.post.id }}">
+  <div class="category primary_font  {% if enable_show_article_button and post_data.post.type != 'CustomPage' %}hide_article_content{% endif %}" id="recomened_article_list_{{ post_data.post.id }}" next-page-hide>
+      {% if show_trending_articles %}
+          {{ 'trending_articles'|translate(lang )}}
+      {% else %}
+          {{ 'related_articles'|translate(lang )}}
+      {% endif %}
+  </div>
+  <div class="slider-container"  class="primary_font">
+    <div id="related_articles" class="post-sliders slides">
+
+    </div>
+    <button class="prev">{% include "common_util_across_templates/svg_html/caret_right_svg.html" %}</button>
+    <button class="next">{% include "common_util_across_templates/svg_html/caret_right_svg.html" %}</button>
+  </div>
+</div>

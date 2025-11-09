@@ -31,8 +31,8 @@
                         <a href="{{ post.absolute_url }}">{{ post.title }}</a>
                     </h4>
                     <div class="trending-meta">
-                        <time datetime="{{ post.created_at|date('c') }}">
-                            {{ post.created_at|timeago }}
+                        <time datetime="{{ post.formatted_last_published_at_datetime|date_time_format('%Y-%m-%d') }}">
+                            {{ post.formatted_last_published_at_datetime|date_time_format('%b %d, %Y') }}
                         </time>
                     </div>
                 </div>

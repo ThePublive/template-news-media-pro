@@ -1,0 +1,43 @@
+<ul class="menu_bar gh-mobile-menu__nav-list">
+  {%for navbar_items in navbar_components %}
+  <li class="menu_li dropdown_button gh-mobile-menu__nav-item">
+  <div class="sidebtn">
+    <a class="active side_btn" {% if navbar_items.link %} href="{{navbar_items.link}}" {% if navbar_items.open_new_tab %} target="_blank"{% endif %} aria-label="{{navbar_items.name}}" {% endif %}>
+        {{navbar_items.name}}
+      </a>
+      {%if navbar_items.children%}
+          <span class="menu_bar-dropdown-icon first-button-icon">
+          {% include "common_util_across_templates/svg_html/caret_right_svg.html" %}
+          </span>
+      {% endif %}
+  </div>
+    {%if navbar_items.children%}
+    <ul class="dropdown_menu first-submenu">
+    {%for menu in navbar_items.children %}
+        <li class="dropdown_list dropdown_button_submenu ">
+          <div class="submenu-sidebtn">
+            <a  {% if menu.link %} {% if menu.open_new_tab %}target="_blank"{% endif %} href="{{menu.link}}" {% endif %} aria-label="{{ menu.name }}">{{menu.name}}
+            </a>
+            {%if menu.children%}
+            <span class="menu_bar-dropdown-icon second-button-icon">
+            {% include "common_util_across_templates/svg_html/caret_right_svg.html" %}
+            </span>
+            {% endif %}
+          </div>
+            {% if menu.children %}
+            <ul class="dropdown_menu second-submenu">
+              {% for submenu in menu.children %}
+              <li class="dropdown_list">
+                <a class="submenu-anchor" {% if submenu.link %} {% if submenu.open_new_tab %}target="_blank"{% endif %} href="{{submenu.link}}" {% endif %} aria-label="{{ submenu.name }}">{{submenu.name}}
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+        </li>
+    {%endfor%}
+    </ul>
+    {% endif %}
+</li>
+  {%endfor%}
+</ul>

@@ -1,0 +1,40 @@
+
+{% if is_mobile_device %}
+    {% if slots.mobile_hp_sticky and page_type == 'HomePage' %}
+            {{ slots.mobile_hp_sticky.html_content|safe }}
+    {% elif slots.mobile_ap_sticky and page_type == 'ArticlePage'  %}
+            {{ slots.mobile_ap_sticky.html_content|safe }}
+    {% elif slots.mobile_cp_sticky %}
+        {% if page_type == 'CategoryPage' or page_type == 'TagPage' or page_type == 'AuthorPage' or page_type == 'AuthorListPage' or page_type == 'TagsListPage' %}
+            {{ slots.mobile_cp_sticky.html_content|safe }}
+        {% endif %}
+    {% endif %}
+{% else %}
+    {% if  slots.desktop_hp_footer_sticky and page_type == 'HomePage'%}
+        <div class="publive-dynamic-container sticky_add" style="{{slots.desktop_hp_footer_sticky.custom_css_styles|safe}}">
+            <button class="ad_close_btn">
+                <img src="{{ static('images/svg icons/cross_svg.svg' ,True) }}" alt="ad_close_btn" />
+            </button>
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slots.desktop_hp_footer_sticky.html_content|safe }}
+        </div>
+    {% elif slots.desktop_ap_footer_sticky and page_type == 'ArticlePage' %}
+        <div class="publive-dynamic-container sticky_add" style="{{slots.desktop_ap_footer_sticky.custom_css_styles|safe}}">
+            <button class="ad_close_btn">
+                <img src="{{ static('images/svg icons/cross_svg.svg' ,True) }}" alt="ad_close_btn" />
+            </button>
+            <span class="publive-slot-span ">Advertisment</span>
+            {{ slots.desktop_ap_footer_sticky.html_content|safe }}
+        </div>
+    {% elif slots.desktop_cp_footer_sticky %}
+        {% if page_type == 'CategoryPage' or page_type == 'TagPage' or page_type == 'AuthorPage' or page_type == 'AuthorListPage' or page_type == 'TagsListPage' %}
+            <div class="publive-dynamic-container sticky_add" style="{{slots.desktop_cp_footer_sticky.custom_css_styles|safe}}">
+                <button class="ad_close_btn">
+                    <img src="{{ static('images/svg icons/cross_svg.svg' ,True) }}" alt="ad_close_btn" />
+                </button>
+                <span class="publive-slot-span ">Advertisment</span>
+                {{ slots.desktop_cp_footer_sticky.html_content|safe }}
+            </div>
+        {% endif %}
+    {% endif %}
+{% endif %}

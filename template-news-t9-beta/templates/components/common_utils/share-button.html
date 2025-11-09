@@ -1,0 +1,22 @@
+<div class="shareables mobile-shareables secondary_font {% if post_data.post.read_short_story and  post_data.post.read_short_story.post_url and not is_mobile_device %} existing-web-story-shareable {% endif %}">
+  <div class="read_in_short_wrapper">
+      {% if post_data.post.read_short_story and  post_data.post.read_short_story.post_url %}
+      <a class="read_in_short-btn anchors" href="https://{{ publisher.actual_domain }}{{post_data.post.read_short_story.post_url}}" aria-label={{post_data.post.read_short_story.post_url}}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288H175.5L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3s-16.6-20.7-30-20.7H272.5L349.4 44.6z"/></svg>
+              <p lang={{lang}}>{{"read_in_short"|translate(lang)}}</p>
+          
+      </a>
+      {% endif %}
+  </div>
+  
+  
+
+  <button id="shareButton{{post_data.post.legacy_url|slash_remove}}" onClick='shareContent("{{post_data.post.legacy_url}}","{{post_data.post.title}}")' class="anchors ">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15"  viewBox="0 0 30 32" fill="{{publisher.link_color}}" style="margin-right:5px;">
+      <path d="M23.4893 10.287C25.8749 10.287 27.8087 8.35312 27.8087 5.96759C27.8087 3.58205 25.8749 1.64819 23.4893 1.64819C21.1038 1.64819 19.1699 3.58205 19.1699 5.96759C19.1699 8.35312 21.1038 10.287 23.4893 10.287Z"  stroke-width="2.87959" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M6.21246 20.3658C8.59799 20.3658 10.5319 18.432 10.5319 16.0464C10.5319 13.6609 8.59799 11.7271 6.21246 11.7271C3.82692 11.7271 1.89307 13.6609 1.89307 16.0464C1.89307 18.432 3.82692 20.3658 6.21246 20.3658Z"  stroke-width="2.87959" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M23.4893 30.4432C25.8749 30.4432 27.8087 28.5094 27.8087 26.1238C27.8087 23.7383 25.8749 21.8044 23.4893 21.8044C21.1038 21.8044 19.1699 23.7383 19.1699 26.1238C19.1699 28.5094 21.1038 30.4432 23.4893 30.4432Z"   stroke-width="2.87959" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M9.94092 18.2192L19.7747 23.9496" stroke="{{publisher.link_color}}" stroke-width="2.87959" stroke-linecap="round" fill="{{publisher.link_color}}" stroke-linejoin="round"/>
+      <path d="M19.7603 8.14087L9.94092 13.8713"  stroke-width="2.87959" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>{{'share'|translate(lang)}}</button>
+  </div>

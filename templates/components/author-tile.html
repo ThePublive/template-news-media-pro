@@ -1,0 +1,80 @@
+
+
+<a href="{{ author.absolute_url }}" aria-label="{{ author.name }}" class="clickable" style="height: 100%;">
+    <div class="card-author" next-page-hide>
+        
+        {% if author.avatar %}
+            <div class="author-img">
+                <img src="{{ author.avatar|get_absolute_image_url('580,348') }}" class="author-card-img" alt="author image">
+            </div>
+        {% endif %}
+
+        <div class="card-body-author secondary_font">
+            {% if page_type == 'AuthorPage' %}
+            <h1 class="author-card-title">{{ author.name }} </h1>
+            {% else %}
+            <h2 class="author-card-title">{{ author.name }} </h2>
+            {% endif %}
+            <div class="author-card-data">
+                <p class="author-card-text">
+                    {% if author.description != 'short_description' %}
+                        {{ author.description }}
+                    {% endif %}
+                </p>
+                <div class="sharelink social-link ">
+                        {% if author.facebook != "" %}
+                            <a href="{{ author.facebook }}" aria-label="fb"
+                                target="_blank">
+                                <svg id="Group_321" data-name="Group 321" xmlns="http://www.w3.org/2000/svg"
+                                width="32.316" height="32.316" viewBox="0 0 32.316 32.316">
+                               <ellipse id="Ellipse_164" data-name="Ellipse 164" cx="16.158" cy="16.158"
+                                        rx="16.158" ry="16.158" transform="translate(0 0)"/>
+                               <path id="Icon_awesome-facebook-f" class="svg_bg"  data-name="Icon awesome-facebook-f"
+                                     d="M11.819,11.475l.567-3.692H8.843v-2.4a1.846,1.846,0,0,1,2.081-1.994h1.61V.249A19.639,19.639,0,0,0,9.676,0C6.759,0,4.852,1.768,4.852,4.969V7.783H1.609v3.692H4.852V20.4H8.843V11.475Z"
+                                     transform="translate(9.021 5.547)" />
+                           </svg>
+                            </a>
+                        {% endif %}
+                        {% if author.twitter != "" %}
+                            <a href="{{ author.twitter }}" aria-label="twitter"
+                                target="_blank">
+                                {% include template_key~'/templates/components/common_utils/svgs/x_small_svg.html' %}
+
+                            </a>
+                        {% endif %}
+                        {% if author.linkedin != "" %}
+                            <a href="{{ author.linkedin }}" aria-label="linkedin"
+                                target="_blank"
+                                rel="nofollow">
+                                <svg id="Group_323" data-name="Group 323" xmlns="http://www.w3.org/2000/svg"
+                 width="31.701" height="31.7" viewBox="0 0 31.701 31.7">
+                <path id="Path_11" data-name="Path 11"
+                      d="M15.85,0A15.85,15.85,0,1,1,0,15.85,15.85,15.85,0,0,1,15.85,0Z"
+                      transform="translate(0 0)" />
+                <path id="Icon_awesome-linkedin-in" class="svg_bg" data-name="Icon awesome-linkedin-in"
+                      d="M3.12,13.94H.23V4.633H3.12ZM1.674,3.364a1.682,1.682,0,1,1,1.674-1.69A1.688,1.688,0,0,1,1.674,3.364ZM13.936,13.94H11.053V9.409c0-1.08-.022-2.464-1.5-2.464-1.5,0-1.733,1.173-1.733,2.386V13.94H4.931V4.633H7.7V5.9h.04a3.037,3.037,0,0,1,2.734-1.5c2.925,0,3.462,1.926,3.462,4.428V13.94Z"
+                      transform="translate(9.246 7.924)"/>
+            </svg>
+                            </a>
+                        {% endif %}
+                        {% if author.instagram != "" %}
+                            <a href="{{ author.instagram }}" aria-label="instagram"
+                                target="_blank">
+                                <svg id="Group_326" data-name="Group 326"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     width="31.701" height="31.7" fill="#181818" viewBox="0 0 3333 3333"
+                                     shape-rendering="geometricPrecision" text-rendering="geometricPrecision"
+                                     image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd">
+                                     <path id="Icon iconic-logo-instagram" 
+                                          data-name="Icon iconic-logo-instagram"
+                                          d="M1667 0c920 0 1667 746 1667 1667 0 920-746 1667-1667 1667C747 3334 0 2588 0 1667 0 747 746 0 1667 0zm-390 752h780c293 0 532 237 532 525v778c0 289-239 525-532 525h-780c-293 0-532-236-532-525v-778c0-289 240-525 532-525zm385 421c285 0 516 231 516 516s-231 516-516 516-516-231-516-516 231-516 516-516zm0 174c188 0 341 153 341 341s-153 341-341 341c-189 0-341-153-341-341s153-341 341-341zm499-246c46 0 84 37 84 84 0 46-37 84-84 84-46 0-84-37-84-84 0-46 37-84 84-84zm-820-200h652c245 0 445 199 445 443v656c0 244-200 443-445 443h-652c-245 0-445-199-445-443v-656c0-244 200-443 445-443z"
+                                          transform="translate(0 0)"/>
+                                </svg>
+                        
+                            </a>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

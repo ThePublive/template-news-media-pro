@@ -1,0 +1,50 @@
+{# Social Links - Footer Style #}
+{% if publisher.social_links %}
+<div class="social-links-footer">
+    <h4 class="social-title">Follow Us</h4>
+    <ul class="social-list">
+        {% if publisher.social_links.facebook %}
+        <li class="social-item">
+            <a href="{{ publisher.social_links.facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                {% include template_key~'/templates/components/common_utils/svgs/facebook.html' %}
+            </a>
+        </li>
+        {% endif %}
+        {% if publisher.social_links.twitter %}
+        <li class="social-item">
+            <a href="{{ publisher.social_links.twitter }}" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                {% include template_key~'/templates/components/common_utils/svgs/twitter.html' %}
+            </a>
+        </li>
+        {% endif %}
+        {% if publisher.social_links.instagram %}
+        <li class="social-item">
+            <a href="{{ publisher.social_links.instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                {% include template_key~'/templates/components/common_utils/svgs/instagram.html' %}
+            </a>
+        </li>
+        {% endif %}
+        {% if publisher.social_links.linkedin %}
+        <li class="social-item">
+            <a href="{{ publisher.social_links.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                {% include template_key~'/templates/components/common_utils/svgs/linkedin.html' %}
+            </a>
+        </li>
+        {% endif %}
+        {% if publisher.social_links.youtube %}
+        <li class="social-item">
+            <a href="{{ publisher.social_links.youtube }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                {% include template_key~'/templates/components/common_utils/svgs/youtube.html' %}
+            </a>
+        </li>
+        {% endif %}
+        {% if publisher.social_links.whatsapp %}
+        <li class="social-item">
+            <a href="{{ publisher.social_links.whatsapp }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                {% include template_key~'/templates/components/common_utils/svgs/whatsapp.html' %}
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+{% endif %}
