@@ -228,3 +228,17 @@
         </div>
     </section>
 {% endif %}
+
+{# Pagination for Listing Pages (Restored from Beta) #}
+{% if page_type in ['AuthorPage', 'TagPage', 'CategoryPage'] %}
+    {% include template_key~'/templates/components/common_utils/pagination.html' %}
+{% endif %}
+
+{# Newsletter Subscription Block (Restored from Beta) #}
+{% if allows_newsletter_subs and page_type == 'HomePage' %}
+    <section style="padding: 0 1.25rem; margin-top: 3rem;">
+        <div class="max-w-site" style="max-width: var(--max-w-site); margin: 0 auto;">
+            {% include template_key~'/templates/components/subscribe-block.html' %}
+        </div>
+    </section>
+{% endif %}
