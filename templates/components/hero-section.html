@@ -192,39 +192,119 @@
     </section>
 {% endif %}
 
-{# Remaining Posts (List View) #}
+{# Remaining Posts (List View) - FULL POST CARDS #}
 {% if post_section and post_section.posts and post_section.posts|length > 4 %}
     <section style="padding: 0 1.25rem; margin-top: 2rem;">
         <div class="max-w-site" style="max-width: var(--max-w-site); margin: 0 auto;">
-            <div style="display: grid; grid-template-columns: 1fr; md:grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+            <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
                 {% for post in post_section.posts[4:] %}
-                    <article style="display: flex; flex-direction: column; gap: 1rem;">
-                        <a href="{{ post.absolute_url }}" style="display: block; border-radius: var(--rounded-theme); overflow: hidden;">
+                    <article style="display: flex; flex-direction: column; gap: 1rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-brd-soft);">
+
+                        {# Post Image with Type Icons #}
+                        <a href="{{ post.absolute_url }}" aria-label="{{ post.title }}" style="display: block; border-radius: var(--rounded-theme); overflow: hidden; position: relative;">
                             {% if post.feature_image_url %}
+                                {# Post Type Icons #}
+                                {% if post.type == 'Video' %}
+                                    <span style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 10;">
+                                        <img alt="Video" src="{{ static(template_key+'/assets/images/video-icon.svg') }}" style="width: 32px; height: 32px;">
+                                    </span>
+                                {% elif post.type == 'Web Story' %}
+                                    <span style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 10;">
+                                        <img alt="Web Story" src="{{ static(template_key+'/assets/images/web-story-icon.svg') }}" style="width: 32px; height: 32px;">
+                                    </span>
+                                {% elif post.type == 'Gallery' %}
+                                    <span style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 10;">
+                                        <img alt="Gallery" src="{{ static(template_key+'/assets/images/gallery-icon.svg') }}" style="width: 32px; height: 32px;">
+                                    </span>
+                                {% elif post.type == 'LiveBlog' %}
+                                    {% include template_key~"/templates/components/common_utils/svgs/live-blog-title.html" %}
+                                {% endif %}
+
                                 <img
-                                    src="{{ post.feature_image_url }}"
-                                    alt="{{ post.title }}"
+                                    src="{{ post.banner_url|get_absolute_image_url('580,348') }}"
+                                    alt="{% if post.media_file_banner and post.media_file_banner.alt_text %}{{post.media_file_banner.alt_text}}{% else %}{{ post.title }}{% endif %}"
                                     loading="lazy"
                                     style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--rounded-theme); transition: opacity 0.2s;">
+
+                                {# Category Tag on Image #}
+                                {% if post.primary_category %}
+                                    <a href="{{ post.primary_category.absolute_url }}" aria-label="{{ post.primary_category.name }}" style="position: absolute; bottom: 0.75rem; left: 0.75rem;">
+                                        <span class="category_tag category_{{post.primary_category.slug|slash_remove}}_brand_color" style="background-color: var(--color-brand); color: var(--color-brand-contrast); padding: 0.25rem 0.625rem; border-radius: var(--rounded-theme); font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">
+                                            {{ post.primary_category.name }}
+                                        </span>
+                                    </a>
+                                {% endif %}
                             {% endif %}
                         </a>
-                        <div style="display: flex; flex-direction: column; gap: 0.625rem;">
-                            {% if post.categories and post.categories|length > 0 %}
-                                <div style="font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; text-transform: uppercase;">
-                                    <a href="{{ post.categories[0].absolute_url }}" class="text-brand" style="color: var(--color-brand); text-decoration: underline;">
-                                        {{ post.categories[0].name }}
-                                    </a>
-                                </div>
-                            {% endif %}
+
+                        {# Post Content #}
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+
+                            {# Title #}
                             <h3 style="font-family: var(--font-heading); font-size: 1.125rem; font-weight: var(--font-weight-headings); line-height: 1.2; margin: 0;">
-                                <a href="{{ post.absolute_url }}" class="hover:underline" style="color: var(--color-typ); text-decoration: none; text-underline-offset: 4px;">
+                                <a href="{{ post.absolute_url }}" aria-label="{{ post.title }}" class="hover:underline" style="color: var(--color-typ); text-decoration: none; text-underline-offset: 4px;">
                                     {{ post.title }}
                                 </a>
                             </h3>
+
+                            {# Excerpt #}
+                            {% if post.excerpt %}
+                                <p style="font-size: 0.9375rem; line-height: 1.5; color: var(--color-typ); margin: 0; opacity: 0.85;">
+                                    {{ post.excerpt[:150] }}{% if post.excerpt|length > 150 %}...{% endif %}
+                                </p>
+                            {% endif %}
+
+                            {# Author Information #}
+                            <div style="font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; font-weight: 400; color: var(--color-typ); opacity: 0.75; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;">
+                                {# Authors #}
+                                {% if post.contributors and post.contributors|length > 0 %}
+                                    <span style="font-style: italic; text-transform: lowercase;">{{ 'by'|translate(lang) }}</span>
+                                    <a href="{{ post.contributors[0].absolute_url }}" aria-label="{{ post.contributors[0].name }}" class="hover:underline" style="color: var(--color-typ); font-weight: 500; text-decoration: none; text-underline-offset: 2px;">
+                                        {{ post.contributors[0].name }}
+                                    </a>
+                                    {% if post.contributors|length > 1 %}
+                                        <span style="font-style: italic; text-transform: lowercase;">{{ 'and'|translate(lang) }}</span>
+                                        <a href="{{ post.contributors[1].absolute_url }}" aria-label="{{ post.contributors[1].name }}" class="hover:underline" style="color: var(--color-typ); font-weight: 500; text-decoration: none; text-underline-offset: 2px;">
+                                            {{ post.contributors[1].name }}
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+
+                                {# Publication Date #}
+                                {% if post.formatted_last_published_at_datetime %}
+                                    <span style="margin: 0 0.25rem; color: var(--color-brd-soft);">/</span>
+                                    <span style="display: flex; align-items: center; gap: 0.25rem;">
+                                        <img src="{{ static(template_key+'/assets/images/calender.svg') }}" alt="Date" style="width: 14px; height: 14px; opacity: 0.6;">
+                                        <time style="opacity: 0.75; font-weight: 500;">
+                                            {{ post.formatted_last_published_at_datetime|date_time_format("%b %d, %Y") }}
+                                        </time>
+                                    </span>
+                                {% endif %}
+
+                                {# Read Time #}
+                                {% if post.read_time %}
+                                    <span style="margin: 0 0.25rem; color: var(--color-brd-soft);">/</span>
+                                    <span style="display: flex; align-items: center; gap: 0.25rem;">
+                                        <img src="{{ static(template_key+'/assets/images/clock-svg.svg') }}" alt="Read time" style="width: 14px; height: 14px; opacity: 0.6;">
+                                        <span style="opacity: 0.75; font-weight: 500;">
+                                            {{ post.read_time }} {{ 'minutes_read'|translate(lang) }}
+                                        </span>
+                                    </span>
+                                {% endif %}
+                            </div>
                         </div>
                     </article>
                 {% endfor %}
             </div>
+
+            {# Responsive Grid for Desktop #}
+            <style>
+                @media (min-width: 768px) {
+                    section:has(.max-w-site > div > article) .max-w-site > div {
+                        grid-template-columns: repeat(2, 1fr) !important;
+                    }
+                }
+            </style>
         </div>
     </section>
 {% endif %}
