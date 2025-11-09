@@ -20,7 +20,7 @@
 
                         {# Post Image with Type Icons #}
                         <a href="{{ post.absolute_url }}" aria-label="{{ post.title }}" style="display: block; border-radius: var(--rounded-theme); overflow: hidden; position: relative;">
-                            {% if post.feature_image_url %}
+                            {% if post.banner_url %}
                                 {# Post Type Icons #}
                                 {% if post.type == 'Video' %}
                                     <span style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 10;">
