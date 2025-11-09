@@ -1,26 +1,53 @@
+/* Gazet Theme - CSS Variables */
 :root {
+  /* Original variables (preserve for compatibility) */
   --white: #ffffff;
   --white-rgb: 255, 255, 255;
   --black: #1a1a1a;
   --black-rgb: 26, 26, 26;
-  --primary: #2c5282;
-  --primary-rgb: 44, 82, 130;
-  --p-black: #2d3748;
+  --primary: #e70d39;
+  --primary-rgb: 231, 13, 57;
+  --p-black: #0d0d0d;
   --time-color: #718096;
   --publisher_color: var(--p-accent-color);
   --link_text_color: var(--p-accent-text-color);
   --editorial-gray: #4a5568;
-  --editorial-light-gray: #edf2f7;
-  --editorial-border: #e2e8f0;
+  --editorial-light-gray: #fafafa;
+  --editorial-border: #e5e5e5;
+
+  /* Gazet Theme Colors */
+  --color-bgr: #ffffff;
+  --color-bgr-tone: #fafafa;
+  --color-typ: #0d0d0d;
+  --color-brd: #d4d4d4;
+  --color-brd-soft: #e5e5e5;
+  --ghost-accent-color: #e70d39;
+  --color-brand: var(--ghost-accent-color);
+  --color-brand-contrast: #ffffff;
+
+  /* Typography */
+  --font-heading: 'Newsreader', serif;
+  --font-body: 'Newsreader', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  --font-weight-headings: 600;
+
+  /* Layout */
+  --max-w-site: 1200px;
+  --rounded-theme: 0.375rem;
 }
 
+/* Google Fonts - Newsreader */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&display=swap');
+
 body {
-  font-family: var(--pub-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background-color: var(--p-main-bg-color);
-  color: var(--black);
+  font-family: var(--font-body), 'Newsreader', serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--color-bgr);
+  color: var(--color-typ);
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.6;
   letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .primary_font {
@@ -397,4 +424,398 @@ button {cursor: pointer;outline: none;border: none;}a {text-decoration: none;}p 
   display: none;
 }
 
+
+
+/* ============================================
+   Gazet Theme - Custom Styles
+   ============================================ */
+
+/* Utility Classes */
+.max-w-site {
+  max-width: var(--max-w-site);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rounded-theme {
+  border-radius: var(--rounded-theme);
+}
+
+.text-brand {
+  color: var(--color-brand);
+}
+
+.hover\:text-brand:hover {
+  color: var(--color-brand);
+}
+
+.bg-brand {
+  background-color: var(--color-brand);
+}
+
+.text-brand-contrast {
+  color: var(--color-brand-contrast);
+}
+
+.border-brd {
+  border-color: var(--color-brd);
+}
+
+.border-brd-soft {
+  border-color: var(--color-brd-soft);
+}
+
+.bg-bgr {
+  background-color: var(--color-bgr);
+}
+
+.bg-bgr-tone {
+  background-color: var(--color-bgr-tone);
+}
+
+.text-typ {
+  color: var(--color-typ);
+}
+
+/* Typography Utilities */
+h1, h2, h3, h4, h5, h6,
+.heading {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-headings);
+  line-height: 1.2;
+  color: var(--color-typ);
+}
+
+h1 { font-size: clamp(1.875rem, 4vw, 2.5rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Link Styles */
+a {
+  color: var(--color-typ);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-brand);
+}
+
+.hover\:underline:hover {
+  text-decoration: underline;
+}
+
+.underline-offset-4 {
+  text-underline-offset: 4px;
+}
+
+.underline-offset-2 {
+  text-underline-offset: 2px;
+}
+
+.decoration-2 {
+  text-decoration-thickness: 2px;
+}
+
+/* Post Card Styles */
+.post-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.post-card-image {
+  border-radius: var(--rounded-theme);
+  overflow: hidden;
+  transition: opacity 0.2s ease;
+}
+
+.post-card-image:hover {
+  opacity: 0.9;
+}
+
+.post-card-title {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-headings);
+  line-height: 1.2;
+}
+
+.post-card-excerpt {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-typ);
+}
+
+.post-card-meta {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Header Styles */
+.site-header {
+  background-color: var(--color-bgr);
+  border-bottom: 1px solid var(--color-brd-soft);
+}
+
+.header-inner {
+  max-width: var(--max-w-site);
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+}
+
+.header-logo img {
+  max-height: 48px;
+  width: auto;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-nav {
+  background-color: var(--color-bgr);
+  border-top: 3px solid var(--color-brd);
+}
+
+/* Navigation Styles */
+.nav-link {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--rounded-theme);
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-brand);
+}
+
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: var(--rounded-theme);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.btn-primary {
+  background-color: var(--color-brand);
+  color: var(--color-brand-contrast);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--color-brd);
+  color: var(--color-typ);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-typ);
+  background-color: var(--color-typ);
+  color: var(--color-bgr);
+}
+
+/* Footer Styles */
+.site-footer {
+  background-color: var(--color-bgr);
+  border-top: 1px solid var(--color-brd-soft);
+  padding: 3rem 0 2rem;
+  margin-top: 4rem;
+}
+
+.footer-nav a {
+  color: var(--color-typ);
+  font-size: 0.875rem;
+}
+
+.footer-nav a:hover {
+  color: var(--color-brand);
+}
+
+/* Social Icons */
+.social-links {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.social-link {
+  display: flex;
+  padding: 0.5rem;
+  background-color: var(--color-bgr-tone);
+  border: 1px solid var(--color-brd-soft);
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+.social-link:hover {
+  border-color: var(--color-typ);
+  background-color: var(--color-typ);
+  color: var(--color-bgr);
+}
+
+/* Aspect Ratios */
+.aspect-\[3\/2\] {
+  aspect-ratio: 3 / 2;
+}
+
+.aspect-\[16\/9\] {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-\[1\/1\] {
+  aspect-ratio: 1 / 1;
+}
+
+/* Flexbox Utilities */
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.flex-3 {
+  flex: 3;
+}
+
+/* Category Section */
+.category-section {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.category-title {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-headings);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-typ);
+  text-decoration: none;
+}
+
+.category-title:hover {
+  color: var(--color-brand);
+}
+
+.category-title .line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: var(--color-brd-soft);
+}
+
+/* Hero Section */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* Members-only Badge */
+.members-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-style: italic;
+  text-transform: none;
+}
+
+.members-badge svg {
+  fill: var(--color-brand);
+  color: var(--color-brand);
+}
+
+/* Text Utilities */
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+
+/* Opacity Utilities */
+.opacity-75 {
+  opacity: 0.75;
+}
+
+.opacity-90 {
+  opacity: 0.9;
+}
+
+/* Spacing Utilities */
+.gap-1 { gap: 0.25rem; }
+.gap-1\.5 { gap: 0.375rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-2\.5 { gap: 0.625rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+.gap-5 { gap: 1.25rem; }
+.gap-6 { gap: 1.5rem; }
+
+/* Image Cover */
+.object-cover {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Transition */
+.transition-opacity {
+  transition-property: opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+
+.transition-all {
+  transition-property: all;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
 
