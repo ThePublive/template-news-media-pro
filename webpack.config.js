@@ -1,86 +1,70 @@
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require('webpack');
+
+console.log('Resolved output path:', path.resolve(__dirname, './assets/bundles'));
 
 module.exports = {
-  entry: {
-    // CSS Bundles
-    style_bundle: './assets/css/index.css',
-    mobile_universal_bundle: './assets/css/mobile_universal.css',
-    desktop_universal_bundle: './assets/css/universal.css',
-    desktop_home_bundle: './assets/css/pages/desktop_home.css',
-    media_query_bundle: './assets/css/media_query.css',
-
-    // Component CSS
-    header_css_bundle: './assets/css/components/header.css',
-    footer_css_bundle: './assets/css/components/footer.css',
-    sidemenu_css_bundle: './assets/css/components/sidemenu.css',
-
-    // JS Bundles
-    index_bundle: './assets/js/index.js',
-    main_bundle: './assets/js/main.js',
-    bookmark_bundle: './assets/js/bookmark.js',
-    post_bundle: './assets/js/post.js',
-    header_bundle: './assets/js/header.js',
-    darkMode_bundle: './assets/js/darkMode.js',
-    scrollToTop_bundle: './assets/js/scrollToTopBtn.js',
-    widget_bundle: './assets/js/widget.js',
-    customPage_bundle: './assets/js/customPage.js',
-  },
-  output: {
-    path: path.resolve(__dirname, 'assets/bundles'),
-    filename: '[name].js',
-    clean: true,
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
-      },
-      {
-        test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-      },
-      {
-        test: /\.(png|jpg|jpeg|gif|svg|webp)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'images/[name][ext]',
-        },
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: 'asset/resource',
-        generator: {
-          filename: 'fonts/[name][ext]',
-        },
-      },
+    entry: {
+        style: './assets/css/index.css',
+        index: './assets/js/index.js',
+        post: './assets/js/post.js',
+        bookmark: './assets/js/bookmark.js',
+        mobile_universal: './assets/css/mobile_universal.css',
+        desktop_universal: './assets/css/universal.css',
+        media_query: './assets/css/media_query.css',
+        desktop_home: './assets/css/pages/desktop_home.css',
+    },
+    output: {
+        filename: "[name]_bundle.js",
+        path: path.resolve(__dirname, './assets/bundles'),
+    },
+    resolve: {
+        modules: [
+            path.resolve(__dirname, 'node_modules'), // Ensure correct path to node_modules
+            'node_modules'
+        ],
+        extensions: ['.js', '.css'],
+    },
+    devServer: {
+        port: 9000,
+    },
+    mode: 'development',
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: "[name].css", // Customize if needed
+        }),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            'window.jquery': 'jquery',
+        })
     ],
-  },
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-    }),
-  ],
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          format: {
-            comments: false,
-          },
-        },
-        extractComments: false,
-      }),
-      new CssMinimizerPlugin(),
-    ],
-  },
-  performance: {
-    hints: false,
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000,
-  },
-};
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.scss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    "sass-loader",
+                ],
+            },
+            {
+                test: /\.(png|jpg|webp|svg)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192, // Set a limit in bytes or remove if not needed
+                        },
+                    }
+                ],
+            }
+        ]
+    }
+}

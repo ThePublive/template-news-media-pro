@@ -1,1 +1,0 @@
-(()=>{"use strict";document.querySelector(".gh-switch-btn"),document.querySelector("html[data-theme]"),document.querySelector(".gh-moon-icon"),document.querySelector(".gh-sun-icon")})();
