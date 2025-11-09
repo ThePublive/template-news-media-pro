@@ -26,11 +26,14 @@
 }
 
 .article-title h1 {
-margin: 2px 2px;
-word-wrap: break-word;
-font-size: 42px;
-font-weight: 700;
-line-height: 54.6px;
+    margin: 24px 0;
+    word-wrap: break-word;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--black);
+    letter-spacing: -0.03em;
+    max-width: 850px;
 }
 
 .article-detail {
@@ -63,18 +66,22 @@ line-height: 54.6px;
 }
 .article-data {
     width: 878px;
-    margin: 10px 0px;
-    color:var(--p-txt-color);
+    max-width: 720px;
+    margin: 32px auto;
+    color: var(--editorial-gray);
     word-wrap: break-word;
-    font-size:18px;
-    line-height: 36px;
+    font-size: 19px;
+    line-height: 1.8;
+    letter-spacing: -0.003em;
 }
 
 .author {
     padding-right: 20px;
     width: 100%;
-    color: black;
-    font-weight: bolder;
+    color: var(--black);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.01em;
 }
 
 
@@ -87,39 +94,41 @@ line-height: 54.6px;
     color:var(--p-txt-1-color)
 }
 
-.article-data p,.article-data li {
-width: 100%;
-font-weight: 400;
-font-size: 18px;
-line-height: 36px;
-margin-top: 0px;
-margin-bottom: 1rem;
-word-wrap: break-word;
+.article-data p, .article-data li {
+    width: 100%;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.8;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    word-wrap: break-word;
+    color: var(--editorial-gray);
 }
 .article-data li {
 margin-bottom: 0.5rem;
 }
 .article-summary h2 {
-width: 100%;
-line-height: 28px;
-margin-top: 1rem;
-margin-bottom: 1rem;
-padding: 0px 4px;
-word-wrap: break-word;
-color:var(--p-txt-color);
-font-size: 16px;
-font-weight: 400;
-line-height: 28px
+    width: 100%;
+    line-height: 1.4;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding: 0;
+    word-wrap: break-word;
+    color: var(--black);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 .image_description p {
     width: 100%;
     font-weight: 400;
     font-size: 14px;
-    line-height: 28px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    color: rgb(110, 110, 110);
+    line-height: 1.5;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    color: var(--time-color);
+    font-style: italic;
 }
 
 
