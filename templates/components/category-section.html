@@ -1,4 +1,304 @@
-{# Category Section #}
+{# Category Section - Gazet Style #}
+{% if category_post_list %}
 <div class="category-sections">
-    {# Category-based news sections #}
+    {% for category_section in category_post_list %}
+    {% if category_section.posts %}
+    <section class="category-section">
+        <div class="category-header">
+            <h2 class="category-title">
+                <a href="https://{{ publisher.actual_domain }}/category/{{ category_section.category.slug }}">
+                    {{ category_section.category.name }}
+                </a>
+            </h2>
+            <a href="https://{{ publisher.actual_domain }}/category/{{ category_section.category.slug }}" class="category-view-all">
+                View All
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14m-7-7l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+
+        <div class="category-grid">
+            {% for post in category_section.posts[:4] %}
+            <article class="category-card">
+                <a href="{{ post.absolute_url }}" class="category-card-link">
+                    {% if post.banner_url %}
+                    <div class="category-card-image">
+                        <img src="{{ post.banner_url|get_absolute_image_url('500,300') }}"
+                             alt="{{ post.title }}"
+                             loading="lazy">
+                        {% if loop.index == 1 %}
+                        <span class="category-badge">{{ category_section.category.name }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <div class="category-card-content">
+                        <h3 class="category-card-title {% if loop.index == 1 %}category-card-title-large{% endif %}">
+                            {{ post.title }}
+                        </h3>
+                        {% if loop.index == 1 and post.excerpt %}
+                        <p class="category-card-excerpt">{{ post.excerpt|truncate(120) }}</p>
+                        {% endif %}
+                        <div class="category-card-meta">
+                            {% if post.primary_author %}
+                            <span class="category-author">{{ post.primary_author.name }}</span>
+                            <span class="category-divider">•</span>
+                            {% endif %}
+                            <time datetime="{{ post.created_at|date('c') }}">
+                                {{ post.created_at|timeago }}
+                            </time>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+    {% endfor %}
 </div>
+
+<style>
+.category-sections {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.category-section {
+    margin-bottom: 50px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--p-border-color, #e5e5e5);
+}
+
+.category-section:last-child {
+    border-bottom: none;
+}
+
+/* Category Header */
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--p-accent-color);
+}
+
+.category-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.category-title a {
+    color: var(--p-txt-1-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.category-title a:hover {
+    color: var(--p-accent-color);
+}
+
+.category-view-all {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--p-accent-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: gap 0.2s;
+}
+
+.category-view-all:hover {
+    gap: 10px;
+}
+
+/* Category Grid */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.category-card {
+    background: var(--p-sec-bg--color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid var(--p-border-color, #e5e5e5);
+}
+
+.category-card:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.category-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.category-card-image {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}
+
+.category-card:first-child .category-card-image {
+    aspect-ratio: 16/10;
+}
+
+.category-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.category-card:hover .category-card-image img {
+    transform: scale(1.05);
+}
+
+.category-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--p-accent-color);
+    color: #ffffff;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.category-card-content {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.category-card:first-child .category-card-content {
+    padding: 25px;
+}
+
+.category-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 10px;
+    color: var(--p-txt-1-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.category-card-title-large {
+    font-size: 22px;
+    -webkit-line-clamp: 4;
+    margin-bottom: 12px;
+}
+
+.category-card-excerpt {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--p-txt-color);
+    margin: 0 0 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.category-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--p-meta-txt-color, #888);
+    margin-top: auto;
+}
+
+.category-author {
+    font-weight: 600;
+    color: var(--p-txt-color);
+}
+
+.category-divider {
+    color: var(--p-border-color, #ddd);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .category-card:first-child {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+
+    .category-card-title-large {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .category-section {
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+    }
+
+    .category-header {
+        margin-bottom: 20px;
+    }
+
+    .category-title {
+        font-size: 20px;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .category-card:first-child {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+
+    .category-card-title {
+        font-size: 16px;
+        -webkit-line-clamp: 2;
+    }
+
+    .category-card-title-large {
+        font-size: 18px;
+        -webkit-line-clamp: 3;
+    }
+
+    .category-card-content,
+    .category-card:first-child .category-card-content {
+        padding: 15px;
+    }
+}
+</style>
+{% endif %}

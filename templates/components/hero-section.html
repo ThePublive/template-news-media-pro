@@ -1,4 +1,310 @@
-{# Hero/Featured Section #}
-<div class="hero-section">
-    {# Featured posts will be displayed here #}
-</div>
+{# Hero/Featured Section - Gazet Style #}
+{% if post_section %}
+<section class="hero-section">
+    <div class="hero-container">
+        {% set posts = post_section.posts %}
+        {% set post_count = posts|length %}
+
+        {% if post_count >= 1 %}
+        <div class="hero-grid hero-grid-{{ post_count if post_count <= 6 else 'max' }}">
+            {# Main Featured Post #}
+            {% if posts[0] %}
+            <article class="hero-card hero-card-main">
+                <a href="{{ posts[0].absolute_url }}" class="hero-card-link">
+                    {% if posts[0].banner_url %}
+                    <div class="hero-card-image">
+                        <img src="{{ posts[0].banner_url|get_absolute_image_url('800,500') }}"
+                             alt="{{ posts[0].title }}"
+                             loading="eager">
+                        {% if posts[0].primary_category %}
+                        <span class="hero-category">{{ posts[0].primary_category.name }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <div class="hero-card-content">
+                        <h2 class="hero-card-title">{{ posts[0].title }}</h2>
+                        {% if posts[0].excerpt %}
+                        <p class="hero-card-excerpt">{{ posts[0].excerpt|truncate(150) }}</p>
+                        {% endif %}
+                        <div class="hero-card-meta">
+                            {% if posts[0].primary_author %}
+                            <span class="hero-author">{{ posts[0].primary_author.name }}</span>
+                            {% endif %}
+                            <time datetime="{{ posts[0].created_at|date('c') }}">
+                                {{ posts[0].created_at|timeago }}
+                            </time>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            {% endif %}
+
+            {# Secondary Featured Posts #}
+            {% if post_count >= 2 %}
+            <div class="hero-secondary-grid">
+                {% for post in posts[1:6] %}
+                <article class="hero-card hero-card-secondary">
+                    <a href="{{ post.absolute_url }}" class="hero-card-link">
+                        {% if post.banner_url %}
+                        <div class="hero-card-image-small">
+                            <img src="{{ post.banner_url|get_absolute_image_url('400,250') }}"
+                                 alt="{{ post.title }}"
+                                 loading="lazy">
+                            {% if post.primary_category %}
+                            <span class="hero-category-small">{{ post.primary_category.name }}</span>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        <div class="hero-card-content-small">
+                            <h3 class="hero-card-title-small">{{ post.title }}</h3>
+                            <div class="hero-card-meta-small">
+                                <time datetime="{{ post.created_at|date('c') }}">
+                                    {{ post.created_at|timeago }}
+                                </time>
+                            </div>
+                        </div>
+                    </a>
+                </article>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+.hero-section {
+    padding: 30px 0;
+    background: var(--p-main-bg-color);
+}
+
+.hero-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.hero-grid {
+    display: grid;
+    gap: 25px;
+}
+
+/* Dynamic Grid Layouts */
+.hero-grid-1 {
+    grid-template-columns: 1fr;
+}
+
+.hero-grid-2,
+.hero-grid-3,
+.hero-grid-4,
+.hero-grid-5,
+.hero-grid-6,
+.hero-grid-max {
+    grid-template-columns: 2fr 1fr;
+}
+
+.hero-card {
+    background: var(--p-sec-bg--color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid var(--p-border-color, #e5e5e5);
+}
+
+.hero-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.hero-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* Main Featured Card */
+.hero-card-main .hero-card-image {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+}
+
+.hero-card-main .hero-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.hero-card-main:hover .hero-card-image img {
+    transform: scale(1.05);
+}
+
+.hero-category {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--p-accent-color);
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hero-card-content {
+    padding: 25px;
+}
+
+.hero-card-title {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 15px;
+    color: var(--p-txt-1-color);
+}
+
+.hero-card-excerpt {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--p-txt-color);
+    margin: 0 0 15px;
+}
+
+.hero-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--p-meta-txt-color, #888);
+}
+
+.hero-author {
+    font-weight: 600;
+    color: var(--p-accent-color);
+}
+
+/* Secondary Cards Grid */
+.hero-secondary-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.hero-card-secondary {
+    display: flex;
+    gap: 15px;
+    flex-direction: row;
+}
+
+.hero-card-image-small {
+    position: relative;
+    width: 180px;
+    flex-shrink: 0;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+.hero-card-image-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.hero-card-secondary:hover .hero-card-image-small img {
+    transform: scale(1.05);
+}
+
+.hero-category-small {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: var(--p-accent-color);
+    color: #ffffff;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hero-card-content-small {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px 15px 10px 0;
+}
+
+.hero-card-title-small {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 8px;
+    color: var(--p-txt-1-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hero-card-meta-small {
+    font-size: 12px;
+    color: var(--p-meta-txt-color, #888);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .hero-grid-2,
+    .hero-grid-3,
+    .hero-grid-4,
+    .hero-grid-5,
+    .hero-grid-6,
+    .hero-grid-max {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-card-title {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 20px 0;
+    }
+
+    .hero-card-title {
+        font-size: 20px;
+    }
+
+    .hero-card-content {
+        padding: 20px;
+    }
+
+    .hero-card-secondary {
+        flex-direction: column;
+    }
+
+    .hero-card-image-small {
+        width: 100%;
+        aspect-ratio: 16/9;
+    }
+
+    .hero-card-content-small {
+        padding: 15px;
+    }
+
+    .hero-card-title-small {
+        font-size: 16px;
+        -webkit-line-clamp: 2;
+    }
+}
+</style>
+{% endif %}

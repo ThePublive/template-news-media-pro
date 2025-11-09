@@ -1,19 +1,31 @@
-/* News Media Pro - Global Styles */
+/* News Media Pro - Global Styles (Gazet Edition) */
+
+/* Reset & Base */
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
     margin: 0;
     padding: 0;
-    font-family: var(--pub-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    font-family: var(--pub-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
+    font-size: 16px;
     background: var(--p-main-bg-color);
     color: var(--p-txt-color);
-    line-height: 1.6;
+    line-height: 1.7;
+    overflow-x: hidden;
 }
 
+/* Container */
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -31,27 +43,137 @@ body {
     aspect-ratio: var(--aspect-ratio);
 }
 
-/* Typography */
+/* Enhanced Typography - Editorial Style */
 h1, h2, h3, h4, h5, h6 {
     color: var(--p-txt-1-color);
     font-weight: 700;
     line-height: 1.3;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-family: var(--pub-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
 }
 
+h1 {
+    font-size: clamp(28px, 4vw, 42px);
+    letter-spacing: -0.5px;
+}
+
+h2 {
+    font-size: clamp(24px, 3.5vw, 32px);
+    letter-spacing: -0.3px;
+}
+
+h3 {
+    font-size: clamp(20px, 2.5vw, 26px);
+}
+
+h4 {
+    font-size: clamp(18px, 2vw, 22px);
+}
+
+h5 {
+    font-size: clamp(16px, 1.5vw, 18px);
+}
+
+h6 {
+    font-size: 16px;
+}
+
+p {
+    margin: 0 0 1.5em;
+    line-height: 1.7;
+}
+
+/* Links */
 a {
     color: var(--p-accent-color);
-    transition: color 0.2s;
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 a:hover {
     color: var(--p-accent-color);
-    opacity: 0.85;
+    opacity: 0.8;
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Lists */
+ul, ol {
+    margin: 0 0 1.5em;
+    padding-left: 2em;
+}
+
+li {
+    margin-bottom: 0.5em;
+}
+
+/* Buttons */
+button {
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+/* Forms */
+input,
+textarea,
+select {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Border Color Variable */
+:root {
+    --p-border-color: #e5e5e5;
+    --p-meta-txt-color: #6b7280;
+}
+
+:root[data-theme='dark'] {
+    --p-border-color: #303030;
+    --p-meta-txt-color: #9ca3af;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Focus Styles for Accessibility */
+*:focus-visible {
+    outline: 2px solid var(--p-accent-color);
+    outline-offset: 2px;
+}
+
+/* Selection Style */
+::selection {
+    background: var(--p-accent-color);
+    color: #ffffff;
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    body {
+        font-size: 15px;
+    }
+}
+
 @media (max-width: 768px) {
     .container,
     .uni-padding {
         padding: 0 15px;
+    }
+
+    body {
+        font-size: 15px;
+        line-height: 1.65;
     }
 }
