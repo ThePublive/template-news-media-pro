@@ -10,21 +10,22 @@ flex-direction:row-reverse;
 .left{
 margin-left:10px;
 }
-.article-box{
-padding: 10px;
-border: 0.52641px solid #E2E2E2;
-border-radius: 2.1524px;
+.article-box {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid var(--editorial-border);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
 }
 .latest-news {
-/* width: 388px; */
-margin: 16px 0px;
-/* align-items: center; */
-object-fit: cover;
-word-wrap: break-word;
-border: 0.965517px solid #E2E2E2;
-border-radius: 1.93103px;
-padding: 10px 10px
-
+    margin: 16px 0;
+    object-fit: cover;
+    word-wrap: break-word;
+    border: none;
+    border-bottom: 1px solid var(--editorial-border);
+    border-radius: 0;
+    padding: 0 0 16px 0;
 }
 .latest_news_data{
 display: flex;

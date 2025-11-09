@@ -15,13 +15,13 @@ line-height: 26px;
 color: #A9A5A5;
 }
 .article-data p, .article-data li {
-color:var(--p-txt-1-color);
-font-weight: 400;
-font-size: 16px;
-line-height: 26px;
-margin-top: 0px;
-margin-bottom: 1rem;
-word-wrap: break-word;
+    color: var(--editorial-gray);
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.7;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    word-wrap: break-word;
 }
 .article .article-data h2{line-height:32px;}
 .article-data li{
